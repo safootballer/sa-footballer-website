@@ -2,6 +2,17 @@ import { client } from '../../../lib/sanity'
 import { processBulkPhotos } from '../../../sanity/lib/processBulkPhotos'
 import { NextResponse } from 'next/server'
 
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders })
+}
+
 export async function POST(request) {
   try {
     const body = await request.json()
@@ -10,7 +21,7 @@ export async function POST(request) {
     if (!bulkUploadId) {
       return NextResponse.json(
         { error: 'Missing bulkUploadId' }, 
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
       )
     }
     
@@ -23,12 +34,12 @@ export async function POST(request) {
         success: true, 
         message: result.message || `Processed ${result.count} photos successfully!`,
         count: result.count 
-      })
+      }, { headers: corsHeaders })
     } else {
       return NextResponse.json({ 
         success: false,
         error: result.error || 'Processing failed'
-      }, { status: 400 })
+      }, { status: 400, headers: corsHeaders })
     }
     
   } catch (error) {
@@ -36,20 +47,6 @@ export async function POST(request) {
     return NextResponse.json({ 
       error: 'Failed to process photos',
       details: error.message 
-    }, { status: 500 })
+    }, { status: 500, headers: corsHeaders })
   }
-}
-
-// Allow CORS for Sanity Studio webhooks
-export async function OPTIONS() {
-  return NextResponse.json(
-    {},
-    {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    }
-  )
 }
