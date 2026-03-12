@@ -1,88 +1,119 @@
-export default function Home() {
+import Header from '../components/Header'
+import { client, urlFor, getAllPhotosForPage } from '../lib/sanity'
+
+// Fetch latest articles from Sanity
+async function getLatestArticles() {
+  const query = `*[_type == "article"] | order(publishedAt desc)[0...6] {
+    _id,
+    title,
+    slug,
+    competition,
+    publishedAt,
+    excerpt,
+    featuredImage
+  }`
+  return await client.fetch(query)
+}
+
+// Fetch latest videos from Sanity
+async function getLatestVideos() {
+  const query = `*[_type == "video"] | order(publishedAt desc)[0...2] {
+    _id,
+    title,
+    youtubeUrl,
+    show,
+    description
+  }`
+  return await client.fetch(query)
+}
+
+// Fetch home settings from Sanity
+async function getHomeSettings() {
+  const query = `*[_type == "homeSettings"][0] {
+    heroTitle,
+    heroSubtitle,
+    heroImage
+  }`
+  return await client.fetch(query)
+}
+
+// Extract YouTube video ID from URL
+function getYouTubeId(url) {
+  if (!url) return null
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+  const match = url.match(regExp)
+  return (match && match[2].length === 11) ? match[2] : null
+}
+
+export const metadata = {
+  title: 'Home - The South Australian Footballer',
+  description: 'Celebrating 30 years of SA football coverage',
+}
+
+export default async function Home() {
+  const articles = await getLatestArticles() || []
+  const videos = await getLatestVideos() || []
+  const homeSettings = await getHomeSettings()
+  const allPhotos = await getAllPhotosForPage('homepage') || []
+  
+  // Separate photos by placement
+  const galleryPhotos = allPhotos.filter(p => p.placement === 'gallery')
+  const cardPhotos = allPhotos.filter(p => p.placement === 'cards')
+  const backgroundPhotos = allPhotos.filter(p => p.placement === 'background')
+  const headerPhotos = allPhotos.filter(p => p.placement === 'header')
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top Bar */}
-      <div className="bg-blue-600 text-white py-2">
-        <div className="container mx-auto px-4 flex items-center justify-between text-sm">
-          <div className="flex space-x-4">
-            <a href="#" className="hover:text-blue-200">📷 Instagram</a>
-            <a href="#" className="hover:text-blue-200">▶️ YouTube</a>
-          </div>
-          <div className="flex space-x-4">
-            <a href="#" className="hover:text-blue-200">News & Editorials</a>
-            <a href="#" className="hover:text-blue-200">Videos & Panel Shows</a>
-            <a href="#" className="hover:text-blue-200">About Us</a>
-            <a href="#" className="hover:text-blue-200">Our Partners</a>
-            <a href="#" className="hover:text-blue-200">Advertise With Us</a>
-            <a href="https://safootballer-dashbaord.onrender.com" target="_blank" className="hover:text-blue-200">📊 Admin Dashboard</a>
-          </div>
-        </div>
-      </div>
+      <Header />
 
-      {/* Main Header - Logo Centered */}
-      <header className="bg-black shadow-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-6">
-          {/* Logo - Centered */}
-          <div className="flex justify-center mb-4">
-            <img 
-              src="/logo.png" 
-              alt="SA Footballer Logo" 
-              className="h-16"
-            />
-          </div>
-          
-          {/* Menu - Below Logo - Centered */}
-          <nav className="flex justify-center items-center space-x-8 text-sm font-semibold text-white">
-            <div className="relative group">
-              <button className="hover:text-blue-400 flex items-center uppercase">
-                GAME RESULTS <span className="ml-1">▼</span>
-              </button>
-              <div className="absolute hidden group-hover:block bg-white shadow-lg rounded mt-2 py-2 w-48 text-gray-900">
-                <a href="#" className="block px-4 py-2 hover:bg-blue-50">AFL & AFLW</a>
-                <a href="#" className="block px-4 py-2 hover:bg-blue-50">SANFL & SANFLW</a>
-                <a href="#" className="block px-4 py-2 hover:bg-blue-50">Amateur</a>
-                <a href="#" className="block px-4 py-2 hover:bg-blue-50">SAWFL Women's</a>
-              </div>
-            </div>
-            <a href="/magazines" className="hover:text-blue-400 uppercase">MAGAZINE DOWNLOADS</a>
-            <a href="/match-reports" className="hover:text-blue-400 uppercase">MATCH REPORTS</a>
-            <a href="/ladders" className="hover:text-blue-400 uppercase">LEAGUE LADDERS</a>
-            <a href="#" className="hover:text-blue-400 uppercase">COUNTRY FOOTBALL</a>
-            <a href="#" className="hover:text-blue-400 uppercase">COUNTRY NETBALL</a>
-          </nav>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
+      {/* Hero Section with optional header photo background */}
+      <section 
+        className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20 relative bg-cover bg-center"
+        style={headerPhotos.length > 0 ? {
+          backgroundImage: `linear-gradient(rgba(0, 102, 204, 0.85), rgba(0, 82, 163, 0.85)), url(${urlFor(headerPhotos[0].image).width(1920).height(600).url()})`,
+          backgroundBlendMode: 'overlay'
+        } : {}}
+      >
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-5xl font-bold mb-4">
-            Celebrating Our 30th Year in Business!
+            {homeSettings?.heroTitle || 'Celebrating Our 30th Year in Business!'}
           </h1>
           <p className="text-xl mb-8">
-            For three decades now, our group of businesses and companies have been premier publishers of high-quality sporting magazines, sports media products, and multimedia in Adelaide and across South Australia.
+            {homeSettings?.heroSubtitle || 'For three decades now, our group of businesses and companies have been premier publishers of high-quality sporting magazines, sports media products, and multimedia in Adelaide and across South Australia.'}
           </p>
-          <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition">
+          <a href="/magazines" className="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition inline-block">
             Download Latest Magazine
-          </button>
+          </a>
         </div>
       </section>
+
+      {/* Background Photo Section */}
+      {backgroundPhotos.length > 0 && (
+        <section 
+          className="relative h-96 bg-cover bg-center"
+          style={{backgroundImage: `url(${urlFor(backgroundPhotos[0].image).width(1920).height(800).url()})`}}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-center text-white">
+              <h2 className="text-5xl font-bold mb-4">South Australian Football</h2>
+              <p className="text-2xl">Action from across all competitions</p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Quick Links */}
       <section className="bg-white py-8 shadow-md">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <a href="/magazines" className="bg-blue-600 text-white text-center py-6 rounded-lg hover:bg-blue-700 transition font-bold">
               📰 MAGAZINE DOWNLOADS
             </a>
-            <a href="#" className="bg-green-600 text-white text-center py-6 rounded-lg hover:bg-green-700 transition font-bold">
-              🏆 GAME RESULTS
+            <a href="/match-reports" className="bg-purple-600 text-white text-center py-6 rounded-lg hover:bg-purple-700 transition font-bold">
+              ✍️ MATCH REPORTS
             </a>
             <a href="/ladders" className="bg-orange-600 text-white text-center py-6 rounded-lg hover:bg-orange-700 transition font-bold">
               📊 LEAGUE LADDERS
-            </a>
-            <a href="/match-reports" className="bg-purple-600 text-white text-center py-6 rounded-lg hover:bg-purple-700 transition font-bold">
-              ✍️ MATCH REPORTS
             </a>
           </div>
         </div>
@@ -90,40 +121,119 @@ export default function Home() {
 
       {/* Latest News Grid */}
       <section className="container mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold mb-8 text-gray-900">Latest News & Match Reports</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {generateNewsCards()}
-        </div>
+        <h2 className="text-4xl font-bold mb-8 text-gray-900">Latest News & Articles</h2>
+        {articles.length === 0 ? (
+          <div className="bg-white rounded-lg p-12 text-center">
+            <p className="text-gray-600">No articles yet. Add some in the CMS!</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-8">
+            {articles.map((article, index) => (
+              <div key={article._id} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                {article.featuredImage ? (
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      src={urlFor(article.featuredImage).width(600).height(400).url()}
+                      alt={article.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : cardPhotos[index % cardPhotos.length]?.image ? (
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      src={urlFor(cardPhotos[index % cardPhotos.length].image).width(600).height(400).url()}
+                      alt="SA Football"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                    <span className="text-gray-400 text-4xl">🏈</span>
+                  </div>
+                )}
+                <div className="p-6">
+                  <span className="text-xs font-bold text-blue-600 uppercase px-3 py-1 bg-blue-50 rounded-full">
+                    {article.competition}
+                  </span>
+                  <h3 className="text-xl font-bold mt-3 mb-2 text-gray-900">
+                    {article.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    {article.excerpt || 'Read more about this story...'}
+                  </p>
+                  <div className="flex justify-between items-center text-sm text-gray-500">
+                    <span>📅 {new Date(article.publishedAt).toLocaleDateString()}</span>
+                    <a href={`/articles/${article.slug.current}`} className="text-blue-600 font-semibold hover:text-blue-800">Read More →</a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
-      {/* Weekly Videos Section */}
-      <section className="bg-gray-100 py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-8 text-gray-900">Weekly Videos and Panel Shows</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-lg overflow-hidden shadow-lg">
-              <div className="h-64 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
-                <div className="text-white text-center">
-                  <div className="text-6xl mb-4">▶️</div>
-                  <h3 className="text-2xl font-bold">The Adelaide "Ammo" Footy Show</h3>
+      {/* Photo Gallery Section */}
+      {galleryPhotos.length > 0 && (
+        <section className="bg-gray-100 py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold mb-8 text-gray-900">Latest Photos</h2>
+            <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {galleryPhotos.map((photo) => (
+                <div key={photo._id} className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                  <img 
+                    src={urlFor(photo.image).width(400).height(400).url()}
+                    alt={photo.title || 'SA Football'}
+                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+                  />
                 </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600">Covering every division of the amateurs with expert analysis and panel discussion.</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg overflow-hidden shadow-lg">
-              <div className="h-64 bg-gradient-to-br from-pink-600 to-pink-800 flex items-center justify-center">
-                <div className="text-white text-center">
-                  <div className="text-6xl mb-4">▶️</div>
-                  <h3 className="text-2xl font-bold">The Adelaide Women's Footy Show</h3>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600">The only panel show in Australia covering women's football with dedicated coverage of every SAWFL division.</p>
-              </div>
+              ))}
             </div>
           </div>
+        </section>
+      )}
+
+      {/* Weekly Videos Section */}
+      <section className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl font-bold mb-8 text-gray-900">Weekly Videos and Panel Shows</h2>
+          {videos.length === 0 ? (
+            <div className="bg-gray-50 rounded-lg p-12 text-center">
+              <p className="text-gray-600">No videos yet. Add some in the CMS!</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 gap-8">
+              {videos.map((video) => {
+                const videoId = getYouTubeId(video.youtubeUrl)
+                return (
+                  <div key={video._id} className="bg-white rounded-lg overflow-hidden shadow-lg">
+                    {videoId ? (
+                      <div className="relative" style={{paddingBottom: '56.25%'}}>
+                        <iframe 
+                          className="absolute top-0 left-0 w-full h-full"
+                          src={`https://www.youtube.com/embed/${videoId}`}
+                          title={video.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                    ) : (
+                      <div className="h-64 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                        <div className="text-white text-center">
+                          <div className="text-6xl mb-4">▶️</div>
+                          <h3 className="text-2xl font-bold">{video.title}</h3>
+                        </div>
+                      </div>
+                    )}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-2">{video.title}</h3>
+                      <p className="text-gray-600">{video.description}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       </section>
 
@@ -133,32 +243,12 @@ export default function Home() {
           <h2 className="text-4xl font-bold mb-4">Our Weekly Magazines</h2>
           <p className="text-xl mb-8">Download the latest editions covering AFL, SANFL, Amateur, and Women's football</p>
           <div className="flex justify-center space-x-4">
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition">
-              📱 Read on Any Device
-            </button>
+            <a href="/magazines" className="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-blue-50 transition">
+              📱 View All Magazines
+            </a>
             <button className="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition">
               📧 Subscribe to Weekly Magazines
             </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Game Results Section */}
-      <section className="bg-gray-100 py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-8 text-gray-900">Weekly Game Results</h2>
-          <div className="grid md:grid-cols-5 gap-6">
-            {[
-              { name: 'AFL vs Port Adelaide', color: 'bg-red-600' },
-              { name: 'SANFL Results', color: 'bg-blue-600' },
-              { name: 'SAAFL Results', color: 'bg-green-600' },
-              { name: 'SAWFL Results', color: 'bg-pink-600' },
-              { name: 'Country Results', color: 'bg-orange-600' },
-            ].map((league, i) => (
-              <a key={i} href="#" className={`${league.color} text-white p-8 rounded-lg hover:opacity-90 transition text-center font-bold shadow-lg`}>
-                {league.name}
-              </a>
-            ))}
           </div>
         </div>
       </section>
@@ -194,10 +284,11 @@ export default function Home() {
             <div>
               <h4 className="font-bold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="/magazines" className="hover:text-white">Magazine Downloads</a></li>
-                <li><a href="#" className="hover:text-white">Game Results</a></li>
+                <li><a href="/articles" className="hover:text-white">News Articles</a></li>
+                <li><a href="/videos" className="hover:text-white">Videos</a></li>
+                <li><a href="/magazines" className="hover:text-white">Magazines</a></li>
                 <li><a href="/match-reports" className="hover:text-white">Match Reports</a></li>
-                <li><a href="#" className="hover:text-white">Videos & Shows</a></li>
+                <li><a href="/ladders" className="hover:text-white">Ladders</a></li>
               </ul>
             </div>
             <div>
@@ -229,33 +320,4 @@ export default function Home() {
       </footer>
     </div>
   );
-}
-
-// Helper function to generate news cards
-function generateNewsCards() {
-  const competitions = ['SANFL', 'AFL', 'Amateur', 'Women\'s', 'Country', 'SANFL'];
-  const colors = ['blue', 'red', 'green', 'pink', 'orange', 'blue'];
-  
-  return [1, 2, 3, 4, 5, 6].map((i) => (
-    <div key={i} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-      <div className="h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-        <span className="text-gray-400 text-4xl">🏈</span>
-      </div>
-      <div className="p-6">
-        <span className={`text-xs font-bold text-${colors[i-1]}-600 uppercase px-3 py-1 bg-${colors[i-1]}-50 rounded-full`}>
-          {competitions[i-1]}
-        </span>
-        <h3 className="text-xl font-bold mt-3 mb-2 text-gray-900">
-          Round {i} Match Report: Team A defeats Team B
-        </h3>
-        <p className="text-gray-600 text-sm mb-4">
-          A thrilling contest saw the home team secure a hard-fought victory in challenging conditions at Adelaide Oval...
-        </p>
-        <div className="flex justify-between items-center text-sm text-gray-500">
-          <span>📅 March {i}, 2026</span>
-          <a href="#" className="text-blue-600 font-semibold hover:text-blue-800">Read More →</a>
-        </div>
-      </div>
-    </div>
-  ));
 }

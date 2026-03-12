@@ -1,97 +1,83 @@
-
+export const metadata = {
+  title: 'News Articles - The South Australian Footballer',
+  description: 'Latest news and articles covering South Australian football',
+}
 
 import Header from '../../components/Header'
 import { client } from '../../lib/sanity'
 import { urlFor } from '../../lib/sanity'
-export const metadata = {
-  title: 'Match Reports - The South Australian Footballer',
-  description: 'Detailed match reports from across SA football',
-}
-// Fetch match reports from Sanity
-async function getMatchReports() {
-  const query = `*[_type == "matchReport"] | order(matchDate desc) {
+
+// Fetch articles from Sanity
+async function getArticles() {
+  const query = `*[_type == "article"] | order(publishedAt desc) {
     _id,
     title,
     slug,
     competition,
-    round,
-    homeTeam,
-    awayTeam,
-    homeScore,
-    awayScore,
-    matchDate,
+    publishedAt,
     excerpt,
     featuredImage
   }`
   
-  const reports = await client.fetch(query)
-  return reports
+  const articles = await client.fetch(query)
+  return articles
 }
 
-export default async function MatchReportsPage() {
-  const reports = await getMatchReports()
+export default async function ArticlesPage() {
+  const articles = await getArticles()
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      {/* Match Reports Section */}
+      {/* Articles Section */}
       <section className="container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-8 text-gray-900">Match Reports</h1>
+        <h1 className="text-4xl font-bold mb-4 text-gray-900">News & Articles</h1>
+        <p className="text-gray-600 mb-12">The latest news, updates, and editorial content covering South Australian football.</p>
         
-        {reports.length === 0 ? (
+        {articles.length === 0 ? (
           <div className="bg-white rounded-lg p-12 text-center">
-            <p className="text-gray-600 text-lg">No match reports available yet.</p>
-            <p className="text-gray-500 mt-2">Check back soon for the latest match coverage!</p>
+            <p className="text-gray-600 text-lg">No articles available yet.</p>
+            <p className="text-gray-500 mt-2">Check back soon for the latest news!</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {reports.map((report) => (
-              <div key={report._id} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                {report.featuredImage && (
+            {articles.map((article) => (
+              <div key={article._id} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                {article.featuredImage ? (
                   <div className="h-48 overflow-hidden">
                     <img 
-                      src={urlFor(report.featuredImage).width(600).height(400).url()}
-                      alt={report.title}
+                      src={urlFor(article.featuredImage).width(600).height(400).url()}
+                      alt={article.title}
                       className="w-full h-full object-cover"
                     />
+                  </div>
+                ) : (
+                  <div className="h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                    <span className="text-gray-400 text-4xl">🏈</span>
                   </div>
                 )}
                 
                 <div className="p-6">
                   <span className="text-xs font-bold text-blue-600 uppercase px-3 py-1 bg-blue-50 rounded-full">
-                    {report.competition}
+                    {article.competition}
                   </span>
                   
                   <h3 className="text-xl font-bold mt-3 mb-2 text-gray-900">
-                    {report.title}
+                    {article.title}
                   </h3>
                   
-                  {report.homeTeam && report.awayTeam && (
-                    <div className="bg-gray-50 rounded p-3 mb-3">
-                      <div className="flex justify-between items-center">
-                        <span className="font-semibold">{report.homeTeam}</span>
-                        <span className="text-blue-600 font-bold">{report.homeScore}</span>
-                      </div>
-                      <div className="flex justify-between items-center mt-1">
-                        <span className="font-semibold">{report.awayTeam}</span>
-                        <span className="text-blue-600 font-bold">{report.awayScore}</span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {report.excerpt && (
+                  {article.excerpt && (
                     <p className="text-gray-600 text-sm mb-4">
-                      {report.excerpt}
+                      {article.excerpt}
                     </p>
                   )}
                   
                   <div className="flex justify-between items-center text-sm text-gray-500">
                     <span>
-                      {report.round ? `${report.round} • ` : ''}
-                      {new Date(report.matchDate).toLocaleDateString()}
+                      📅 {new Date(article.publishedAt).toLocaleDateString()}
                     </span>
-                    <a href={`/match-reports/${report.slug.current}`} className="text-blue-600 font-semibold hover:text-blue-800">
+                    <a href={`/articles/${article.slug.current}`} className="text-blue-600 font-semibold hover:text-blue-800">
                       Read More →
                     </a>
                   </div>
