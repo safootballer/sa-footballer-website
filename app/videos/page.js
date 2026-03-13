@@ -3,6 +3,8 @@ import BlankAreaPhoto from '../../components/BlankAreaPhoto'
 import VideoCard from '../../components/VideoCard'
 import { client, urlFor, getAllPhotosForPage } from '../../lib/sanity'
 
+export const dynamic = 'force-dynamic'
+
 export const revalidate = 60
 
 async function getVideos() {
