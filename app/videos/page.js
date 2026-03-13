@@ -1,5 +1,6 @@
 import Header from '../../components/Header'
 import BlankAreaPhoto from '../../components/BlankAreaPhoto'
+import VideoCard from '../../components/VideoCard'
 import { client, urlFor, getAllPhotosForPage } from '../../lib/sanity'
 
 export const revalidate = 60
@@ -101,71 +102,9 @@ export default async function VideosPage() {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-8">
-            {videos.map((video) => {
-              const videoId = getYouTubeId(video.youtubeUrl)
-              const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
-              
-              return (
-                <div key={video._id} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                  <a 
-                    href={video.youtubeUrl || '#'} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="block relative group"
-                  >
-                    <div className="relative h-64">
-                      <img 
-                        src={thumbnailUrl}
-                        alt={video.title}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.style.display = 'none'
-                          e.target.parentElement.classList.add('bg-gradient-to-br', 'from-red-600', 'to-red-800', 'flex', 'items-center', 'justify-center')
-                          e.target.parentElement.innerHTML += '<div class="text-white text-center"><div class="text-6xl mb-4">▶️</div><h3 class="text-2xl font-bold">' + video.title + '</h3></div>'
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-center justify-center">
-                        <div className="text-white text-7xl opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all">
-                          ▶️
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  
-                  <div className="p-6">
-                    {video.show && (
-                      <span className="text-xs font-bold text-red-600 uppercase px-3 py-1 bg-red-50 rounded-full">
-                        {video.show === 'ammo' ? 'Adelaide Ammo Footy Show' : video.show === 'womens' ? "Adelaide Women's Footy Show" : video.show}
-                      </span>
-                    )}
-                    
-                    <h3 className="text-xl font-bold mt-3 mb-2 text-gray-900">
-                      {video.title}
-                    </h3>
-                    
-                    {video.description && (
-                      <p className="text-gray-600 text-sm mb-4">
-                        {video.description}
-                      </p>
-                    )}
-                    
-                    <div className="flex justify-between items-center text-sm text-gray-500">
-                      <span>
-                        📅 {new Date(video.publishedAt).toLocaleDateString()}
-                      </span>
-                      <a 
-                        href={video.youtubeUrl || '#'} 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-red-600 font-semibold hover:text-red-800 flex items-center gap-1"
-                      >
-                        Watch on YouTube →
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
+            {videos.map((video) => (
+              <VideoCard key={video._id} video={video} getYouTubeId={getYouTubeId} />
+            ))}
           </div>
         )}
       </section>
