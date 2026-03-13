@@ -19,6 +19,14 @@ function VideoCard({ video }) {
 
   const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null
 
+  console.log('=== VideoCard Debug ===')
+  console.log('Title:', video.title)
+  console.log('URL:', video.youtubeUrl)
+  console.log('Extracted videoId:', videoId)
+  console.log('thumbnailUrl:', thumbnailUrl)
+  console.log('Will render:', thumbnailUrl ? 'THUMBNAIL' : 'FALLBACK')
+  console.log('======================')
+
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
       <a 
