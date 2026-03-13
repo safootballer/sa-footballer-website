@@ -1,45 +1,13 @@
 import Header from '../../components/Header'
 import BlankAreaPhoto from '../../components/BlankAreaPhoto'
-import VideoCard from '../../components/VideoCard'
+import VideosContent from '../../components/VideosContent'
 import { client, urlFor, getAllPhotosForPage } from '../../lib/sanity'
 
 export const dynamic = 'force-dynamic'
-
 export const revalidate = 60
 
-async function getVideos() {
-  const query = `*[_type == "video"] | order(publishedAt desc) {
-    _id,
-    title,
-    slug,
-    youtubeUrl,
-    show,
-    publishedAt,
-    description,
-    thumbnail
-  }`
-  
-  const videos = await client.fetch(query)
-  return videos
-}
-
-function getYouTubeId(url) {
-  if (!url) return null
-  
-  // Handle different YouTube URL formats
-  const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/live\/)([a-zA-Z0-9_-]{11})/,
-    /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/
-  ]
-  
-  for (const pattern of patterns) {
-    const match = url.match(pattern)
-    if (match && match[1]) {
-      return match[1]
-    }
-  }
-  
-  return null
+async function getPhotos() {
+  return await getAllPhotosForPage('videos') || []
 }
 
 export const metadata = {
@@ -48,11 +16,9 @@ export const metadata = {
 }
 
 export default async function VideosPage() {
-  const videos = await getVideos()
-  const allPhotos = await getAllPhotosForPage('videos') || []
+  const allPhotos = await getPhotos()
   
   const galleryPhotos = allPhotos.filter(p => p.placement === 'gallery')
-  const cardPhotos = allPhotos.filter(p => p.placement === 'cards')
   const backgroundPhotos = allPhotos.filter(p => p.placement === 'background')
   const headerPhotos = allPhotos.filter(p => p.placement === 'header')
   const blankPhotos = allPhotos.filter(p => p.placement === 'blank')
@@ -96,20 +62,7 @@ export default async function VideosPage() {
         </section>
       )}
 
-      <section className="container mx-auto px-4 py-16">
-        {videos.length === 0 ? (
-          <div className="bg-white rounded-lg p-12 text-center">
-            <p className="text-gray-600 text-lg">No videos available yet.</p>
-            <p className="text-gray-500 mt-2">Check back soon for the latest episodes!</p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 gap-8">
-            {videos.map((video) => (
-              <VideoCard key={video._id} video={video} />
-            ))}
-          </div>
-        )}
-      </section>
+      <VideosContent />
 
       {blankPhotos.filter(p => p.blankAreaPosition === 'middle').map((photo) => (
         <BlankAreaPhoto key={photo._id} photo={photo} />
