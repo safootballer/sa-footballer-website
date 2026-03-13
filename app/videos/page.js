@@ -91,7 +91,7 @@ export default async function VideosPage() {
           <div className="grid md:grid-cols-2 gap-8">
             {videos.map((video) => {
               const videoId = getYouTubeId(video.youtubeUrl)
-              const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null
+              const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null
               
               return (
                 <div key={video._id} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
