@@ -1,8 +1,13 @@
+'use client'
+import { useState } from 'react'
+
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
     <>
-      {/* Top Bar */}
-      <div className="bg-blue-600 text-white py-2">
+      {/* Top Bar - Hidden on mobile */}
+      <div className="bg-blue-600 text-white py-2 hidden md:block">
         <div className="container mx-auto px-4 flex items-center justify-between text-sm">
           <div className="flex space-x-4">
             <a href="#" className="hover:text-blue-200">📷 Instagram</a>
@@ -21,8 +26,26 @@ export default function Header() {
 
       {/* Main Header */}
       <header className="bg-black shadow-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex justify-center mb-4">
+        <div className="container mx-auto px-4 py-4">
+          {/* Mobile Header */}
+          <div className="flex justify-between items-center md:hidden">
+            <a href="/">
+              <img 
+                src="/logo.png" 
+                alt="SA Footballer Logo" 
+                className="h-12"
+              />
+            </a>
+            <button 
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="text-white text-3xl"
+            >
+              {menuOpen ? '✕' : '☰'}
+            </button>
+          </div>
+
+          {/* Desktop Logo */}
+          <div className="hidden md:flex justify-center mb-4">
             <a href="/">
               <img 
                 src="/logo.png" 
@@ -32,7 +55,8 @@ export default function Header() {
             </a>
           </div>
           
-          <nav className="flex justify-center items-center space-x-8 text-sm font-semibold text-white">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex justify-center items-center space-x-8 text-sm font-semibold text-white">
             <a href="/" className="hover:text-blue-400 uppercase">HOME</a>
             <div className="relative group">
               <button className="hover:text-blue-400 flex items-center uppercase">
@@ -52,6 +76,19 @@ export default function Header() {
             <a href="#" className="hover:text-blue-400 uppercase">COUNTRY FOOTBALL</a>
             <a href="#" className="hover:text-blue-400 uppercase">COUNTRY NETBALL</a>
           </nav>
+
+          {/* Mobile Navigation Menu */}
+          {menuOpen && (
+            <nav className="md:hidden mt-4 flex flex-col space-y-3 text-white">
+              <a href="/" className="py-2 hover:text-blue-400 uppercase border-b border-gray-700">HOME</a>
+              <a href="/articles" className="py-2 hover:text-blue-400 uppercase border-b border-gray-700">NEWS ARTICLES</a>
+              <a href="/videos" className="py-2 hover:text-blue-400 uppercase border-b border-gray-700">VIDEOS</a>
+              <a href="/magazines" className="py-2 hover:text-blue-400 uppercase border-b border-gray-700">MAGAZINES</a>
+              <a href="/match-reports" className="py-2 hover:text-blue-400 uppercase border-b border-gray-700">MATCH REPORTS</a>
+              <a href="#" className="py-2 hover:text-blue-400 uppercase border-b border-gray-700">COUNTRY FOOTBALL</a>
+              <a href="#" className="py-2 hover:text-blue-400 uppercase border-b border-gray-700">COUNTRY NETBALL</a>
+            </nav>
+          )}
         </div>
       </header>
     </>
