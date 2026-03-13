@@ -1,3 +1,4 @@
+// Force rebuild
 import Header from '../components/Header'
 import { client, urlFor, getAllPhotosForPage } from '../lib/sanity'
 
