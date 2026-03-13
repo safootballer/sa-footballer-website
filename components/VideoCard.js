@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function getYouTubeId(url) {
   if (!url) return null
@@ -20,19 +20,28 @@ function getYouTubeId(url) {
 }
 
 export default function VideoCard({ video }) {
-  const videoId = getYouTubeId(video.youtubeUrl)
+  const [mounted, setMounted] = useState(false)
   const [imageError, setImageError] = useState(false)
   
-  // DEBUG
-  console.log('Video:', video.title)
-  console.log('YouTube URL:', video.youtubeUrl)
-  console.log('Extracted videoId:', videoId)
-  console.log('Thumbnail URL:', videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : 'NO VIDEO ID')
-  console.log('Image Error:', imageError)
-  console.log('---')
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+  
+  const videoId = getYouTubeId(video.youtubeUrl)
+
+  // Prevent hydration mismatch - wait for client mount
+  if (!mounted) {
+    return (
+      <div className="bg-white rounded-lg overflow-hidden shadow-lg h-96 animate-pulse">
+        <div className="h-64 bg-gray-200"></div>
+        <div className="p-6">
+          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        </div>
+      </div>
+    )
+  }
 
   if (!videoId || imageError) {
-    // Fallback to colored background
     return (
       <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
         <a 
@@ -84,7 +93,6 @@ export default function VideoCard({ video }) {
     )
   }
 
-  // Show thumbnail
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
 
   return (
@@ -95,7 +103,7 @@ export default function VideoCard({ video }) {
         rel="noopener noreferrer"
         className="block relative group"
       >
-        <div className="relative h-64">
+        <div className="relative h-64 bg-black">
           <img 
             src={thumbnailUrl}
             alt={video.title}
