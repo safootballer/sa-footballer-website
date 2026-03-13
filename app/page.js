@@ -45,6 +45,43 @@ function getYouTubeId(url) {
   return (match && match[2].length === 11) ? match[2] : null
 }
 
+// Blank Area Photo Component
+function BlankAreaPhoto({ photo }) {
+  return (
+    <section className={`py-8 ${
+      photo.displayStyle === 'full-width' ? 'w-full' : 'container mx-auto px-4'
+    }`}>
+      <div className={`${
+        photo.displayStyle === 'centered' ? 'flex justify-center' :
+        photo.displayStyle === 'left' ? 'flex justify-start' :
+        photo.displayStyle === 'right' ? 'flex justify-end' :
+        photo.displayStyle === 'float-left' ? 'float-left mr-8 mb-4' :
+        photo.displayStyle === 'float-right' ? 'float-right ml-8 mb-4' : ''
+      }`}>
+        <img 
+          src={urlFor(photo.image).width(
+            photo.photoSize === 'small' ? 300 :
+            photo.photoSize === 'medium' ? 600 :
+            photo.photoSize === 'large' ? 900 :
+            photo.photoSize === 'xlarge' ? 1200 : 1920
+          ).url()}
+          alt={photo.title || 'SA Football'}
+          className={`${
+            photo.photoSize === 'full' ? 'w-full' : ''
+          } rounded-lg shadow-lg`}
+        />
+      </div>
+      {photo.caption && (
+        <p className={`mt-2 italic text-gray-600 ${
+          photo.displayStyle === 'centered' ? 'text-center' :
+          photo.displayStyle === 'left' ? 'text-left' :
+          photo.displayStyle === 'right' ? 'text-right' : 'text-center'
+        }`}>{photo.caption}</p>
+      )}
+    </section>
+  )
+}
+
 export const metadata = {
   title: 'Home - The South Australian Footballer',
   description: 'Celebrating 30 years of SA football coverage',
@@ -61,10 +98,16 @@ export default async function Home() {
   const cardPhotos = allPhotos.filter(p => p.placement === 'cards')
   const backgroundPhotos = allPhotos.filter(p => p.placement === 'background')
   const headerPhotos = allPhotos.filter(p => p.placement === 'header')
+  const blankPhotos = allPhotos.filter(p => p.placement === 'blank')
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
+
+      {/* Blank Area Photos - Top of Page */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'top').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
 
       {/* Hero Section with optional header photo background */}
       <section 
@@ -86,6 +129,11 @@ export default async function Home() {
           </a>
         </div>
       </section>
+
+      {/* Blank Area Photos - After Hero */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'after-hero').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
 
       {/* Background Photo Section */}
       {backgroundPhotos.length > 0 && (
@@ -172,6 +220,11 @@ export default async function Home() {
         )}
       </section>
 
+      {/* Blank Area Photos - Middle of Page */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'middle').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
       {/* Photo Gallery Section */}
       {galleryPhotos.length > 0 && (
         <section className="bg-gray-100 py-16">
@@ -191,6 +244,11 @@ export default async function Home() {
           </div>
         </section>
       )}
+
+      {/* Blank Area Photos - Between Sections */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'between-sections').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
 
       {/* Weekly Videos Section */}
       <section className="bg-white py-16">
@@ -273,6 +331,11 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Blank Area Photos - Before Footer */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'before-footer').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
@@ -313,6 +376,14 @@ export default async function Home() {
               </ul>
             </div>
           </div>
+          
+          {/* Blank Area Photos - Bottom of Page (inside footer) */}
+          {blankPhotos.filter(p => p.blankAreaPosition === 'bottom').map((photo) => (
+            <div key={photo._id} className="mb-8">
+              <BlankAreaPhoto photo={photo} />
+            </div>
+          ))}
+          
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
             <p>&copy; 2026 The South Australian Footballer. All rights reserved.</p>
           </div>
