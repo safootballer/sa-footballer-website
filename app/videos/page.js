@@ -103,7 +103,7 @@ export default async function VideosPage() {
         ) : (
           <div className="grid md:grid-cols-2 gap-8">
             {videos.map((video) => (
-              <VideoCard key={video._id} video={video} getYouTubeId={getYouTubeId} />
+              <VideoCard key={video._id} video={video} />
             ))}
           </div>
         )}
