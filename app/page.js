@@ -254,7 +254,7 @@ export default async function Home() {
       {/* Weekly Videos Section */}
       <section className="bg-white py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-8 text-gray-900">Weekly Videos and Panel Shows</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900">Weekly Videos and Panel Shows</h2>
           {videos.length === 0 ? (
             <div className="bg-gray-50 rounded-lg p-12 text-center">
               <p className="text-gray-600">No videos yet. Add some in the CMS!</p>
@@ -263,27 +263,39 @@ export default async function Home() {
             <div className="grid md:grid-cols-2 gap-8">
               {videos.map((video) => {
                 const videoId = getYouTubeId(video.youtubeUrl)
+                const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null
+                
                 return (
                   <div key={video._id} className="bg-white rounded-lg overflow-hidden shadow-lg">
-                    {videoId ? (
-                      <div className="relative" style={{paddingBottom: '56.25%'}}>
-                        <iframe 
-                          className="absolute top-0 left-0 w-full h-full"
-                          src={`https://www.youtube.com/embed/${videoId}`}
-                          title={video.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                      </div>
-                    ) : (
-                      <div className="h-64 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
-                        <div className="text-white text-center">
-                          <div className="text-6xl mb-4">▶️</div>
-                          <h3 className="text-2xl font-bold">{video.title}</h3>
+                    <a 
+                      href={video.youtubeUrl || '#'} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="block relative group"
+                    >
+                      {videoId ? (
+                        <div className="relative h-64">
+                          <img 
+                            src={thumbnailUrl}
+                            alt={video.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-center justify-center">
+                            <div className="text-white text-7xl opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all">
+                              ▶️
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="h-64 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                          <div className="text-white text-center">
+                            <div className="text-6xl mb-4">▶️</div>
+                            <h3 className="text-2xl font-bold">{video.title}</h3>
+                          </div>
+                        </div>
+                      )}
+                    </a>
+                    
                     <div className="p-6">
                       <h3 className="text-xl font-bold mb-2">{video.title}</h3>
                       <p className="text-gray-600">{video.description}</p>

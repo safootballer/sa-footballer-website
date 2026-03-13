@@ -2,8 +2,7 @@ import Header from '../../components/Header'
 import BlankAreaPhoto from '../../components/BlankAreaPhoto'
 import { client, urlFor, getAllPhotosForPage } from '../../lib/sanity'
 
-export const revalidate = 60 // Revalidate every 60 seconds
-
+export const revalidate = 60
 
 async function getVideos() {
   const query = `*[_type == "video"] | order(publishedAt desc) {
@@ -92,27 +91,38 @@ export default async function VideosPage() {
           <div className="grid md:grid-cols-2 gap-8">
             {videos.map((video) => {
               const videoId = getYouTubeId(video.youtubeUrl)
+              const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null
+              
               return (
                 <div key={video._id} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                  {videoId ? (
-                    <div className="relative" style={{paddingBottom: '56.25%'}}>
-                      <iframe 
-                        className="absolute top-0 left-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${videoId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-                  ) : (
-                    <div className="h-64 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
-                      <div className="text-white text-center">
-                        <div className="text-6xl mb-4">▶️</div>
-                        <h3 className="text-2xl font-bold">{video.title}</h3>
+                  <a 
+                    href={video.youtubeUrl || '#'} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block relative group"
+                  >
+                    {videoId ? (
+                      <div className="relative h-64">
+                        <img 
+                          src={thumbnailUrl}
+                          alt={video.title}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-center justify-center">
+                          <div className="text-white text-7xl opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all">
+                            ▶️
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="h-64 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                        <div className="text-white text-center">
+                          <div className="text-6xl mb-4">▶️</div>
+                          <h3 className="text-2xl font-bold">{video.title}</h3>
+                        </div>
+                      </div>
+                    )}
+                  </a>
                   
                   <div className="p-6">
                     {video.show && (
@@ -135,16 +145,14 @@ export default async function VideosPage() {
                       <span>
                         📅 {new Date(video.publishedAt).toLocaleDateString()}
                       </span>
-                      {videoId && (
-                        <a 
-                          href={`https://www.youtube.com/watch?v=${videoId}`} 
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-red-600 font-semibold hover:text-red-800"
-                        >
-                          Watch on YouTube →
-                        </a>
-                      )}
+                      <a 
+                        href={video.youtubeUrl || '#'} 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-red-600 font-semibold hover:text-red-800 flex items-center gap-1"
+                      >
+                        Watch on YouTube →
+                      </a>
                     </div>
                   </div>
                 </div>
