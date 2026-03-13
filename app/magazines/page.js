@@ -2,6 +2,9 @@ import Header from '../../components/Header'
 import BlankAreaPhoto from '../../components/BlankAreaPhoto'
 import { client, urlFor, getAllPhotosForPage } from '../../lib/sanity'
 
+export const revalidate = 60 // Revalidate every 60 seconds
+
+
 async function getMagazines() {
   const query = `*[_type == "magazine"] | order(publishedAt desc) {
     _id,
