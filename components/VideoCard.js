@@ -22,6 +22,14 @@ function getYouTubeId(url) {
 export default function VideoCard({ video }) {
   const videoId = getYouTubeId(video.youtubeUrl)
   const [imageError, setImageError] = useState(false)
+  
+  // DEBUG
+  console.log('Video:', video.title)
+  console.log('YouTube URL:', video.youtubeUrl)
+  console.log('Extracted videoId:', videoId)
+  console.log('Thumbnail URL:', videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : 'NO VIDEO ID')
+  console.log('Image Error:', imageError)
+  console.log('---')
 
   if (!videoId || imageError) {
     // Fallback to colored background
