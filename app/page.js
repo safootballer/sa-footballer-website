@@ -386,8 +386,24 @@ export default async function Home() {
           ))}
           
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-            <p>&copy; 2026 The South Australian Footballer. All rights reserved.</p>
-          </div>
+          <p className="mb-4">&copy; 2026 The South Australian Footballer. All rights reserved.</p>
+          <div className="text-sm text-gray-500 space-y-1">
+            <p className="font-semibold">Developed by Mian Talha Sarfraz</p>
+            <div className="flex justify-center items-center gap-4 flex-wrap">
+              <a href="https://github.com/talha-11-11" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition">
+                GitHub: talha-11-11
+              </a>
+              <span>•</span>
+              <a href="mailto:talhasarfraz29@gmail.com" className="hover:text-blue-400 transition">
+                talhasarfraz29@gmail.com
+              </a>
+              <span>•</span>
+              <a href="https://www.upwork.com/freelancers/~0128359f0564f06967" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition">
+                Upwork Profile
+              </a>
+            </div>
+        </div>
+      </div>
         </div>
       </footer>
     </div>

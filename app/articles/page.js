@@ -1,13 +1,7 @@
-export const metadata = {
-  title: 'News Articles - The South Australian Footballer',
-  description: 'Latest news and articles covering South Australian football',
-}
-
 import Header from '../../components/Header'
-import { client } from '../../lib/sanity'
-import { urlFor } from '../../lib/sanity'
+import BlankAreaPhoto from '../../components/BlankAreaPhoto'
+import { client, urlFor, getAllPhotosForPage } from '../../lib/sanity'
 
-// Fetch articles from Sanity
 async function getArticles() {
   const query = `*[_type == "article"] | order(publishedAt desc) {
     _id,
@@ -23,18 +17,67 @@ async function getArticles() {
   return articles
 }
 
+export const metadata = {
+  title: 'News Articles - The South Australian Footballer',
+  description: 'Latest news and articles covering South Australian football',
+}
+
 export default async function ArticlesPage() {
   const articles = await getArticles()
+  const allPhotos = await getAllPhotosForPage('articles') || []
+  
+  // Separate photos by placement
+  const galleryPhotos = allPhotos.filter(p => p.placement === 'gallery')
+  const cardPhotos = allPhotos.filter(p => p.placement === 'cards')
+  const backgroundPhotos = allPhotos.filter(p => p.placement === 'background')
+  const headerPhotos = allPhotos.filter(p => p.placement === 'header')
+  const blankPhotos = allPhotos.filter(p => p.placement === 'blank')
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
 
+      {/* Blank Area Photos - Top */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'top').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
+      {/* Header with optional background */}
+      <section 
+        className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 bg-cover bg-center relative"
+        style={headerPhotos.length > 0 ? {
+          backgroundImage: `linear-gradient(rgba(0, 102, 204, 0.85), rgba(0, 82, 163, 0.85)), url(${urlFor(headerPhotos[0].image).width(1920).height(400).url()})`,
+          backgroundBlendMode: 'overlay'
+        } : {}}
+      >
+        <div className="container mx-auto px-4 relative z-10">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">News & Articles</h1>
+          <p className="text-xl">The latest news, updates, and editorial content covering South Australian football.</p>
+        </div>
+      </section>
+
+      {/* Blank Area Photos - After Hero */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'after-hero').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
+      {/* Background Photo Section */}
+      {backgroundPhotos.length > 0 && (
+        <section 
+          className="relative h-96 bg-cover bg-center"
+          style={{backgroundImage: `url(${urlFor(backgroundPhotos[0].image).width(1920).height(800).url()})`}}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-center text-white">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Latest News</h2>
+              <p className="text-xl md:text-2xl">Stay updated with SA Football</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Articles Section */}
       <section className="container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-4 text-gray-900">News & Articles</h1>
-        <p className="text-gray-600 mb-12">The latest news, updates, and editorial content covering South Australian football.</p>
-        
         {articles.length === 0 ? (
           <div className="bg-white rounded-lg p-12 text-center">
             <p className="text-gray-600 text-lg">No articles available yet.</p>
@@ -42,13 +85,21 @@ export default async function ArticlesPage() {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => (
+            {articles.map((article, index) => (
               <div key={article._id} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
                 {article.featuredImage ? (
                   <div className="h-48 overflow-hidden">
                     <img 
                       src={urlFor(article.featuredImage).width(600).height(400).url()}
                       alt={article.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : cardPhotos[index % cardPhotos.length]?.image ? (
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      src={urlFor(cardPhotos[index % cardPhotos.length].image).width(600).height(400).url()}
+                      alt="SA Football"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -88,6 +139,41 @@ export default async function ArticlesPage() {
         )}
       </section>
 
+      {/* Blank Area Photos - Middle */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'middle').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
+      {/* Photo Gallery Section */}
+      {galleryPhotos.length > 0 && (
+        <section className="bg-gray-100 py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold mb-8 text-gray-900">Photo Gallery</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {galleryPhotos.map((photo) => (
+                <div key={photo._id} className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                  <img 
+                    src={urlFor(photo.image).width(400).height(400).url()}
+                    alt={photo.title || 'SA Football'}
+                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Blank Area Photos - Between Sections */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'between-sections').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
+      {/* Blank Area Photos - Before Footer */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'before-footer').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
@@ -123,6 +209,14 @@ export default async function ArticlesPage() {
               </ul>
             </div>
           </div>
+
+          {/* Blank Area Photos - Bottom */}
+          {blankPhotos.filter(p => p.blankAreaPosition === 'bottom').map((photo) => (
+            <div key={photo._id} className="mb-8">
+              <BlankAreaPhoto photo={photo} />
+            </div>
+          ))}
+          
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
             <p>&copy; 2026 The South Australian Footballer. All rights reserved.</p>
           </div>

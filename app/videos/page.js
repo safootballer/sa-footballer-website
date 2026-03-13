@@ -1,12 +1,7 @@
-export const metadata = {
-  title: 'Videos - The South Australian Footballer',
-  description: 'Weekly panel shows and video content',
-}
-
 import Header from '../../components/Header'
-import { client } from '../../lib/sanity'
+import BlankAreaPhoto from '../../components/BlankAreaPhoto'
+import { client, urlFor, getAllPhotosForPage } from '../../lib/sanity'
 
-// Fetch videos from Sanity
 async function getVideos() {
   const query = `*[_type == "video"] | order(publishedAt desc) {
     _id,
@@ -23,7 +18,6 @@ async function getVideos() {
   return videos
 }
 
-// Extract YouTube video ID from URL
 function getYouTubeId(url) {
   if (!url) return null
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
@@ -31,18 +25,61 @@ function getYouTubeId(url) {
   return (match && match[2].length === 11) ? match[2] : null
 }
 
+export const metadata = {
+  title: 'Videos - The South Australian Footballer',
+  description: 'Weekly panel shows and video content',
+}
+
 export default async function VideosPage() {
   const videos = await getVideos()
+  const allPhotos = await getAllPhotosForPage('videos') || []
+  
+  const galleryPhotos = allPhotos.filter(p => p.placement === 'gallery')
+  const cardPhotos = allPhotos.filter(p => p.placement === 'cards')
+  const backgroundPhotos = allPhotos.filter(p => p.placement === 'background')
+  const headerPhotos = allPhotos.filter(p => p.placement === 'header')
+  const blankPhotos = allPhotos.filter(p => p.placement === 'blank')
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      {/* Videos Section */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'top').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
+      <section 
+        className="bg-gradient-to-r from-red-600 to-red-800 text-white py-16 bg-cover bg-center relative"
+        style={headerPhotos.length > 0 ? {
+          backgroundImage: `linear-gradient(rgba(220, 38, 38, 0.85), rgba(153, 27, 27, 0.85)), url(${urlFor(headerPhotos[0].image).width(1920).height(400).url()})`,
+          backgroundBlendMode: 'overlay'
+        } : {}}
+      >
+        <div className="container mx-auto px-4 relative z-10">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Videos & Panel Shows</h1>
+          <p className="text-xl">Watch our weekly panel shows and the latest video content covering South Australian football.</p>
+        </div>
+      </section>
+
+      {blankPhotos.filter(p => p.blankAreaPosition === 'after-hero').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
+      {backgroundPhotos.length > 0 && (
+        <section 
+          className="relative h-96 bg-cover bg-center"
+          style={{backgroundImage: `url(${urlFor(backgroundPhotos[0].image).width(1920).height(800).url()})`}}
+        >
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="text-center text-white">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Watch Latest Episodes</h2>
+              <p className="text-xl md:text-2xl">Panel shows and highlights</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold mb-4 text-gray-900">Videos & Panel Shows</h1>
-        <p className="text-gray-600 mb-12">Watch our weekly panel shows and the latest video content covering South Australian football.</p>
-        
         {videos.length === 0 ? (
           <div className="bg-white rounded-lg p-12 text-center">
             <p className="text-gray-600 text-lg">No videos available yet.</p>
@@ -114,7 +151,33 @@ export default async function VideosPage() {
         )}
       </section>
 
-      {/* Panel Shows Info */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'middle').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
+      {galleryPhotos.length > 0 && (
+        <section className="bg-gray-100 py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold mb-8 text-gray-900">Behind the Scenes</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {galleryPhotos.map((photo) => (
+                <div key={photo._id} className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                  <img 
+                    src={urlFor(photo.image).width(400).height(400).url()}
+                    alt={photo.title || 'SA Football'}
+                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {blankPhotos.filter(p => p.blankAreaPosition === 'between-sections').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Our Weekly Panel Shows</h2>
@@ -133,7 +196,10 @@ export default async function VideosPage() {
         </div>
       </section>
 
-      {/* Footer */}
+      {blankPhotos.filter(p => p.blankAreaPosition === 'before-footer').map((photo) => (
+        <BlankAreaPhoto key={photo._id} photo={photo} />
+      ))}
+
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
@@ -168,6 +234,13 @@ export default async function VideosPage() {
               </ul>
             </div>
           </div>
+
+          {blankPhotos.filter(p => p.blankAreaPosition === 'bottom').map((photo) => (
+            <div key={photo._id} className="mb-8">
+              <BlankAreaPhoto photo={photo} />
+            </div>
+          ))}
+          
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
             <p>&copy; 2026 The South Australian Footballer. All rights reserved.</p>
           </div>
