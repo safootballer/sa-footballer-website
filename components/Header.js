@@ -34,57 +34,57 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Logo Section - 3 Partner Logos */}
-      <div className="bg-white py-4">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center gap-8 md:gap-16">
-            {/* Partner Logo 1 */}
-            <div className="flex justify-center">
-              <a href="#">
-                <img 
-                  src="/partner-logo-1.png" 
-                  alt="Partner Logo 1" 
-                  className="h-16 md:h-20 object-contain"
-                  onError={(e) => {
-                    e.target.style.display = 'none'
-                    e.target.parentElement.innerHTML = '<div class="w-32 h-16 md:h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">Partner 1</div>'
-                  }}
-                />
-              </a>
-            </div>
-
-            {/* Partner Logo 2 */}
-            <div className="flex justify-center">
-              <a href="#">
-                <img 
-                  src="/partner-logo-2.png" 
-                  alt="Partner Logo 2" 
-                  className="h-16 md:h-20 object-contain"
-                  onError={(e) => {
-                    e.target.style.display = 'none'
-                    e.target.parentElement.innerHTML = '<div class="w-32 h-16 md:h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">Partner 2</div>'
-                  }}
-                />
-              </a>
-            </div>
-
-            {/* Partner Logo 3 */}
-            <div className="flex justify-center">
-              <a href="#">
-                <img 
-                  src="/partner-logo-3.png" 
-                  alt="Partner Logo 3" 
-                  className="h-16 md:h-20 object-contain"
-                  onError={(e) => {
-                    e.target.style.display = 'none'
-                    e.target.parentElement.innerHTML = '<div class="w-32 h-16 md:h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">Partner 3</div>'
-                  }}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
+      {/* Logo Section - 3 Partner Logos Wide Apart */}
+<div className="bg-white py-4">
+  <div className="container mx-auto px-4">
+    <div className="flex items-center justify-between">
+      {/* Partner Logo 1 - Far Left */}
+      <div className="flex justify-start w-1/3">
+        <a href="#">
+          <img 
+            src="/partner-logo-1.png" 
+            alt="Partner Logo 1" 
+            className="h-16 md:h-20 object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none'
+              e.target.parentElement.innerHTML = '<div class="w-32 h-16 md:h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">Partner 1</div>'
+            }}
+          />
+        </a>
       </div>
+
+      {/* Partner Logo 2 - Center */}
+      <div className="flex justify-center w-1/3">
+        <a href="#">
+          <img 
+            src="/partner-logo-2.png" 
+            alt="Partner Logo 2" 
+            className="h-16 md:h-20 object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none'
+              e.target.parentElement.innerHTML = '<div class="w-32 h-16 md:h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">Partner 2</div>'
+            }}
+          />
+        </a>
+      </div>
+
+      {/* Partner Logo 3 - Far Right */}
+      <div className="flex justify-end w-1/3">
+        <a href="#">
+          <img 
+            src="/partner-logo-3.png" 
+            alt="Partner Logo 3" 
+            className="h-16 md:h-20 object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none'
+              e.target.parentElement.innerHTML = '<div class="w-32 h-16 md:h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">Partner 3</div>'
+            }}
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* Main Sticky Navigation */}
       <nav className="bg-[#2ca3ee] sticky top-0 z-50 shadow-md">
