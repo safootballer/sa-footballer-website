@@ -34,12 +34,55 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Logo Section */}
+      {/* Logo Section - 3 Partner Logos */}
       <div className="bg-white py-4">
-        <div className="container mx-auto px-4 flex justify-center">
-          <a href="/">
-            <img src="/logo.png" alt="The South Australian Footballer" className="h-20" />
-          </a>
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-center gap-8 md:gap-16">
+            {/* Partner Logo 1 */}
+            <div className="flex justify-center">
+              <a href="#">
+                <img 
+                  src="/partner-logo-1.png" 
+                  alt="Partner Logo 1" 
+                  className="h-16 md:h-20 object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none'
+                    e.target.parentElement.innerHTML = '<div class="w-32 h-16 md:h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">Partner 1</div>'
+                  }}
+                />
+              </a>
+            </div>
+
+            {/* Partner Logo 2 */}
+            <div className="flex justify-center">
+              <a href="#">
+                <img 
+                  src="/partner-logo-2.png" 
+                  alt="Partner Logo 2" 
+                  className="h-16 md:h-20 object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none'
+                    e.target.parentElement.innerHTML = '<div class="w-32 h-16 md:h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">Partner 2</div>'
+                  }}
+                />
+              </a>
+            </div>
+
+            {/* Partner Logo 3 */}
+            <div className="flex justify-center">
+              <a href="#">
+                <img 
+                  src="/partner-logo-3.png" 
+                  alt="Partner Logo 3" 
+                  className="h-16 md:h-20 object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none'
+                    e.target.parentElement.innerHTML = '<div class="w-32 h-16 md:h-20 bg-gray-200 rounded flex items-center justify-center text-gray-500 text-xs">Partner 3</div>'
+                  }}
+                />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
