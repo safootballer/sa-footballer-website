@@ -1,144 +1,126 @@
-'use client'
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import Header from '../../components/Header'
+import Header from '../../../components/Header'
+import { client } from '../../../lib/sanity'
+import { PortableText } from '@portabletext/react'
 
-export default function MatchResultsPage() {
-  const searchParams = useSearchParams()
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('cat') || 'all')
-  const [matchReports, setMatchReports] = useState([])
-  const [loading, setLoading] = useState(true)
+export const revalidate = 60
 
-  const categories = [
-    { id: 'all', name: 'ALL' },
-    { id: 'afl', name: 'AFL' },
-    { id: 'aflw', name: 'AFLW' },
-    { id: 'sanfl', name: 'SANFL' },
-    { id: 'sanflw', name: 'SANFLW' },
-    { id: 'amateurs', name: 'AMATEURS' },
-    { id: 'sawfl', name: 'SAWFL WOMEN\'S' },
-  ]
+async function getMatchReport(slug) {
+  const query = `*[_type == "matchReport" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    competition,
+    homeTeam,
+    awayTeam,
+    homeScore,
+    awayScore,
+    matchDate,
+    venue,
+    round,
+    content,
+    author,
+    featuredImage
+  }`
+  
+  return await client.fetch(query, { slug })
+}
 
-  useEffect(() => {
-    fetchMatchReports()
-  }, [selectedCategory])
-
-  async function fetchMatchReports() {
-    setLoading(true)
-    try {
-      const response = await fetch('/api/match-reports?category=' + selectedCategory)
-      const data = await response.json()
-      setMatchReports(data)
-    } catch (error) {
-      console.error('Error fetching match reports:', error)
-      setMatchReports([])
+export async function generateMetadata({ params }) {
+  const match = await getMatchReport(params.slug)
+  
+  if (!match) {
+    return {
+      title: 'Match Report Not Found',
     }
-    setLoading(false)
+  }
+
+  return {
+    title: `${match.homeTeam} vs ${match.awayTeam} - ${match.competition} - The South Australian Footballer`,
+    description: `Match report: ${match.homeTeam} ${match.homeScore} - ${match.awayScore} ${match.awayTeam}`,
+  }
+}
+
+export default async function MatchReportPage({ params }) {
+  const match = await getMatchReport(params.slug)
+
+  if (!match) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="container mx-auto px-4 py-12 text-center">
+          <h1 className="text-4xl font-bold mb-4">Match Report Not Found</h1>
+          <a href="/match-results" className="text-[#2ca3ee] hover:underline">
+            Back to Match Results
+          </a>
+        </div>
+      </div>
+    )
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">MATCH RESULTS</h1>
-          <p className="text-xl">Latest scores and match reports from SA Football</p>
-        </div>
-      </section>
-
-      {/* Category Filter */}
-      <section className="bg-white border-b sticky top-0 z-40 shadow-md">
+      <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center space-x-2 py-4 overflow-x-auto">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-6 py-2 rounded-full font-bold whitespace-nowrap transition ${
-                  selectedCategory === cat.id
-                    ? 'bg-[#2ca3ee] text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Match Reports Grid */}
-      <section className="container mx-auto px-4 py-12">
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#2ca3ee] border-t-transparent"></div>
-            <p className="mt-4 text-gray-600">Loading match results...</p>
-          </div>
-        ) : matchReports.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {matchReports.map((match) => (
-              
-                key={match._id}
-                href={`/match-results/${match.slug.current}`}
-                className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition"
-              >
-                {/* Category Badge */}
-                <div className="bg-[#2ca3ee] text-white px-4 py-2 font-bold text-sm">
-                  {match.competition}
-                </div>
-
-                {/* Match Details */}
-                <div className="p-6">
-                  {/* Date */}
-                  <p className="text-gray-500 text-sm mb-3">
-                    {new Date(match.matchDate).toLocaleDateString('en-AU', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </p>
-
-                  {/* Home Team */}
-                  <div className="flex justify-between items-center mb-2 pb-2 border-b">
-                    <span className="font-bold text-lg">{match.homeTeam}</span>
-                    <span className="text-2xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
-                  </div>
-
-                  {/* Away Team */}
-                  <div className="flex justify-between items-center mb-4 pb-2 border-b">
-                    <span className="font-bold text-lg">{match.awayTeam}</span>
-                    <span className="text-2xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
-                  </div>
-
-                  {/* Venue */}
-                  {match.venue && (
-                    <p className="text-gray-600 text-sm mb-3">
-                      📍 {match.venue}
-                    </p>
-                  )}
-
-                  {/* Read More */}
-                  <div className="text-[#2ca3ee] font-semibold group-hover:underline">
-                    Read Full Report →
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🏈</div>
-            <h3 className="text-2xl font-bold text-gray-700 mb-2">No Match Results Yet</h3>
-            <p className="text-gray-600">
-              {selectedCategory === 'all'
-                ? 'Check back soon for the latest match results'
-                : `No ${categories.find(c => c.id === selectedCategory)?.name} match results available yet`}
+          <div className="max-w-4xl mx-auto">
+            <div className="text-sm font-bold mb-2">{match.competition}</div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">{match.title}</h1>
+            <p className="text-lg opacity-90">
+              {new Date(match.matchDate).toLocaleDateString('en-AU', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+              {match.venue && ` • ${match.venue}`}
+              {match.round && ` • ${match.round}`}
             </p>
           </div>
-        )}
+        </div>
+      </section>
+
+      <section className="bg-white border-b">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="text-center md:text-right">
+                <h2 className="text-3xl font-bold mb-2">{match.homeTeam}</h2>
+                <div className="text-6xl font-bold text-[#2ca3ee]">{match.homeScore}</div>
+              </div>
+              <div className="text-center md:text-left">
+                <h2 className="text-3xl font-bold mb-2">{match.awayTeam}</h2>
+                <div className="text-6xl font-bold text-[#2ca3ee]">{match.awayScore}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto px-4 py-12">
+        <div className="max-w-4xl mx-auto">
+          <article className="bg-white rounded-lg shadow-lg p-8">
+            {match.content ? (
+              <div className="prose prose-lg max-w-none">
+                <PortableText value={match.content} />
+              </div>
+            ) : (
+              <p className="text-gray-600">Match report content coming soon...</p>
+            )}
+
+            {match.author && (
+              <div className="mt-8 pt-8 border-t">
+                <p className="text-gray-600">By {match.author}</p>
+              </div>
+            )}
+          </article>
+
+          <div className="mt-8 text-center">
+            <a href="/match-results" className="inline-block bg-[#2ca3ee] text-white px-8 py-3 rounded-full font-bold hover:bg-[#00b8f1] transition">
+              Back to Match Results
+            </a>
+          </div>
+        </div>
       </section>
     </div>
   )
