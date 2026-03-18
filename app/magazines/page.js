@@ -1,232 +1,408 @@
 import Header from '../../components/Header'
-import BlankAreaPhoto from '../../components/BlankAreaPhoto'
-import { client, urlFor, getAllPhotosForPage } from '../../lib/sanity'
+import { client } from '../../lib/sanity'
 
-export const revalidate = 60 // Revalidate every 60 seconds
+export const revalidate = 60
 
-
-async function getMagazines() {
-  const query = `*[_type == "magazine"] | order(publishedAt desc) {
-    _id,
-    title,
-    competition,
-    weekEnding,
-    round,
-    pdfUrl,
-    coverImage,
-    publishedAt
+async function getMagazinesContent() {
+  const query = `{
+    "magazines": *[_type == "magazine"] | order(publishedAt desc) {
+      _id,
+      title,
+      coverImage,
+      pdfUrl,
+      publishedAt,
+      competition
+    },
+    "aflArticles": *[_type == "article" && competition == "AFL"] | order(publishedAt desc)[0...2] {
+      _id,
+      title,
+      slug,
+      excerpt,
+      publishedAt
+    },
+    "sanflArticles": *[_type == "article" && competition == "SANFL"] | order(publishedAt desc)[0...2] {
+      _id,
+      title,
+      slug,
+      excerpt,
+      publishedAt
+    },
+    "aflMatches": *[_type == "matchReport" && competition == "AFL"] | order(matchDate desc)[0...2] {
+      _id,
+      title,
+      slug,
+      homeTeam,
+      awayTeam,
+      homeScore,
+      awayScore,
+      matchDate
+    },
+    "sanflMatches": *[_type == "matchReport" && competition == "SANFL"] | order(matchDate desc)[0...2] {
+      _id,
+      title,
+      slug,
+      homeTeam,
+      awayTeam,
+      homeScore,
+      awayScore,
+      matchDate
+    }
   }`
   
-  const magazines = await client.fetch(query)
-  return magazines
+  return await client.fetch(query)
 }
 
 export const metadata = {
-  title: 'Magazine Downloads - The South Australian Footballer',
-  description: 'Download our weekly football magazines',
+  title: 'Magazines - The South Australian Footballer',
+  description: 'Download SA Footballer magazines - SA Footballer, Ammo Footy Budget, Women\'s Footy Budget, Country Footy Budget',
 }
 
 export default async function MagazinesPage() {
-  const magazines = await getMagazines()
-  const allPhotos = await getAllPhotosForPage('magazines') || []
-  
-  const galleryPhotos = allPhotos.filter(p => p.placement === 'gallery')
-  const cardPhotos = allPhotos.filter(p => p.placement === 'cards')
-  const backgroundPhotos = allPhotos.filter(p => p.placement === 'background')
-  const headerPhotos = allPhotos.filter(p => p.placement === 'header')
-  const blankPhotos = allPhotos.filter(p => p.placement === 'blank')
+  const content = await getMagazinesContent()
+
+  // Get latest magazines by type
+  const saFootballer = content.magazines.filter(m => m.competition === 'SA Footballer')[0]
+  const ammoFooty = content.magazines.filter(m => m.competition === 'Ammo Footy Budget')[0]
+  const womensFooty = content.magazines.filter(m => m.competition === 'Women\'s Footy Budget')[0]
+  const countryFooty = content.magazines.filter(m => m.competition === 'Country Footy Budget')[0]
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      {blankPhotos.filter(p => p.blankAreaPosition === 'top').map((photo) => (
-        <BlankAreaPhoto key={photo._id} photo={photo} />
-      ))}
-
-      <section 
-        className="bg-gradient-to-r from-green-600 to-green-800 text-white py-16 bg-cover bg-center relative"
-        style={headerPhotos.length > 0 ? {
-          backgroundImage: `linear-gradient(rgba(22, 163, 74, 0.85), rgba(21, 128, 61, 0.85)), url(${urlFor(headerPhotos[0].image).width(1920).height(400).url()})`,
-          backgroundBlendMode: 'overlay'
-        } : {}}
-      >
-        <div className="container mx-auto px-4 relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Magazine Downloads</h1>
-          <p className="text-xl">Download the latest editions of our weekly football magazines covering all South Australian competitions.</p>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">OUR MAGAZINES</h1>
+          <p className="text-xl">Download the latest editions and browse our archive</p>
         </div>
       </section>
 
-      {blankPhotos.filter(p => p.blankAreaPosition === 'after-hero').map((photo) => (
-        <BlankAreaPhoto key={photo._id} photo={photo} />
-      ))}
-
-      {backgroundPhotos.length > 0 && (
-        <section 
-          className="relative h-96 bg-cover bg-center"
-          style={{backgroundImage: `url(${urlFor(backgroundPhotos[0].image).width(1920).height(800).url()})`}}
-        >
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="text-center text-white">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">Weekly Magazines</h2>
-              <p className="text-xl md:text-2xl">30 years of SA footy coverage</p>
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section className="container mx-auto px-4 py-16">
-        {magazines.length === 0 ? (
-          <div className="bg-white rounded-lg p-12 text-center">
-            <p className="text-gray-600 text-lg">No magazines available yet.</p>
-            <p className="text-gray-500 mt-2">Check back soon for the latest editions!</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-            {magazines.map((magazine) => (
-              <div key={magazine._id} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                {magazine.coverImage ? (
-                  <div className="h-64 md:h-80 overflow-hidden">
-                    <img 
-                      src={urlFor(magazine.coverImage).width(400).height(600).url()}
-                      alt={magazine.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+      {/* Latest Magazine Covers */}
+      <section className="container mx-auto px-4 py-12">
+        <h2 className="text-3xl font-bold mb-8 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">LATEST EDITIONS</h2>
+        
+        <div className="grid md:grid-cols-4 gap-6 mb-12">
+          {/* SA Footballer */}
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            {saFootballer ? (
+              <>
+                {saFootballer.coverImage?.asset?._ref ? (
+                  <img 
+                    src={`https://cdn.sanity.io/images/2y2dueu9/production/${saFootballer.coverImage.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`}
+                    alt={saFootballer.title}
+                    className="w-full h-80 object-cover"
+                  />
                 ) : (
-                  <div className="h-64 md:h-80 bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center">
-                    <div className="text-white text-center p-6">
-                      <div className="text-5xl mb-4">📰</div>
-                      <h3 className="text-xl font-bold">{magazine.title}</h3>
-                    </div>
+                  <div className="w-full h-80 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                    <span className="text-white font-bold text-center p-4">SA FOOTBALLER</span>
                   </div>
                 )}
-                
-                <div className="p-4 md:p-6">
-                  <span className="text-xs font-bold text-blue-600 uppercase px-3 py-1 bg-blue-50 rounded-full">
-                    {magazine.competition}
-                  </span>
-                  
-                  <h3 className="text-base md:text-lg font-bold mt-3 mb-2 text-gray-900">
-                    {magazine.title}
-                  </h3>
-                  
-                  <div className="text-sm text-gray-600 mb-4">
-                    {magazine.round && <p className="font-semibold">{magazine.round}</p>}
-                    {magazine.weekEnding && (
-                      <p>Week Ending: {new Date(magazine.weekEnding).toLocaleDateString()}</p>
-                    )}
-                  </div>
-                  
-                  <a 
-                    href={magazine.pdfUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="block w-full bg-blue-600 text-white text-center py-2 md:py-3 rounded-lg font-bold hover:bg-blue-700 transition text-sm md:text-base"
-                  >
-                    📱 Download PDF
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">SA FOOTBALLER</h3>
+                  <a href={saFootballer.pdfUrl} target="_blank" className="block w-full bg-[#2ca3ee] text-white text-center py-2 rounded font-bold hover:bg-[#00b8f1] transition mb-2">
+                    Download Latest Issue
+                  </a>
+                  <a href="#archive" className="block w-full bg-gray-200 text-gray-700 text-center py-2 rounded font-bold hover:bg-gray-300 transition">
+                    View Archive
                   </a>
                 </div>
+              </>
+            ) : (
+              <div className="p-6 text-center text-gray-500">Coming Soon</div>
+            )}
+          </div>
+
+          {/* Ammo Footy Budget */}
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            {ammoFooty ? (
+              <>
+                {ammoFooty.coverImage?.asset?._ref ? (
+                  <img 
+                    src={`https://cdn.sanity.io/images/2y2dueu9/production/${ammoFooty.coverImage.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`}
+                    alt={ammoFooty.title}
+                    className="w-full h-80 object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-80 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+                    <span className="text-white font-bold text-center p-4">AMMO FOOTY BUDGET</span>
+                  </div>
+                )}
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">AMMO FOOTY BUDGET</h3>
+                  <a href={ammoFooty.pdfUrl} target="_blank" className="block w-full bg-[#2ca3ee] text-white text-center py-2 rounded font-bold hover:bg-[#00b8f1] transition mb-2">
+                    Download Latest Issue
+                  </a>
+                  <a href="#archive" className="block w-full bg-gray-200 text-gray-700 text-center py-2 rounded font-bold hover:bg-gray-300 transition">
+                    View Archive
+                  </a>
+                </div>
+              </>
+            ) : (
+              <div className="p-6 text-center text-gray-500">Coming Soon</div>
+            )}
+          </div>
+
+          {/* Women's Footy Budget */}
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            {womensFooty ? (
+              <>
+                {womensFooty.coverImage?.asset?._ref ? (
+                  <img 
+                    src={`https://cdn.sanity.io/images/2y2dueu9/production/${womensFooty.coverImage.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`}
+                    alt={womensFooty.title}
+                    className="w-full h-80 object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-80 bg-gradient-to-br from-pink-400 to-pink-600 flex items-center justify-center">
+                    <span className="text-white font-bold text-center p-4">WOMEN'S FOOTY BUDGET</span>
+                  </div>
+                )}
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">WOMEN'S FOOTY BUDGET</h3>
+                  <a href={womensFooty.pdfUrl} target="_blank" className="block w-full bg-[#2ca3ee] text-white text-center py-2 rounded font-bold hover:bg-[#00b8f1] transition mb-2">
+                    Download Latest Issue
+                  </a>
+                  <a href="#archive" className="block w-full bg-gray-200 text-gray-700 text-center py-2 rounded font-bold hover:bg-gray-300 transition">
+                    View Archive
+                  </a>
+                </div>
+              </>
+            ) : (
+              <div className="p-6 text-center text-gray-500">Coming Soon</div>
+            )}
+          </div>
+
+          {/* Country Footy Budget */}
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            {countryFooty ? (
+              <>
+                {countryFooty.coverImage?.asset?._ref ? (
+                  <img 
+                    src={`https://cdn.sanity.io/images/2y2dueu9/production/${countryFooty.coverImage.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`}
+                    alt={countryFooty.title}
+                    className="w-full h-80 object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-80 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+                    <span className="text-white font-bold text-center p-4">COUNTRY FOOTY BUDGET</span>
+                  </div>
+                )}
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">COUNTRY FOOTY BUDGET</h3>
+                  <a href={countryFooty.pdfUrl} target="_blank" className="block w-full bg-[#2ca3ee] text-white text-center py-2 rounded font-bold hover:bg-[#00b8f1] transition mb-2">
+                    Download Latest Issue
+                  </a>
+                  <a href="#archive" className="block w-full bg-gray-200 text-gray-700 text-center py-2 rounded font-bold hover:bg-gray-300 transition">
+                    View Archive
+                  </a>
+                </div>
+              </>
+            ) : (
+              <div className="p-6 text-center text-gray-500">Coming Soon</div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* AFL Content */}
+      <section className="bg-white py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">AFL</h2>
+          
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            {/* AFL Editorials */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">LATEST EDITORIALS</h3>
+              <div className="space-y-4">
+                {content.aflArticles.length > 0 ? (
+                  content.aflArticles.map((article) => (
+                    <div key={article._id} className="bg-gray-50 p-4 rounded-lg shadow">
+                      <h4 className="font-bold text-lg mb-2">{article.title}</h4>
+                      <p className="text-gray-600 text-sm mb-2">{article.excerpt}</p>
+                      <a href={`/editorials/${article.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline">
+                        Read More →
+                      </a>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500">No AFL editorials yet</p>
+                )}
+              </div>
+            </div>
+
+            {/* AFL Match Results */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">LATEST MATCH RESULTS</h3>
+              <div className="space-y-4">
+                {content.aflMatches.length > 0 ? (
+                  content.aflMatches.map((match) => (
+                    <div key={match._id} className="bg-gray-50 p-4 rounded-lg shadow">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-bold">{match.homeTeam}</span>
+                        <span className="text-xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
+                      </div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-bold">{match.awayTeam}</span>
+                        <span className="text-xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
+                      </div>
+                      <a href={`/match-results/${match.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline text-sm">
+                        View Full Report →
+                      </a>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500">No AFL match results yet</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SANFL Content */}
+      <section className="container mx-auto px-4 py-12">
+        <h2 className="text-3xl font-bold mb-8 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">SANFL</h2>
+        
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
+          {/* SANFL Editorials */}
+          <div>
+            <h3 className="text-xl font-bold mb-4">LATEST EDITORIALS</h3>
+            <div className="space-y-4">
+              {content.sanflArticles.length > 0 ? (
+                content.sanflArticles.map((article) => (
+                  <div key={article._id} className="bg-white p-4 rounded-lg shadow">
+                    <h4 className="font-bold text-lg mb-2">{article.title}</h4>
+                    <p className="text-gray-600 text-sm mb-2">{article.excerpt}</p>
+                    <a href={`/editorials/${article.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline">
+                      Read More →
+                    </a>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500">No SANFL editorials yet</p>
+              )}
+            </div>
+          </div>
+
+          {/* SANFL Match Results */}
+          <div>
+            <h3 className="text-xl font-bold mb-4">LATEST MATCH RESULTS</h3>
+            <div className="space-y-4">
+              {content.sanflMatches.length > 0 ? (
+                content.sanflMatches.map((match) => (
+                  <div key={match._id} className="bg-white p-4 rounded-lg shadow">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-bold">{match.homeTeam}</span>
+                      <span className="text-xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
+                    </div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-bold">{match.awayTeam}</span>
+                      <span className="text-xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
+                    </div>
+                    <a href={`/match-results/${match.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline text-sm">
+                      View Full Report →
+                    </a>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500">No SANFL match results yet</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Subscription Form */}
+      <section className="bg-[#2ca3ee] text-white py-12">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-4">SUBSCRIBE FOR FREE</h2>
+            <p className="mb-8">Get the latest SA Footballer magazines delivered straight to your inbox</p>
+            
+            <form className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <input 
+                  type="text" 
+                  placeholder="First Name" 
+                  className="w-full px-4 py-3 rounded text-gray-900"
+                  required
+                />
+                <input 
+                  type="text" 
+                  placeholder="Last Name" 
+                  className="w-full px-4 py-3 rounded text-gray-900"
+                  required
+                />
+              </div>
+              <input 
+                type="email" 
+                placeholder="Email Address" 
+                className="w-full px-4 py-3 rounded text-gray-900"
+                required
+              />
+              <div className="text-left">
+                <label className="flex items-start space-x-2">
+                  <input type="checkbox" className="mt-1" required />
+                  <span className="text-sm">I agree to receive magazines and updates from The South Australian Footballer</span>
+                </label>
+              </div>
+              <button 
+                type="submit" 
+                className="w-full bg-[#e6fe00] text-black py-3 rounded-full font-bold hover:bg-yellow-400 transition"
+              >
+                SUBSCRIBE NOW
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* Advertiser Logos */}
+      <section className="bg-gray-100 py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">OUR MAGAZINE PARTNERS</h2>
+          <div className="flex items-center justify-center gap-8 flex-wrap">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="w-32 h-20 bg-white rounded shadow flex items-center justify-center">
+                <span className="text-gray-400 text-xs">Partner {i}</span>
               </div>
             ))}
           </div>
-        )}
+        </div>
       </section>
 
-      {blankPhotos.filter(p => p.blankAreaPosition === 'middle').map((photo) => (
-        <BlankAreaPhoto key={photo._id} photo={photo} />
-      ))}
-
-      {galleryPhotos.length > 0 && (
-        <section className="bg-gray-100 py-16">
-          <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold mb-8 text-gray-900">Magazine Highlights</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              {galleryPhotos.map((photo) => (
-                <div key={photo._id} className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                  <img 
-                    src={urlFor(photo.image).width(400).height(400).url()}
-                    alt={photo.title || 'SA Football'}
-                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
-                  />
+      {/* Archive Section */}
+      <section id="archive" className="container mx-auto px-4 py-12">
+        <h2 className="text-3xl font-bold mb-8 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">MAGAZINE ARCHIVE</h2>
+        
+        <div className="grid md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {content.magazines.length > 0 ? (
+            content.magazines.map((mag) => (
+              <a key={mag._id} href={mag.pdfUrl} target="_blank" className="group">
+                <div className="bg-white rounded-lg shadow overflow-hidden hover:shadow-xl transition">
+                  {mag.coverImage?.asset?._ref ? (
+                    <img 
+                      src={`https://cdn.sanity.io/images/2y2dueu9/production/${mag.coverImage.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`}
+                      alt={mag.title}
+                      className="w-full h-48 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                      <span className="text-white font-bold text-xs text-center p-2">{mag.title}</span>
+                    </div>
+                  )}
+                  <div className="p-2 bg-[#2ca3ee] text-white text-center text-xs font-bold group-hover:bg-[#00b8f1] transition">
+                    Download
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {blankPhotos.filter(p => p.blankAreaPosition === 'between-sections').map((photo) => (
-        <BlankAreaPhoto key={photo._id} photo={photo} />
-      ))}
-
-      <section className="bg-blue-600 text-white py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Never Miss an Edition</h2>
-          <p className="text-xl mb-8">Subscribe to get notified when new magazines are published</p>
-          <div className="max-w-md mx-auto flex gap-4">
-            <input 
-              type="email" 
-              placeholder="Enter your email" 
-              className="flex-1 px-6 py-3 rounded-full text-gray-900"
-            />
-            <button className="bg-green-500 text-white px-6 md:px-8 py-3 rounded-full font-bold hover:bg-green-600 transition">
-              Subscribe
-            </button>
-          </div>
+              </a>
+            ))
+          ) : (
+            <div className="col-span-6 text-center text-gray-500 py-12">No archived magazines yet</div>
+          )}
         </div>
       </section>
-
-      {blankPhotos.filter(p => p.blankAreaPosition === 'before-footer').map((photo) => (
-        <BlankAreaPhoto key={photo._id} photo={photo} />
-      ))}
-
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">The South Australian Footballer</h3>
-              <p className="text-gray-400">Premier publisher of SA footy magazines and media since 1993</p>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="/articles" className="hover:text-white">News Articles</a></li>
-                <li><a href="/videos" className="hover:text-white">Videos</a></li>
-                <li><a href="/magazines" className="hover:text-white">Magazines</a></li>
-                <li><a href="/match-reports" className="hover:text-white">Match Reports</a></li>
-                <li><a href="/ladders" className="hover:text-white">Ladders</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Competitions</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">AFL & AFLW</a></li>
-                <li><a href="#" className="hover:text-white">SANFL & SANFLW</a></li>
-                <li><a href="#" className="hover:text-white">SA Amateur</a></li>
-                <li><a href="#" className="hover:text-white">SAWFL Women's</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Contact</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>📞 0404 846 412</li>
-                <li>📧 thesafootballer@adam.com.au</li>
-              </ul>
-            </div>
-          </div>
-
-          {blankPhotos.filter(p => p.blankAreaPosition === 'bottom').map((photo) => (
-            <div key={photo._id} className="mb-8">
-              <BlankAreaPhoto photo={photo} />
-            </div>
-          ))}
-          
-          <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-            <p>&copy; 2026 The South Australian Footballer. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }
