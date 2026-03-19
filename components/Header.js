@@ -28,7 +28,7 @@ export default function Header() {
               <a href="#" className="hover:text-blue-500">ABOUT US</a>
               <a href="#" className="hover:text-blue-500">OUR PARTNERS</a>
               <a href="#" className="hover:text-blue-500">ADVERTISING WITH US</a>
-              <a href="#" className="hover:text-blue-500">CONTACT US</a>
+              <a href="/contact" className="hover:text-blue-500">CONTACT US</a>
             </div>
           </div>
         </div>
@@ -212,7 +212,7 @@ export default function Header() {
               <a href="#" className="block py-2 text-gray-600">ABOUT US</a>
               <a href="#" className="block py-2 text-gray-600">OUR PARTNERS</a>
               <a href="#" className="block py-2 text-gray-600">ADVERTISING WITH US</a>
-              <a href="#" className="block py-2 text-gray-600">CONTACT US</a>
+              <a href="/contact" className="block py-2 text-gray-600">CONTACT US</a>
             </div>
           </div>
         </div>
