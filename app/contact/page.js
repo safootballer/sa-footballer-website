@@ -29,7 +29,7 @@ export default function ContactPage() {
               </h2>
               <div className="space-y-4">
                 <div>
-                  <p className="font-bold text-lg mb-1">Luke Hosie</p>
+                  <p className="text-gray-600 font-bold text-lg mb-1">Luke Hosie</p>
                   <p className="text-gray-600">Managing Director</p>
                 </div>
                 <div>
@@ -54,7 +54,7 @@ export default function ContactPage() {
               </h2>
               <div className="space-y-4">
                 <div>
-                  <p className="font-bold text-lg mb-1">Lyka Ituralba</p>
+                  <p className="text-gray-600 font-bold text-lg mb-1">Lyka Ituralba</p>
                   <p className="text-gray-600">Chief of Staff & Accounts</p>
                 </div>
                 <div>
@@ -87,13 +87,13 @@ export default function ContactPage() {
             
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               <div>
-                <h3 className="font-bold text-lg mb-4">Website</h3>
+                <h3 className="text-gray-600 font-bold text-lg mb-4">Website</h3>
                 <a href="https://safootballer.com.au" target="_blank" className="text-[#2ca3ee] hover:underline">
                   safootballer.com.au
                 </a>
               </div>
               <div>
-                <h3 className="font-bold text-lg mb-4">General Enquiries</h3>
+                <h3 className="text-gray-600 font-bold text-lg mb-4">General Enquiries</h3>
                 <a href="mailto:thesafootballer@adam.com.au" className="text-[#2ca3ee] hover:underline">
                   thesafootballer@adam.com.au
                 </a>
@@ -101,7 +101,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <h3 className="font-bold text-lg mb-4">Follow Us on Social Media</h3>
+              <h3 className="text-gray-600 font-bold text-lg mb-4">Follow Us on Social Media</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 <a 
                   href="https://www.facebook.com/southaustralianfootballernetballersport" 
