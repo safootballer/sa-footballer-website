@@ -2,11 +2,6 @@ import { Suspense } from 'react'
 import Header from '../../components/Header'
 import MatchResultsContent from '../../components/MatchResultsContent'
 
-export const metadata = {
-  title: 'Match Results - The South Australian Footballer',
-  description: 'Latest scores and match reports from SA Football',
-}
-
 export default function MatchResultsPage() {
   return (
     <div className="min-h-screen bg-gray-50">

@@ -2,11 +2,6 @@ import { Suspense } from 'react'
 import Header from '../../components/Header'
 import CountryFootballContent from '../../components/CountryFootballContent'
 
-export const metadata = {
-  title: 'Country Football - The South Australian Footballer',
-  description: '24 Leagues across South Australia',
-}
-
 export default function CountryFootballPage() {
   return (
     <div className="min-h-screen bg-gray-50">
