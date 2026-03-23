@@ -3,26 +3,39 @@ export const structure = (S) =>
     .title('Content')
     .items([
       S.listItem()
-        .title('News Articles')
-        .child(S.documentTypeList('article').title('News Articles')),
+        .title('Editorials')
+        .child(
+          S.documentTypeList('editorial')
+            .title('Editorials')
+        ),
       S.listItem()
-        .title('Videos')
-        .child(S.documentTypeList('video').title('Videos')),
+        .title('Match Results')
+        .child(
+          S.documentTypeList('matchResult')
+            .title('Match Results')
+        ),
       S.listItem()
         .title('Magazines')
-        .child(S.documentTypeList('magazine').title('Magazines')),
+        .child(
+          S.documentTypeList('magazine')
+            .title('Magazines')
+        ),
       S.listItem()
-        .title('Match Reports')
-        .child(S.documentTypeList('matchReport').title('Match Reports')),
-      S.divider(),
+        .title('Videos')
+        .child(
+          S.documentTypeList('video')
+            .title('Videos')
+        ),
       S.listItem()
-        .title('📸 Photo Gallery')
-        .child(S.documentTypeList('photo').title('Photo Gallery')),
+        .title('Photos')
+        .child(
+          S.documentTypeList('photo')
+            .title('Photos')
+        ),
       S.listItem()
-        .title('📤 Bulk Photo Upload')
-        .child(S.documentTypeList('photoBulkUpload').title('Bulk Photo Upload')),
-      S.divider(),
-      S.listItem()
-        .title('Home Page Settings')
-        .child(S.document().schemaType('homeSettings').documentId('homeSettings')),
+        .title('Photo Bulk Upload')
+        .child(
+          S.documentTypeList('photoBulkUpload')
+            .title('Photo Bulk Upload')
+        ),
     ])
