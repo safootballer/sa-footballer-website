@@ -5,7 +5,7 @@ import { PortableText } from '@portabletext/react'
 export const revalidate = 60
 
 async function getArticle(slug) {
-  const query = `*[_type == "article" && slug.current == $slug][0] {
+  const query = `*[_type == "editorial" && slug.current == $slug][0] {
     _id,
     title,
     slug,
@@ -21,7 +21,8 @@ async function getArticle(slug) {
 }
 
 export async function generateMetadata({ params }) {
-  const article = await getArticle(params.slug)
+  const { slug } = await params
+  const article = await getArticle(slug)
   
   if (!article) {
     return {
@@ -36,7 +37,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function EditorialPage({ params }) {
-  const article = await getArticle(params.slug)
+  const { slug } = await params
+  const article = await getArticle(slug)
 
   if (!article) {
     return (

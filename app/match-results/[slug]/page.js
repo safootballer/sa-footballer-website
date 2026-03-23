@@ -26,7 +26,8 @@ async function getMatchResult(slug) {
 }
 
 export async function generateMetadata({ params }) {
-  const match = await getMatchResult(params.slug)
+  const { slug } = await params
+  const match = await getMatchResult(slug)
   
   if (!match) {
     return {
@@ -41,7 +42,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function MatchResultPage({ params }) {
-  const match = await getMatchResult(params.slug)
+  const { slug } = await params
+  const match = await getMatchResult(slug)
 
   if (!match) {
     return (
