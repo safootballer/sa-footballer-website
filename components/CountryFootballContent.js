@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 export default function CountryFootballContent() {
   const searchParams = useSearchParams()
   const [selectedLeague, setSelectedLeague] = useState(searchParams.get('league') || 'all')
-  const [content, setContent] = useState({ articles: [], matchReports: [] })
+  const [content, setContent] = useState({ editorials: [], matchResults: [] })
   const [loading, setLoading] = useState(true)
 
   const leagues = [
@@ -36,22 +36,28 @@ export default function CountryFootballContent() {
     { id: 'yorke-peninsula', name: 'YORKE PENINSULA' }
   ]
 
-  useEffect(() => {
-    fetchContent()
-  }, [selectedLeague])
-
+  // Declare function before useEffect
   async function fetchContent() {
     setLoading(true)
     try {
       const response = await fetch('/api/country-football?league=' + selectedLeague)
       const data = await response.json()
-      setContent(data)
+      // Update to use new property names
+      setContent({
+        editorials: data.articles || [],
+        matchResults: data.matchReports || []
+      })
     } catch (error) {
       console.error('Error fetching country football content:', error)
-      setContent({ articles: [], matchReports: [] })
+      setContent({ editorials: [], matchResults: [] })
     }
     setLoading(false)
   }
+
+  // Now useEffect can use it
+  useEffect(() => {
+    fetchContent()
+  }, [selectedLeague])
 
   const currentLeague = leagues.find(l => l.id === selectedLeague)
 
@@ -100,9 +106,9 @@ export default function CountryFootballContent() {
               <h3 className="text-2xl font-bold mb-6 text-gray-800 border-b-2 border-[#e6fe00] pb-2">
                 LATEST EDITORIALS
               </h3>
-              {content.articles.length > 0 ? (
+              {content.editorials.length > 0 ? (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {content.articles.map((article) => {
+                  {content.editorials.map((article) => {
                     return (
                       <a key={article._id} href={`/editorials/${article.slug.current}`} className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
                         {article.featuredImage?.asset?._ref ? (
@@ -162,9 +168,9 @@ export default function CountryFootballContent() {
               <h3 className="text-2xl font-bold mb-6 text-gray-800 border-b-2 border-[#e6fe00] pb-2">
                 LATEST MATCH RESULTS
               </h3>
-              {content.matchReports.length > 0 ? (
+              {content.matchResults.length > 0 ? (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {content.matchReports.map((match) => {
+                  {content.matchResults.map((match) => {
                     return (
                       <a key={match._id} href={`/match-results/${match.slug.current}`} className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
                         <div className="bg-[#e6fe00] text-black px-4 py-2 font-bold text-sm">
