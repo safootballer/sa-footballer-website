@@ -17,18 +17,20 @@ async function getHomeContent() {
       excerpt,
       featuredImage
     },
-    "magazines": *[_type == "magazine"] | order(publishedAt desc)[0...4] {
+    "magazines": *[_type == "magazine" && featured == true] | order(publishedAt desc)[0...4] {
       _id,
       title,
       coverImage,
       pdfUrl,
-      competition
+      magazineType,
+      issueNumber
     },
     "videos": *[_type == "video"] | order(publishedAt desc)[0...4] {
       _id,
       title,
       youtubeUrl,
-      publishedAt
+      publishedAt,
+      category
     },
     "matchReports": *[_type == "matchResult"] | order(matchDate desc)[0...10] {
       _id,

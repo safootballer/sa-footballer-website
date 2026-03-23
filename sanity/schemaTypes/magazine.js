@@ -1,6 +1,6 @@
 export default {
   name: 'magazine',
-  title: 'Magazines',
+  title: 'Magazine',
   type: 'document',
   fields: [
     {
@@ -10,37 +10,17 @@ export default {
       validation: Rule => Rule.required()
     },
     {
-      name: 'competition',
-      title: 'Competition',
+      name: 'magazineType',
+      title: 'Magazine Type',
       type: 'string',
       options: {
         list: [
-          {title: 'SANFL', value: 'sanfl'},
-          {title: 'AFL', value: 'afl'},
-          {title: 'Amateur', value: 'amateur'},
-          {title: 'Women\'s', value: 'womens'},
-          {title: 'Country', value: 'country'}
+          {title: 'SA Footballer', value: 'SA Footballer'},
+          {title: 'Ammo Footy Budget', value: 'Ammo Footy Budget'},
+          {title: 'Women\'s Footy Budget', value: 'Women\'s Footy Budget'},
+          {title: 'Country Footy Budget', value: 'Country Footy Budget'},
         ]
       },
-      validation: Rule => Rule.required()
-    },
-    {
-      name: 'weekEnding',
-      title: 'Week Ending',
-      type: 'date',
-      validation: Rule => Rule.required()
-    },
-    {
-      name: 'round',
-      title: 'Round',
-      type: 'string',
-      description: 'e.g., Round 5, Finals Week 1, etc.'
-    },
-    {
-      name: 'pdfUrl',
-      title: 'PDF URL',
-      type: 'url',
-      description: 'Link to PDF file (from your automation or cloud storage)',
       validation: Rule => Rule.required()
     },
     {
@@ -49,33 +29,56 @@ export default {
       type: 'image',
       options: {
         hotspot: true
-      }
+      },
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'pdfUrl',
+      title: 'PDF URL',
+      type: 'url',
+      description: 'Link to the PDF file',
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'issueNumber',
+      title: 'Issue Number',
+      type: 'string',
+      description: 'E.g., "Issue 245" or "Round 10"'
     },
     {
       name: 'publishedAt',
-      title: 'Published Date',
+      title: 'Published At',
       type: 'datetime',
-      initialValue: () => new Date().toISOString()
+      initialValue: () => new Date().toISOString(),
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'excerpt',
+      title: 'Excerpt',
+      type: 'text',
+      rows: 3,
+      description: 'Short description of this issue'
     },
     {
       name: 'featured',
-      title: 'Featured on Homepage',
+      title: 'Featured',
       type: 'boolean',
+      description: 'Show on homepage?',
       initialValue: false
     }
   ],
   preview: {
     select: {
       title: 'title',
+      magazineType: 'magazineType',
       media: 'coverImage',
-      subtitle: 'competition',
-      round: 'round'
+      published: 'publishedAt'
     },
-    prepare({title, media, subtitle, round}) {
+    prepare({title, magazineType, media, published}) {
       return {
-        title: title,
-        subtitle: `${subtitle} - ${round}`,
-        media: media
+        title,
+        subtitle: `${magazineType} - ${new Date(published).toLocaleDateString()}`,
+        media
       }
     }
   }

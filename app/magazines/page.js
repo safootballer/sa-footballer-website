@@ -11,7 +11,9 @@ async function getMagazinesContent() {
       coverImage,
       pdfUrl,
       publishedAt,
-      competition
+      magazineType,
+      issueNumber,
+      excerpt
     },
     "aflArticles": *[_type == "editorial" && competition == "AFL"] | order(publishedAt desc)[0...2] {
       _id,
@@ -61,10 +63,10 @@ export default async function MagazinesPage() {
   const content = await getMagazinesContent()
 
   // Get latest magazines by type
-  const saFootballer = content.magazines.filter(m => m.competition === 'SA Footballer')[0]
-  const ammoFooty = content.magazines.filter(m => m.competition === 'Ammo Footy Budget')[0]
-  const womensFooty = content.magazines.filter(m => m.competition === 'Women\'s Footy Budget')[0]
-  const countryFooty = content.magazines.filter(m => m.competition === 'Country Footy Budget')[0]
+const saFootballer = content.magazines.filter(m => m.magazineType === 'SA Footballer')[0]
+const ammoFooty = content.magazines.filter(m => m.magazineType === 'Ammo Footy Budget')[0]
+const womensFooty = content.magazines.filter(m => m.magazineType === "Women's Footy Budget")[0]
+const countryFooty = content.magazines.filter(m => m.magazineType === 'Country Footy Budget')[0]
 
   return (
     <div className="min-h-screen bg-gray-50">
