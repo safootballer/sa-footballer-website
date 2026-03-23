@@ -4,8 +4,8 @@ import { PortableText } from '@portabletext/react'
 
 export const revalidate = 60
 
-async function getMatchReport(slug) {
-  const query = `*[_type == "matchReport" && slug.current == $slug][0] {
+async function getMatchResult(slug) {
+  const query = `*[_type == "matchResult" && slug.current == $slug][0] {
     _id,
     title,
     slug,
@@ -26,29 +26,29 @@ async function getMatchReport(slug) {
 }
 
 export async function generateMetadata({ params }) {
-  const match = await getMatchReport(params.slug)
+  const match = await getMatchResult(params.slug)
   
   if (!match) {
     return {
-      title: 'Match Report Not Found',
+      title: 'Match Result Not Found',
     }
   }
 
   return {
     title: `${match.homeTeam} vs ${match.awayTeam} - ${match.competition} - The South Australian Footballer`,
-    description: `Match report: ${match.homeTeam} ${match.homeScore} - ${match.awayScore} ${match.awayTeam}`,
+    description: `Match result: ${match.homeTeam} ${match.homeScore} - ${match.awayScore} ${match.awayTeam}`,
   }
 }
 
-export default async function MatchReportPage({ params }) {
-  const match = await getMatchReport(params.slug)
+export default async function MatchResultPage({ params }) {
+  const match = await getMatchResult(params.slug)
 
   if (!match) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
         <div className="container mx-auto px-4 py-12 text-center">
-          <h1 className="text-4xl font-bold mb-4">Match Report Not Found</h1>
+          <h1 className="text-4xl font-bold mb-4">Match Result Not Found</h1>
           <a href="/match-results" className="text-[#2ca3ee] hover:underline">
             Back to Match Results
           </a>
