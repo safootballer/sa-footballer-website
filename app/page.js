@@ -8,7 +8,7 @@ export const revalidate = 60
 // Fetch latest content
 async function getHomeContent() {
   const query = `{
-    "articles": *[_type == "article"] | order(publishedAt desc)[0...10] {
+    "articles": *[_type == "editorial"] | order(publishedAt desc)[0...10] {
       _id,
       title,
       slug,
@@ -30,7 +30,7 @@ async function getHomeContent() {
       youtubeUrl,
       publishedAt
     },
-    "matchReports": *[_type == "matchReport"] | order(matchDate desc)[0...10] {
+    "matchReports": *[_type == "matchResult"] | order(matchDate desc)[0...10] {
       _id,
       title,
       slug,

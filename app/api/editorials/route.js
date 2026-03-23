@@ -8,7 +8,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const category = searchParams.get('category') || 'all'
 
-  let filter = '*[_type == "article"]'
+  let filter = '*[_type == "editorial"]'
   
   if (category !== 'all') {
     const competitionMap = {
@@ -22,7 +22,7 @@ export async function GET(request) {
     
     const competition = competitionMap[category]
     if (competition) {
-      filter = `*[_type == "article" && competition == "${competition}"]`
+      filter = `*[_type == "editorial" && competition == "${competition}"]`
     }
   }
 
@@ -38,8 +38,8 @@ export async function GET(request) {
   }`
 
   try {
-    const articles = await client.fetch(query)
-    return NextResponse.json(articles)
+    const editorials = await client.fetch(query)
+    return NextResponse.json(editorials)
   } catch (error) {
     console.error('Error fetching editorials:', error)
     return NextResponse.json([], { status: 500 })

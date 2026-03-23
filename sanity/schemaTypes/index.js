@@ -1,17 +1,15 @@
-import article from './article'
-import video from './video'
+import editorial from './editorial'
+import matchResult from './matchResult'
 import magazine from './magazine'
-import matchReport from './matchreport'
-import homeSettings from './homeSettings'
+import video from './video'
 import photo from './photo'
 import photoBulkUpload from './photoBulkUpload'
 
 export const schemaTypes = [
-  article, 
-  video, 
-  magazine, 
-  matchReport, 
-  homeSettings, 
-  photo, 
+  editorial,
+  matchResult,
+  magazine,
+  video,
+  photo,
   photoBulkUpload
 ]

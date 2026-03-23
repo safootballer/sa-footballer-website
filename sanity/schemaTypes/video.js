@@ -1,6 +1,6 @@
 export default {
   name: 'video',
-  title: 'Videos',
+  title: 'Video',
   type: 'document',
   fields: [
     {
@@ -10,61 +10,41 @@ export default {
       validation: Rule => Rule.required()
     },
     {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      name: 'youtubeUrl',
+      title: 'YouTube URL',
+      type: 'url',
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'category',
+      title: 'Video Category',
+      type: 'string',
       options: {
-        source: 'title',
-        maxLength: 96
+        list: [
+          {title: 'Live Stream', value: 'live-stream'},
+          {title: 'Filming', value: 'filming'},
+          {title: 'Panel Shows', value: 'panel-shows'},
+        ]
       },
       validation: Rule => Rule.required()
     },
     {
-      name: 'youtubeUrl',
-      title: 'YouTube URL',
-      type: 'url',
-      description: 'Full YouTube URL (e.g., https://www.youtube.com/watch?v=...)',
-      validation: Rule => Rule.required()
-    },
-    {
-      name: 'show',
-      title: 'Show',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Adelaide Ammo Footy Show', value: 'ammo'},
-          {title: 'Adelaide Women\'s Footy Show', value: 'womens'},
-          {title: 'Other', value: 'other'}
-        ]
-      }
-    },
-    {
       name: 'publishedAt',
-      title: 'Published Date',
+      title: 'Published At',
       type: 'datetime',
       initialValue: () => new Date().toISOString()
-    },
-    {
-      name: 'thumbnail',
-      title: 'Custom Thumbnail (optional)',
-      type: 'image',
-      description: 'Leave empty to use YouTube thumbnail',
-      options: {
-        hotspot: true
-      }
-    },
-    {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-      rows: 4
     }
   ],
   preview: {
     select: {
       title: 'title',
-      media: 'thumbnail',
-      subtitle: 'show'
+      category: 'category'
+    },
+    prepare({title, category}) {
+      return {
+        title,
+        subtitle: category
+      }
     }
   }
 }

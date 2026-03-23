@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 export default function MatchResultsContent() {
   const searchParams = useSearchParams()
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('cat') || 'all')
-  const [matchReports, setMatchReports] = useState([])
+  const [matchResults, setMatchResults] = useState([])
   const [loading, setLoading] = useState(true)
 
   const categories = [
@@ -18,22 +18,24 @@ export default function MatchResultsContent() {
     { id: 'sawfl', name: "SAWFL WOMEN'S" },
   ]
 
-  useEffect(() => {
-    fetchMatchReports()
-  }, [selectedCategory])
-
-  async function fetchMatchReports() {
+  // Declare function before useEffect
+  async function fetchMatchResults() {
     setLoading(true)
     try {
-      const response = await fetch('/api/match-reports?category=' + selectedCategory)
+      const response = await fetch('/api/match-results?category=' + selectedCategory)
       const data = await response.json()
-      setMatchReports(data)
+      setMatchResults(data)
     } catch (error) {
-      console.error('Error fetching match reports:', error)
-      setMatchReports([])
+      console.error('Error fetching match results:', error)
+      setMatchResults([])
     }
     setLoading(false)
   }
+
+  // Now useEffect can use it
+  useEffect(() => {
+    fetchMatchResults()
+  }, [selectedCategory])
 
   return (
     <>
@@ -70,9 +72,9 @@ export default function MatchResultsContent() {
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#2ca3ee] border-t-transparent"></div>
             <p className="mt-4 text-gray-600">Loading match results...</p>
           </div>
-        ) : matchReports.length > 0 ? (
+        ) : matchResults.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {matchReports.map((match) => {
+            {matchResults.map((match) => {
               return (
                 <a key={match._id} href={`/match-results/${match.slug.current}`} className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
                   <div className="bg-[#2ca3ee] text-white px-4 py-2 font-bold text-sm">

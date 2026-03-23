@@ -13,21 +13,21 @@ async function getMagazinesContent() {
       publishedAt,
       competition
     },
-    "aflArticles": *[_type == "article" && competition == "AFL"] | order(publishedAt desc)[0...2] {
+    "aflArticles": *[_type == "editorial" && competition == "AFL"] | order(publishedAt desc)[0...2] {
       _id,
       title,
       slug,
       excerpt,
       publishedAt
     },
-    "sanflArticles": *[_type == "article" && competition == "SANFL"] | order(publishedAt desc)[0...2] {
+    "sanflArticles": *[_type == "editorial" && competition == "SANFL"] | order(publishedAt desc)[0...2] {
       _id,
       title,
       slug,
       excerpt,
       publishedAt
     },
-    "aflMatches": *[_type == "matchReport" && competition == "AFL"] | order(matchDate desc)[0...2] {
+    "aflMatches": *[_type == "matchResult" && competition == "AFL"] | order(matchDate desc)[0...2] {
       _id,
       title,
       slug,
@@ -37,7 +37,7 @@ async function getMagazinesContent() {
       awayScore,
       matchDate
     },
-    "sanflMatches": *[_type == "matchReport" && competition == "SANFL"] | order(matchDate desc)[0...2] {
+    "sanflMatches": *[_type == "matchResult" && competition == "SANFL"] | order(matchDate desc)[0...2] {
       _id,
       title,
       slug,
