@@ -64,12 +64,6 @@ export default function ContactPage() {
                   </a>
                 </div>
                 <div>
-                  <p className="text-gray-600 text-sm font-semibold mb-1">WhatsApp</p>
-                  <a href="https://wa.me/639772771563" target="_blank" className="text-[#2ca3ee] font-bold hover:underline">
-                    +63 977 277 1563
-                  </a>
-                </div>
-                <div>
                   <p className="text-gray-600 text-sm font-semibold mb-1">Email</p>
                   <a href="mailto:safootballer.lyka@adam.com.au" className="text-[#2ca3ee] hover:underline break-all">
                     safootballer.lyka@adam.com.au
@@ -104,7 +98,7 @@ export default function ContactPage() {
               <h3 className="text-gray-600 font-bold text-lg mb-4">Follow Us on Social Media</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 <a 
-                  href="https://www.facebook.com/southaustralianfootballernetballersport" 
+                  href="https://www.facebook.com/southaustralianfootballerandsport" 
                   target="_blank"
                   className="flex items-center gap-3 p-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                 >
