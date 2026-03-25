@@ -126,7 +126,7 @@ export default function ContactPage() {
                 </a>
 
                 <a 
-                  href="https://www.youtube.com/@SouthAustralianFootballer" 
+                  href="https://youtube.com/@southaustralianfootballer?si=AUCVkYzXgV8k1N1a" 
                   target="_blank"
                   className="flex items-center gap-3 p-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
                 >
