@@ -85,16 +85,16 @@ export default function Header() {
             <a href="/" className="font-bold hover:text-gray-200">HOME</a>
             
             {/* MAGAZINES Dropdown */}
-            <div className="relative group">
-              <button className="font-bold hover:text-gray-200 pb-4 pt-4">MAGAZINES ▼</button>
-              <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <a href="/magazines?type=sa-footballer" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SA FOOTBALLER</a>
-                <a href="/magazines?type=ammo" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AMMO FOOTY BUDGET</a>
-                <a href="/magazines?type=womens" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">WOMEN'S FOOTY BUDGET</a>
-                <a href="/magazines?type=country" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">COUNTRY FOOTY BUDGET</a>
-                <a href="/magazines#subscribe" className="block px-4 py-3 hover:bg-gray-100">SUBSCRIBE FOR FREE</a>
-              </div>
-            </div>
+<div className="relative group">
+  <button className="font-bold hover:text-gray-200 pb-4 pt-4">MAGAZINES ▼</button>
+  <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+    <a href="/magazines?type=sa-footballer" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SA FOOTBALLER</a>
+    <a href="/magazines/ammo" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AMMO FOOTY BUDGET</a>
+    <a href="/magazines?type=womens" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">WOMEN'S FOOTY BUDGET</a>
+    <a href="/magazines?type=country" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">COUNTRY FOOTY BUDGET</a>
+    <a href="/magazines#subscribe" className="block px-4 py-3 hover:bg-gray-100">SUBSCRIBE FOR FREE</a>
+  </div>
+</div>
 
             {/* MATCH RESULTS Dropdown */}
             <div className="relative group">
