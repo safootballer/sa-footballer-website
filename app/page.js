@@ -124,16 +124,28 @@ export default async function HomePage() {
       <section className="relative h-96 md:h-[500px] bg-black">
         <PhotoSlider 
           images={[
-            '/slider/photo1.jpg',
-            '/slider/photo2.jpg',
-            '/slider/photo3.jpg',
-            '/slider/photo4.jpg',
-            '/slider/photo5.jpg',
-            '/slider/photo6.jpg',
-            '/slider/photo7.jpg',
-            '/slider/photo8.jpg',
-            '/slider/photo9.jpg',
-            '/slider/photo10.jpg',
+            '/slider/1.png',
+            '/slider/2.png',
+            '/slider/3.png',
+            '/slider/4.png',
+            '/slider/5.png',
+            '/slider/6.png',
+            '/slider/7.png',
+            '/slider/8.png',
+            '/slider/9.png',
+            '/slider/10.png',
+            '/slider/11.png',
+            '/slider/12.png',
+            '/slider/13.png',
+            '/slider/14.png',
+            '/slider/15.png',
+            '/slider/16.png',
+            '/slider/17.png',
+            '/slider/18.png',
+            '/slider/19.png',
+            '/slider/20.png',
+             '/slider/21.png',
+            '/slider/22.png'
           ]}
           autoplayInterval={5000}
         />
