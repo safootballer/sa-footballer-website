@@ -51,16 +51,16 @@ export default function Header() {
               </a>
             </div>
 
-            {/* Partner Logo 2 - Center */}
+           {/* Partner Logo 2 - Center - BIGGER */}
             <div className="flex justify-center w-1/3">
-              <a href="#">
+                <a href="#">
                 <img 
-                  src="/partner-logo-2.png" 
-                  alt="Partner Logo 2" 
-                  className="h-16 md:h-20 object-contain"
-                  onError={(e) => e.target.style.display = 'none'}
+                    src="/partner-logo-2.png" 
+                    alt="Partner Logo 2" 
+                    className="h-24 md:h-32 object-contain"
+                    onError={(e) => e.target.style.display = 'none'}
                 />
-              </a>
+                </a>
             </div>
 
             {/* Partner Logo 3 - Far Right */}
