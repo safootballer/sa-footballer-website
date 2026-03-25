@@ -86,26 +86,26 @@ export default function Header() {
             
             {/* MAGAZINES Dropdown */}
             <div className="relative group">
-              <button className="font-bold hover:text-gray-200">MAGAZINES</button>
-              <div className="absolute left-0 mt-2 w-64 bg-white text-black shadow-lg rounded hidden group-hover:block z-50">
-                <a href="/magazines?type=sa-footballer" className="block px-4 py-2 hover:bg-gray-100">SA FOOTBALLER</a>
-                <a href="/magazines?type=ammo" className="block px-4 py-2 hover:bg-gray-100">AMMO FOOTY BUDGET</a>
-                <a href="/magazines?type=womens" className="block px-4 py-2 hover:bg-gray-100">WOMEN'S FOOTY BUDGET</a>
-                <a href="/magazines?type=country" className="block px-4 py-2 hover:bg-gray-100">COUNTRY FOOTY BUDGET</a>
-                <a href="/magazines#subscribe" className="block px-4 py-2 hover:bg-gray-100">SUBSCRIBE FOR FREE</a>
+              <button className="font-bold hover:text-gray-200 pb-4 pt-4">MAGAZINES ▼</button>
+              <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <a href="/magazines?type=sa-footballer" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SA FOOTBALLER</a>
+                <a href="/magazines?type=ammo" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AMMO FOOTY BUDGET</a>
+                <a href="/magazines?type=womens" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">WOMEN'S FOOTY BUDGET</a>
+                <a href="/magazines?type=country" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">COUNTRY FOOTY BUDGET</a>
+                <a href="/magazines#subscribe" className="block px-4 py-3 hover:bg-gray-100">SUBSCRIBE FOR FREE</a>
               </div>
             </div>
 
             {/* MATCH RESULTS Dropdown */}
             <div className="relative group">
-              <button className="font-bold hover:text-gray-200">MATCH RESULTS</button>
-              <div className="absolute left-0 mt-2 w-64 bg-white text-black shadow-lg rounded hidden group-hover:block z-50">
-                <a href="/match-results?cat=afl" className="block px-4 py-2 hover:bg-gray-100">AFL</a>
-                <a href="/match-results?cat=aflw" className="block px-4 py-2 hover:bg-gray-100">AFLW</a>
-                <a href="/match-results?cat=sanfl" className="block px-4 py-2 hover:bg-gray-100">SANFL</a>
-                <a href="/match-results?cat=sanflw" className="block px-4 py-2 hover:bg-gray-100">SANFLW</a>
-                <a href="/match-results?cat=amateurs" className="block px-4 py-2 hover:bg-gray-100">AMATEURS</a>
-                <a href="/match-results?cat=sawfl" className="block px-4 py-2 hover:bg-gray-100">SAWFL WOMEN'S</a>
+              <button className="font-bold hover:text-gray-200 pb-4 pt-4">MATCH RESULTS ▼</button>
+              <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <a href="/match-results?cat=afl" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AFL</a>
+                <a href="/match-results?cat=aflw" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AFLW</a>
+                <a href="/match-results?cat=sanfl" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFL</a>
+                <a href="/match-results?cat=sanflw" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFLW</a>
+                <a href="/match-results?cat=amateurs" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AMATEURS</a>
+                <a href="/match-results?cat=sawfl" className="block px-4 py-3 hover:bg-gray-100">SAWFL WOMEN'S</a>
               </div>
             </div>
 
@@ -113,32 +113,32 @@ export default function Header() {
             
             {/* COUNTRY FOOTBALL Dropdown */}
             <div className="relative group">
-              <button className="font-bold hover:text-gray-200 whitespace-nowrap">COUNTRY FOOTBALL MATCH EDITORIALS AND RESULTS</button>
-              <div className="absolute left-0 mt-2 w-64 bg-white text-black shadow-lg rounded hidden group-hover:block z-50 max-h-96 overflow-y-auto">
-                <a href="/country-football?league=adelaide-plains" className="block px-4 py-2 hover:bg-gray-100">ADELAIDE PLAINS</a>
-                <a href="/country-football?league=barossa" className="block px-4 py-2 hover:bg-gray-100">BAROSSA LIGHT & GAWLER</a>
-                <a href="/country-football?league=broken-hill" className="block px-4 py-2 hover:bg-gray-100">BROKEN HILL</a>
-                <a href="/country-football?league=eastern-eyre" className="block px-4 py-2 hover:bg-gray-100">EASTERN EYRE</a>
-                <a href="/country-football?league=far-north" className="block px-4 py-2 hover:bg-gray-100">FAR NORTH</a>
-                <a href="/country-football?league=great-flinders" className="block px-4 py-2 hover:bg-gray-100">GREAT FLINDERS</a>
-                <a href="/country-football?league=great-southern" className="block px-4 py-2 hover:bg-gray-100">GREAT SOUTHERN</a>
-                <a href="/country-football?league=hills-div1" className="block px-4 py-2 hover:bg-gray-100">HILLS DIVISION 1</a>
-                <a href="/country-football?league=hills-country" className="block px-4 py-2 hover:bg-gray-100">HILLS COUNTRY DIVISION</a>
-                <a href="/country-football?league=kangaroo-island" className="block px-4 py-2 hover:bg-gray-100">KANGAROO ISLAND</a>
-                <a href="/country-football?league=knt" className="block px-4 py-2 hover:bg-gray-100">KOWREE NARACOORTE TATIARA</a>
-                <a href="/country-football?league=limestone-coast" className="block px-4 py-2 hover:bg-gray-100">LIMESTONE COAST</a>
-                <a href="/country-football?league=murray-valley" className="block px-4 py-2 hover:bg-gray-100">MURRAY VALLEY</a>
-                <a href="/country-football?league=mid-south-eastern" className="block px-4 py-2 hover:bg-gray-100">MID SOUTH EASTERN</a>
-                <a href="/country-football?league=north-eastern" className="block px-4 py-2 hover:bg-gray-100">NORTH EASTERN</a>
-                <a href="/country-football?league=northern-areas" className="block px-4 py-2 hover:bg-gray-100">NORTHERN AREAS</a>
-                <a href="/country-football?league=port-lincoln" className="block px-4 py-2 hover:bg-gray-100">PORT LINCOLN</a>
-                <a href="/country-football?league=river-murray" className="block px-4 py-2 hover:bg-gray-100">RIVER MURRAY</a>
-                <a href="/country-football?league=riverland" className="block px-4 py-2 hover:bg-gray-100">RIVERLAND</a>
-                <a href="/country-football?league=southern" className="block px-4 py-2 hover:bg-gray-100">SOUTHERN</a>
-                <a href="/country-football?league=spencer-gulf" className="block px-4 py-2 hover:bg-gray-100">SPENCER GULF</a>
-                <a href="/country-football?league=western-eyre" className="block px-4 py-2 hover:bg-gray-100">WESTERN EYRE</a>
-                <a href="/country-football?league=whyalla" className="block px-4 py-2 hover:bg-gray-100">WHYALLA</a>
-                <a href="/country-football?league=yorke-peninsula" className="block px-4 py-2 hover:bg-gray-100">YORKE PENINSULA</a>
+              <button className="font-bold hover:text-gray-200 whitespace-nowrap pb-4 pt-4">COUNTRY FOOTBALL MATCH EDITORIALS AND RESULTS ▼</button>
+              <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-96 overflow-y-auto">
+                <a href="/country-football?league=adelaide-plains" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">ADELAIDE PLAINS</a>
+                <a href="/country-football?league=barossa" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">BAROSSA LIGHT & GAWLER</a>
+                <a href="/country-football?league=broken-hill" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">BROKEN HILL</a>
+                <a href="/country-football?league=eastern-eyre" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">EASTERN EYRE</a>
+                <a href="/country-football?league=far-north" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">FAR NORTH</a>
+                <a href="/country-football?league=great-flinders" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">GREAT FLINDERS</a>
+                <a href="/country-football?league=great-southern" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">GREAT SOUTHERN</a>
+                <a href="/country-football?league=hills-div1" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">HILLS DIVISION 1</a>
+                <a href="/country-football?league=hills-country" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">HILLS COUNTRY DIVISION</a>
+                <a href="/country-football?league=kangaroo-island" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">KANGAROO ISLAND</a>
+                <a href="/country-football?league=knt" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">KOWREE NARACOORTE TATIARA</a>
+                <a href="/country-football?league=limestone-coast" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">LIMESTONE COAST</a>
+                <a href="/country-football?league=murray-valley" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">MURRAY VALLEY</a>
+                <a href="/country-football?league=mid-south-eastern" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">MID SOUTH EASTERN</a>
+                <a href="/country-football?league=north-eastern" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">NORTH EASTERN</a>
+                <a href="/country-football?league=northern-areas" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">NORTHERN AREAS</a>
+                <a href="/country-football?league=port-lincoln" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">PORT LINCOLN</a>
+                <a href="/country-football?league=river-murray" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">RIVER MURRAY</a>
+                <a href="/country-football?league=riverland" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">RIVERLAND</a>
+                <a href="/country-football?league=southern" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SOUTHERN</a>
+                <a href="/country-football?league=spencer-gulf" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SPENCER GULF</a>
+                <a href="/country-football?league=western-eyre" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">WESTERN EYRE</a>
+                <a href="/country-football?league=whyalla" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">WHYALLA</a>
+                <a href="/country-football?league=yorke-peninsula" className="block px-4 py-3 hover:bg-gray-100">YORKE PENINSULA</a>
               </div>
             </div>
           </div>
@@ -182,7 +182,7 @@ export default function Header() {
 
             <a href="/editorials" className="block py-2 text-gray-700 font-semibold">EDITORIALS</a>
             
-            <a href="/country-football" className="block py-2 text-gray-700 font-semibold">COUNTRY FOOTBALL</a>
+            <a href="/country-football" className="block py-2 text-gray-700 font-semibold">COUNTRY FOOTBALL MATCH EDITORIALS AND RESULTS</a>
             
             <a href="/filming-live-stream" className="block py-2 text-gray-700 font-semibold">FILMING & LIVE STREAM</a>
 
