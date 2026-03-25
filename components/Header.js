@@ -86,7 +86,7 @@ export default function Header() {
             
             {/* MAGAZINES Dropdown */}
             <div className="relative group">
-              <button className="font-bold hover:text-gray-200">MAGAZINES ▼</button>
+              <button className="font-bold hover:text-gray-200">MAGAZINES</button>
               <div className="absolute left-0 mt-2 w-64 bg-white text-black shadow-lg rounded hidden group-hover:block z-50">
                 <a href="/magazines?type=sa-footballer" className="block px-4 py-2 hover:bg-gray-100">SA FOOTBALLER</a>
                 <a href="/magazines?type=ammo" className="block px-4 py-2 hover:bg-gray-100">AMMO FOOTY BUDGET</a>
@@ -98,7 +98,7 @@ export default function Header() {
 
             {/* MATCH RESULTS Dropdown */}
             <div className="relative group">
-              <button className="font-bold hover:text-gray-200">MATCH RESULTS ▼</button>
+              <button className="font-bold hover:text-gray-200">MATCH RESULTS</button>
               <div className="absolute left-0 mt-2 w-64 bg-white text-black shadow-lg rounded hidden group-hover:block z-50">
                 <a href="/match-results?cat=afl" className="block px-4 py-2 hover:bg-gray-100">AFL</a>
                 <a href="/match-results?cat=aflw" className="block px-4 py-2 hover:bg-gray-100">AFLW</a>
@@ -113,7 +113,7 @@ export default function Header() {
             
             {/* COUNTRY FOOTBALL Dropdown */}
             <div className="relative group">
-              <button className="font-bold hover:text-gray-200 whitespace-nowrap">COUNTRY FOOTBALL ▼</button>
+              <button className="font-bold hover:text-gray-200 whitespace-nowrap">COUNTRY FOOTBALL MATCH EDITORIALS AND RESULTS</button>
               <div className="absolute left-0 mt-2 w-64 bg-white text-black shadow-lg rounded hidden group-hover:block z-50 max-h-96 overflow-y-auto">
                 <a href="/country-football?league=adelaide-plains" className="block px-4 py-2 hover:bg-gray-100">ADELAIDE PLAINS</a>
                 <a href="/country-football?league=barossa" className="block px-4 py-2 hover:bg-gray-100">BAROSSA LIGHT & GAWLER</a>
