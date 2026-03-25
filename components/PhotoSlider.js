@@ -28,7 +28,7 @@ export default function PhotoSlider({ images = [], autoplayInterval = 5000 }) {
   }
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-black">
+    <div className="relative w-full h-full overflow-hidden">
       {/* Images */}
       {images.map((image, index) => (
         <div
@@ -40,14 +40,10 @@ export default function PhotoSlider({ images = [], autoplayInterval = 5000 }) {
           <img 
             src={image} 
             alt={`Slide ${index + 1}`}
-            className="w-full h-full object-contain"
-            style={{ objectPosition: 'center' }}
+            className="w-full h-full object-cover"
           />
         </div>
       ))}
-
-      {/* Dark overlay for better contrast with navigation */}
-      <div className="absolute inset-0 bg-black bg-opacity-10 pointer-events-none"></div>
 
       {/* Navigation Dots */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
@@ -69,18 +65,14 @@ export default function PhotoSlider({ images = [], autoplayInterval = 5000 }) {
         className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition z-10"
         aria-label="Previous slide"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
+        ←
       </button>
       <button
         onClick={() => setCurrentIndex((prev) => (prev + 1) % images.length)}
         className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition z-10"
         aria-label="Next slide"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
+        →
       </button>
     </div>
   )
