@@ -48,7 +48,7 @@ export default function AboutPage() {
 
               <h2 className="text-4xl font-bold text-[#ff0000] mt-8 mb-4">Best Value for Money Guaranteed</h2>
 
-              <p className="mb-6">
+              <p className="mb-6 text-gray-700">
                 More than that, we understand that businesses don't want to be paying vast amounts of money for advertising and media. So we give the "very best" value for money in Australia.
               </p>
 
