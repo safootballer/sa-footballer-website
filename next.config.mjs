@@ -11,6 +11,7 @@ const pwaConfig = withPWA({
 const nextConfig = {
   /* config options here */
   reactCompiler: true,
+  turbopack: {},
 };
 
 export default pwaConfig(nextConfig);
