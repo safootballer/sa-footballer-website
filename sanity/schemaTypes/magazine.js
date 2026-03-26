@@ -10,25 +10,37 @@ export default {
       validation: Rule => Rule.required()
     },
     {
-  name: 'magazineType',
-  title: 'Magazine Type',
-  type: 'string',
-  options: {
-    list: [
-      {title: 'SA Footballer', value: 'SA Footballer'},
-      {title: 'Ammo Division 1', value: 'Ammo Division 1'},
-      {title: 'Ammo Division 2', value: 'Ammo Division 2'},
-      {title: 'Ammo Division 3', value: 'Ammo Division 3'},
-      {title: 'Ammo Division 4', value: 'Ammo Division 4'},
-      {title: 'Ammo Division 5', value: 'Ammo Division 5'},
-      {title: 'Ammo Division 6', value: 'Ammo Division 6'},
-      {title: 'Ammo Division 7', value: 'Ammo Division 7'},
-      {title: 'Women\'s Footy Budget', value: 'Women\'s Footy Budget'},
-      {title: 'Country Footy Budget', value: 'Country Footy Budget'},
-    ]
-  },
-  validation: Rule => Rule.required()
-},
+      name: 'magazineType',
+      title: 'Magazine Type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'SA Footballer', value: 'SA Footballer'},
+          {title: 'Ammo Division 1', value: 'Ammo Division 1'},
+          {title: 'Ammo Division 2', value: 'Ammo Division 2'},
+          {title: 'Ammo Division 3', value: 'Ammo Division 3'},
+          {title: 'Ammo Division 4', value: 'Ammo Division 4'},
+          {title: 'Ammo Division 5', value: 'Ammo Division 5'},
+          {title: 'Ammo Division 6', value: 'Ammo Division 6'},
+          {title: 'Ammo Division 7', value: 'Ammo Division 7'},
+          {title: "Women's Footy Budget", value: "Women's Footy Budget"},
+          {title: 'Country Footy Budget', value: 'Country Footy Budget'},
+        ]
+      },
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'competition',
+      title: 'Competition (Deprecated - use Magazine Type)',
+      type: 'string',
+      hidden: true
+    },
+    {
+      name: 'weekEnding',
+      title: 'Week Ending (Deprecated)',
+      type: 'date',
+      hidden: true
+    },
     {
       name: 'coverImage',
       title: 'Cover Image',
@@ -83,7 +95,7 @@ export default {
     prepare({title, magazineType, media, published}) {
       return {
         title,
-        subtitle: `${magazineType} - ${new Date(published).toLocaleDateString()}`,
+        subtitle: `${magazineType || 'Magazine'} - ${new Date(published).toLocaleDateString()}`,
         media
       }
     }

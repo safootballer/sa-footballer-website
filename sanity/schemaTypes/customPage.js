@@ -43,8 +43,9 @@ export default {
     {
       name: 'headerColor',
       title: 'Header Background Color',
-      type: 'color',
-      description: 'If no header image, use this color'
+      type: 'string',
+      description: 'Hex color code (e.g., #2ca3ee). Used if no header image.',
+      placeholder: '#2ca3ee'
     },
     {
       name: 'content',

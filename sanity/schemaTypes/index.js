@@ -8,7 +8,6 @@ import siteSettings from './siteSettings'
 import customPage from './customPage'
 
 export const schemaTypes = [
-  // Content
   editorial,
   matchResult,
   magazine,
@@ -16,7 +15,5 @@ export const schemaTypes = [
   photo,
   photoBulkUpload,
   customPage,
-  
-  // Settings
   siteSettings
 ]
