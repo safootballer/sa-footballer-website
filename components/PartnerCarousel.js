@@ -6,7 +6,7 @@ export default function PartnerCarousel({ partners = [] }) {
   
   // Default partners if none provided
   const defaultPartners = [
-    { name: 'Partner 1', logo: '/partners/partner1.png' },
+    { name: 'Partner 1', logo: 'public/partners/bartercard.png' },
     { name: 'Partner 2', logo: '/partners/partner2.png' },
     { name: 'Partner 3', logo: '/partners/partner3.png' },
     { name: 'Partner 4', logo: '/partners/partner4.png' },
