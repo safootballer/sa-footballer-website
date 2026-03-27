@@ -42,7 +42,7 @@ export default function FilmingLiveStreamContent() {
 
   return (
     <>
-      <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-16">
+      <section className="bg-gradient-to-r from-red-600 to-red-800 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">FILMING & LIVE STREAM</h1>
           <p className="text-xl">Watch SA Football matches and panel shows</p>
@@ -58,8 +58,8 @@ export default function FilmingLiveStreamContent() {
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`px-6 py-2 rounded-full font-bold whitespace-nowrap transition ${
                   selectedCategory === cat.id
-                    ? 'bg-[#2ca3ee] text-white'
-                    : 'bg-gray-600 text-gray-700 hover:bg-gray-300'
+                    ? 'bg-red-600 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
                 {cat.name}
