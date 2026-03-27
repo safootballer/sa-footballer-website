@@ -105,7 +105,7 @@ export default function PartnersPage() {
             ) : (
               <div className="bg-white rounded-lg shadow-lg p-12 text-center">
                 <p className="text-gray-500 text-lg">Major Partners logos coming soon...</p>
-                <p className="text-gray-400 text-sm mt-2">Add partner logos to /public/partners/ folder</p>
+              
               </div>
             )}
           </div>
