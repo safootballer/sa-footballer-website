@@ -6,6 +6,34 @@ export const metadata = {
 }
 
 export default function PartnersPage() {
+  // Define partners with their logo filenames and names
+  const principalPartner = {
+    name: 'Bartercard',
+    logo: '/partners/bartercard.png', // or .jpg
+    link: 'https://www.bartercard.com.au'
+  }
+
+  const platinumPartners = [
+    {
+      name: 'PWP',
+      logo: '/partners/pwp.png',
+      link: '#'
+    },
+    {
+      name: 'SWAARM',
+      logo: '/partners/swaarm.png',
+      link: '#'
+    }
+  ]
+
+  const majorPartners = [
+    { name: 'Partner 1', logo: '/partners/partner1.png', link: '#' },
+    { name: 'Partner 2', logo: '/partners/partner2.png', link: '#' },
+    { name: 'Partner 3', logo: '/partners/partner3.png', link: '#' },
+    { name: 'Partner 4', logo: '/partners/partner4.png', link: '#' },
+    // Add more as needed
+  ]
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -25,14 +53,22 @@ export default function PartnersPage() {
             <h2 className="text-3xl font-bold text-center mb-8 text-[#2ca3ee]">PRINCIPAL PARTNER</h2>
             <div className="bg-white rounded-lg shadow-lg p-12 text-center">
               <div className="flex justify-center items-center mb-6">
-                <div className="w-full max-w-md h-40 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <p className="text-gray-400 text-lg font-semibold">Bartercard</p>
-                    <p className="text-gray-400 text-sm mt-2">Logo Coming Soon</p>
+                <a href={principalPartner.link} target="_blank" rel="noopener noreferrer">
+                  <img 
+                    src={principalPartner.logo}
+                    alt={principalPartner.name}
+                    className="max-h-40 object-contain hover:scale-105 transition"
+                    onError={(e) => {
+                      e.target.style.display = 'none'
+                      e.target.nextElementSibling.style.display = 'flex'
+                    }}
+                  />
+                  <div className="w-full max-w-md h-40 bg-gray-100 rounded-lg hidden items-center justify-center">
+                    <p className="text-gray-400">{principalPartner.name} - Logo Coming Soon</p>
                   </div>
-                </div>
+                </a>
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">Bartercard</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">{principalPartner.name}</h3>
               <p className="text-gray-600">Our valued Principal Partner</p>
             </div>
           </div>
@@ -41,43 +77,63 @@ export default function PartnersPage() {
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-8 text-[#2ca3ee]">PLATINUM PARTNERS</h2>
             <div className="grid md:grid-cols-2 gap-8">
-              {/* PWP */}
-              <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-                <div className="flex justify-center items-center mb-6">
-                  <div className="w-full h-32 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-gray-400 text-lg font-semibold">PWP</p>
-                      <p className="text-gray-400 text-sm mt-2">Logo Coming Soon</p>
-                    </div>
+              {platinumPartners.map((partner, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-lg p-8 text-center">
+                  <div className="flex justify-center items-center mb-6">
+                    <a href={partner.link} target="_blank" rel="noopener noreferrer">
+                      <img 
+                        src={partner.logo}
+                        alt={partner.name}
+                        className="max-h-32 object-contain hover:scale-105 transition"
+                        onError={(e) => {
+                          e.target.style.display = 'none'
+                          e.target.nextElementSibling.style.display = 'flex'
+                        }}
+                      />
+                      <div className="w-full h-32 bg-gray-100 rounded-lg hidden items-center justify-center">
+                        <p className="text-gray-400">{partner.name} - Logo Coming Soon</p>
+                      </div>
+                    </a>
                   </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">{partner.name}</h3>
+                  <p className="text-gray-600">Platinum Partner</p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">PWP</h3>
-                <p className="text-gray-600">Platinum Partner</p>
-              </div>
-
-              {/* SWAARM */}
-              <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-                <div className="flex justify-center items-center mb-6">
-                  <div className="w-full h-32 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-gray-400 text-lg font-semibold">SWAARM</p>
-                      <p className="text-gray-400 text-sm mt-2">Logo Coming Soon</p>
-                    </div>
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">SWAARM</h3>
-                <p className="text-gray-600">Platinum Partner</p>
-              </div>
+              ))}
             </div>
           </div>
 
           {/* Major Partners */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-8 text-[#2ca3ee]">MAJOR PARTNERS</h2>
-            <div className="bg-white rounded-lg shadow-lg p-12 text-center">
-              <p className="text-gray-500 text-lg">Major Partners logos coming soon...</p>
-              <p className="text-gray-400 text-sm mt-2">Check back soon for our complete list of Major Partners</p>
-            </div>
+            {majorPartners.length > 0 ? (
+              <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {majorPartners.map((partner, index) => (
+                  <div key={index} className="bg-white rounded-lg shadow-lg p-6 text-center">
+                    <div className="flex justify-center items-center mb-4">
+                      <a href={partner.link} target="_blank" rel="noopener noreferrer">
+                        <img 
+                          src={partner.logo}
+                          alt={partner.name}
+                          className="max-h-24 object-contain hover:scale-105 transition"
+                          onError={(e) => {
+                            e.target.style.display = 'none'
+                            e.target.nextElementSibling.style.display = 'flex'
+                          }}
+                        />
+                        <div className="w-full h-24 bg-gray-100 rounded-lg hidden items-center justify-center">
+                          <p className="text-gray-400 text-sm">{partner.name}</p>
+                        </div>
+                      </a>
+                    </div>
+                    <p className="text-sm font-semibold text-gray-700">{partner.name}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white rounded-lg shadow-lg p-12 text-center">
+                <p className="text-gray-500 text-lg">Major Partners logos coming soon...</p>
+              </div>
+            )}
           </div>
 
           {/* Call to Action */}
