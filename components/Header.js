@@ -27,7 +27,7 @@ export default function Header() {
             <div className="hidden md:flex items-center space-x-6 text-gray-700">
               <a href="/about" className="hover:text-blue-500">ABOUT US</a>
               <a href="/partners" className="hover:text-blue-500">OUR MAJOR PARTNERS</a>
-              <a href="#" className="hover:text-blue-500">ADVERTISING WITH US</a>
+              <a href="/advertising" className="hover:text-blue-500">ADVERTISING WITH US</a>
               <a href="/filming-live-stream" className="hover:text-blue-500">FILMING & LIVE STREAM</a>
               <a href="/contact" className="hover:text-blue-500">CONTACT US</a>
             </div>
@@ -189,7 +189,7 @@ export default function Header() {
             <div className="border-t mt-4 pt-4">
               <a href="/about" className="block py-2 text-gray-600">ABOUT US</a>
               <a href="/partners" className="block py-2 text-gray-600">OUR PARTNERS</a>
-              <a href="#" className="block py-2 text-gray-600">ADVERTISING WITH US</a>
+              <a href="/advertising" className="block py-2 text-gray-600">ADVERTISING WITH US</a>
               <a href="/contact" className="block py-2 text-gray-600">CONTACT US</a>
             </div>
           </div>
