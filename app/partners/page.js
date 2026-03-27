@@ -1,16 +1,11 @@
 'use client'
 import Header from '../../components/Header'
 
-export const metadata = {
-  title: 'Our Major Partners - The South Australian Footballer',
-  description: 'Our valued partners who support SA Football',
-}
-
 export default function PartnersPage() {
   // Define partners with their logo filenames and names
   const principalPartner = {
     name: 'Bartercard',
-    logo: '/partners/bartercard.png', // or .jpg
+    logo: '/partners/bartercard.png',
     link: 'https://www.bartercard.com.au'
   }
 
@@ -28,11 +23,9 @@ export default function PartnersPage() {
   ]
 
   const majorPartners = [
-    { name: 'Partner 1', logo: '/partners/partner1.png', link: '#' },
-    { name: 'Partner 2', logo: '/partners/partner2.png', link: '#' },
-    { name: 'Partner 3', logo: '/partners/partner3.png', link: '#' },
-    { name: 'Partner 4', logo: '/partners/partner4.png', link: '#' },
-    // Add more as needed
+    // Uncomment and add partners as needed
+    // { name: 'Partner 1', logo: '/partners/partner1.png', link: '#' },
+    // { name: 'Partner 2', logo: '/partners/partner2.png', link: '#' },
   ]
 
   return (
@@ -59,14 +52,7 @@ export default function PartnersPage() {
                     src={principalPartner.logo}
                     alt={principalPartner.name}
                     className="max-h-40 object-contain hover:scale-105 transition"
-                    onError={(e) => {
-                      e.target.style.display = 'none'
-                      e.target.nextElementSibling.style.display = 'flex'
-                    }}
                   />
-                  <div className="w-full max-w-md h-40 bg-gray-100 rounded-lg hidden items-center justify-center">
-                    <p className="text-gray-400">{principalPartner.name} - Logo Coming Soon</p>
-                  </div>
                 </a>
               </div>
               <h3 className="text-2xl font-bold text-gray-800 mb-2">{principalPartner.name}</h3>
@@ -86,14 +72,7 @@ export default function PartnersPage() {
                         src={partner.logo}
                         alt={partner.name}
                         className="max-h-32 object-contain hover:scale-105 transition"
-                        onError={(e) => {
-                          e.target.style.display = 'none'
-                          e.target.nextElementSibling.style.display = 'flex'
-                        }}
                       />
-                      <div className="w-full h-32 bg-gray-100 rounded-lg hidden items-center justify-center">
-                        <p className="text-gray-400">{partner.name} - Logo Coming Soon</p>
-                      </div>
                     </a>
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 mb-2">{partner.name}</h3>
@@ -116,14 +95,7 @@ export default function PartnersPage() {
                           src={partner.logo}
                           alt={partner.name}
                           className="max-h-24 object-contain hover:scale-105 transition"
-                          onError={(e) => {
-                            e.target.style.display = 'none'
-                            e.target.nextElementSibling.style.display = 'flex'
-                          }}
                         />
-                        <div className="w-full h-24 bg-gray-100 rounded-lg hidden items-center justify-center">
-                          <p className="text-gray-400 text-sm">{partner.name}</p>
-                        </div>
                       </a>
                     </div>
                     <p className="text-sm font-semibold text-gray-700">{partner.name}</p>
@@ -133,6 +105,7 @@ export default function PartnersPage() {
             ) : (
               <div className="bg-white rounded-lg shadow-lg p-12 text-center">
                 <p className="text-gray-500 text-lg">Major Partners logos coming soon...</p>
+                <p className="text-gray-400 text-sm mt-2">Add partner logos to /public/partners/ folder</p>
               </div>
             )}
           </div>
