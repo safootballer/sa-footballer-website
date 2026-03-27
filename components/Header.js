@@ -35,48 +35,48 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Logo Section - 3 Partner Logos Wide Apart */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between py-4">
-            {/* Partner Logo 1 - Far Left */}
-            <div className="flex justify-start w-1/3">
-              <a href="#">
-                <img 
-                  src="/partner-logo-1.png" 
-                  alt="Partner Logo 1" 
-                  className="h-16 md:h-20 object-contain"
-                  onError={(e) => e.target.style.display = 'none'}
-                />
-              </a>
-            </div>
-
-           {/* Partner Logo 2 - Center - BIGGER */}
-            <div className="flex justify-center w-1/3">
-                <a href="#">
-                <img 
-                    src="/partner-logo-2.png" 
-                    alt="Partner Logo 2" 
-                    className="h-24 md:h-32 object-contain"
-                    onError={(e) => e.target.style.display = 'none'}
-                />
-                </a>
-            </div>
-
-            {/* Partner Logo 3 - Far Right */}
-            <div className="flex justify-end w-1/3">
-              <a href="#">
-                <img 
-                  src="/partner-logo-3.png" 
-                  alt="Partner Logo 3" 
-                  className="h-16 md:h-20 object-contain"
-                  onError={(e) => e.target.style.display = 'none'}
-                />
-              </a>
-            </div>
-          </div>
-        </div>
+      {/* Logo Section - 3 Partner Logos - Compact */}
+<div className="bg-white border-b">
+  <div className="container mx-auto px-4">
+    <div className="flex items-center justify-between py-3">
+      {/* Partner Logo 1 - Far Left - SMALLER */}
+      <div className="flex justify-start w-1/3">
+        <a href="#">
+          <img 
+            src="/partner-logo-1.png" 
+            alt="Partner Logo 1" 
+            className="h-10 md:h-12 object-contain"
+            onError={(e) => e.target.style.display = 'none'}
+          />
+        </a>
       </div>
+
+      {/* Partner Logo 2 - Center - BIGGER */}
+      <div className="flex justify-center w-1/3">
+        <a href="#">
+          <img 
+            src="/partner-logo-2.png" 
+            alt="Partner Logo 2" 
+            className="h-16 md:h-20 object-contain"
+            onError={(e) => e.target.style.display = 'none'}
+          />
+        </a>
+      </div>
+
+      {/* Partner Logo 3 - Far Right - SMALLER */}
+      <div className="flex justify-end w-1/3">
+        <a href="#">
+          <img 
+            src="/partner-logo-3.png" 
+            alt="Partner Logo 3" 
+            className="h-10 md:h-12 object-contain"
+            onError={(e) => e.target.style.display = 'none'}
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* Main Navigation */}
       <nav className="bg-[#2ca3ee] text-white sticky top-0 z-50">
