@@ -53,7 +53,7 @@ export default function Header() {
 
       {/* Partner Logo 2 - Center - BIGGER */}
       <div className="flex justify-center w-1/3">
-        <a href="#">
+        <a href="https://www.safootballer.com.au/">
           <img 
             src="/partner-logo-2.png" 
             alt="Partner Logo 2" 
