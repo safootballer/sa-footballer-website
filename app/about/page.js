@@ -10,7 +10,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-16">
+      <section className="bg-gradient-to-r from-[#3fc210] to-[#058505] text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">ABOUT US</h1>
           <p className="text-xl">32+ Years of SA Football Coverage</p>
