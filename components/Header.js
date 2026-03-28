@@ -65,11 +65,11 @@ export default function Header() {
 
       {/* Partner Logo 3 - Far Right - SMALLER */}
       <div className="flex justify-end w-1/3">
-        <a href="#">
+        <a href="https://www.safootballer.com.au/">
           <img 
             src="/partner-logo-3.png" 
             alt="Partner Logo 3" 
-            className="h-16 md:h-20 object-contain"
+            className="h-20 md:h-20 object-contain"
             onError={(e) => e.target.style.display = 'none'}
           />
         </a>
