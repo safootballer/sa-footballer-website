@@ -84,7 +84,7 @@ export default async function EditorialPage({ params }) {
               </span>
             </div>
 
-            <h1 className="text-4xl font-bold mb-6">{article.title}</h1>
+            <h1 className="text-4xl text-[#2ca3ee] font-bold mb-6">{article.title}</h1>
 
             {article.excerpt && (
               <p className="text-xl text-gray-600 mb-8 italic border-l-4 border-[#2ca3ee] pl-4">
@@ -93,7 +93,7 @@ export default async function EditorialPage({ params }) {
             )}
 
             {article.content ? (
-              <div className="prose prose-lg max-w-none">
+              <div className="prose prose-lg max-w-none text-gray-800">
                 <PortableText value={article.content} />
               </div>
             ) : (
