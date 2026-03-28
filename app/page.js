@@ -160,7 +160,7 @@ export default async function HomePage() {
             <div className="bg-[#2ca3ee] text-white px-6 py-3 font-bold">LATEST EDITORIAL</div>
             {aflArticles[0] ? (
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{aflArticles[0].title}</h3>
+                <h3 className="text-xl text-[#2ca3ee] font-bold mb-2">{aflArticles[0].title}</h3>
                 <p className="text-gray-600 text-sm mb-4">{aflArticles[0].excerpt}</p>
                 <a href={`/editorials/${aflArticles[0].slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline">
                   Read More →

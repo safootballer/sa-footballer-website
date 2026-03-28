@@ -103,7 +103,7 @@ export default function EditorialsContent() {
                       </span>
                     </div>
                     
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-[#2ca3ee] transition">
+                    <h3 className="text-xl text-gray-600 font-bold mb-2 group-hover:text-[#2ca3ee] transition">
                       {article.title}
                     </h3>
                     
