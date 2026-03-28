@@ -69,7 +69,7 @@ export default function Header() {
           <img 
             src="/partner-logo-3.png" 
             alt="Partner Logo 3" 
-            className="h-10 md:h-12 object-contain"
+            className="h-16 md:h-20 object-contain"
             onError={(e) => e.target.style.display = 'none'}
           />
         </a>
