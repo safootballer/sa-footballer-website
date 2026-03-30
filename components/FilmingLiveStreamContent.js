@@ -15,7 +15,6 @@ export default function FilmingLiveStreamContent() {
     { id: 'panel-shows', name: 'PANEL SHOWS' },
   ]
 
-  // Function before useEffect
   async function fetchVideos() {
     setLoading(true)
     try {
@@ -42,6 +41,7 @@ export default function FilmingLiveStreamContent() {
 
   return (
     <>
+      {/* Hero */}
       <section className="bg-gradient-to-r from-red-600 to-red-800 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">FILMING & LIVE STREAM</h1>
@@ -49,6 +49,71 @@ export default function FilmingLiveStreamContent() {
         </div>
       </section>
 
+      {/* Info band — sits directly under hero */}
+      <section className="bg-gray-900 text-white py-14">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+
+            <h2 className="text-2xl font-bold text-red-500 mb-6 uppercase tracking-wide">
+              Filming and Live Streaming Football and Sport
+            </h2>
+
+            <div className="grid md:grid-cols-2 gap-x-12 gap-y-4 text-gray-300 text-base leading-relaxed mb-10">
+              <div className="space-y-4">
+                <p>
+                  The South Australian Footballer is the best credentialed live streaming and filming company in South Australia.
+                </p>
+                <p>
+                  The main sport we film and live stream is Australian Football, but we also film netball, cricket, basketball, motor sports, Gaelic football and many other sports.
+                </p>
+                <p>
+                  Our videographers are the best in the business — highly skilled, well trained, and specifically trained to film the way our clients want.
+                </p>
+              </div>
+              <div className="space-y-4">
+                <p>
+                  Our prices are the most competitive in South Australia, and we have a list of references a mile long.
+                </p>
+                <p>
+                  We hold a reference from Travis Lynn, President of the Hills Football League, and can present a host of other references and contacts regarding the quality of our work.
+                </p>
+
+                {/* Reference download */}
+                <a
+                  href="/references/hills-football-league-reference.pdf"
+                  target="_blank"
+                  className="inline-flex items-center gap-2 bg-[#2ca3ee] hover:bg-[#00b8f1] text-white px-5 py-2.5 rounded font-semibold transition text-sm"
+                >
+                  📄 Download Reference Letter
+                </a>
+              </div>
+            </div>
+
+            {/* Contact + CTA row */}
+            <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <p className="text-gray-400 text-sm mb-1">Kind Regards — <span className="text-white font-semibold">Luke Hosie</span>, Managing Director</p>
+                <p className="text-sm text-gray-400">
+                  <span className="text-red-400 font-semibold">Phone:</span>{' '}
+                  <a href="tel:0404846412" className="text-[#2ca3ee] hover:underline">0404 846 412</a>
+                  {' · '}
+                  <span className="text-red-400 font-semibold">Email:</span>{' '}
+                  <a href="mailto:thesafootballer@adam.com.au" className="text-[#2ca3ee] hover:underline">thesafootballer@adam.com.au</a>
+                </p>
+              </div>
+              <a
+                href="/contact"
+                className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition text-sm whitespace-nowrap"
+              >
+                Get a Quote
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Category nav — sticky */}
       <section className="bg-white border-b sticky top-0 z-40 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center space-x-2 py-4 overflow-x-auto">
@@ -69,6 +134,7 @@ export default function FilmingLiveStreamContent() {
         </div>
       </section>
 
+      {/* Videos grid */}
       <section className="container mx-auto px-4 py-12">
         {loading ? (
           <div className="text-center py-12">
@@ -98,7 +164,7 @@ export default function FilmingLiveStreamContent() {
                     </div>
                   )}
                   <div className="p-4">
-                    <h3 className="font-bold text-gray-200 mb-2 line-clamp-2 text-gray-800">{video.title}</h3>
+                    <h3 className="font-bold mb-2 line-clamp-2 text-gray-800">{video.title}</h3>
                     {video.category && (
                       <p className="text-sm font-semibold text-[#2ca3ee] mb-2">
                         {video.category === 'live-stream' && 'Live Stream'}
@@ -130,88 +196,6 @@ export default function FilmingLiveStreamContent() {
           </div>
         )}
       </section>
-
-      {/* Content Section */}
-<section className="container mx-auto px-4 py-12 border-t">
-  <div className="max-w-4xl mx-auto">
-    <article className="bg-white rounded-lg shadow-lg p-8 md:p-12">
-      
-      <h2 className="text-2xl font-bold text-red-600 mb-6">FILMING AND LIVE STREAMING FOOTBALL AND SPORT</h2>
-      
-      <p className="text-gray-800 mb-6">
-        The South Australian Footballer is the best credentialed live streaming and filming company in South Australia.
-      </p>
-
-      <p className="text-gray-800 mb-6">
-        The main sport we film and live stream is Australian Football but we film other sports, including netball, cricket, basketball, motor sports, Gaelic football and a myriad of other sports.
-      </p>
-
-      <p className="text-gray-800 mb-6">
-        Our videographers are the best in the business.
-      </p>
-
-      <p className="text-gray-800 mb-6">
-        They are highly skilled, well trained, and also trained by us to film specially to how our clients want.
-      </p>
-
-      <p className="text-gray-800 mb-6">
-        Our prices are the most competitive in South Australia, and we can actually show a list of reference a mile long.
-      </p>
-
-      <p className="text-gray-800 mb-6">
-        Attached is a reference from the president of the Hills Football League, Travis Lynn.
-      </p>
-
-      <p className="text-gray-800 mb-8">
-        We can also present a host of other references, and people to contact about our quality of work.
-      </p>
-
-      {/* Reference/Testimonial Section */}
-      <div className="bg-gray-50 border-l-4 border-[#2ca3ee] p-6 mb-8">
-        <h3 className="text-lg font-bold text-[#2ca3ee] mb-3">Client Reference Available</h3>
-        <p className="text-gray-800 mb-4">
-          Reference from Travis Lynn, President of the Hills Football League
-        </p>
-        {/* Add PDF download link here when you have the file */}
-        <a 
-          href="/references/hills-football-league-reference.pdf" 
-          target="_blank"
-          className="inline-block bg-[#2ca3ee] text-white px-6 py-2 rounded font-semibold hover:bg-[#00b8f1] transition"
-        >
-          📄 Download Reference Letter
-        </a>
-      </div>
-
-      <div className="border-t pt-6">
-        <p className="text-gray-800 mb-1">Kind Regards</p>
-        <p className="text-gray-800 mb-1">Luke Hosie</p>
-        <p className="text-gray-800 mb-6">Managing Director, The South Australian Footballer</p>
-
-        <p className="text-gray-800 mb-1">
-          <span className="text-red-600 font-semibold">Phone:</span>{' '}
-          <a href="tel:0404846412" className="text-blue-600 underline">0404 846 412</a>
-          {' | '}
-          <span className="text-red-600 font-semibold">Email:</span>{' '}
-          <a href="mailto:thesafootballer@adam.com.au" className="text-blue-600 underline">thesafootballer@adam.com.au</a>
-        </p>
-      </div>
-
-      <div className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] rounded-lg p-8 text-white mt-12 text-center">
-        <h3 className="text-2xl font-bold mb-4">Get a Quote</h3>
-        <p className="text-lg mb-6">
-          Contact us today for competitive pricing on filming and live streaming services
-        </p>
-        <a 
-          href="/contact" 
-          className="inline-block bg-white text-[#2ca3ee] px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition"
-        >
-          Contact Us
-        </a>
-      </div>
-
-    </article>
-  </div>
-</section>
     </>
   )
 }
