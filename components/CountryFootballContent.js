@@ -116,7 +116,7 @@ export default function CountryFootballContent() {
                             <img 
                               src={`https://cdn.sanity.io/images/2y2dueu9/production/${article.featuredImage.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`}
                               alt={article.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                              className="text-grey-600 w-full h-full object-cover group-hover:scale-105 transition duration-300"
                             />
                           </div>
                         ) : (
