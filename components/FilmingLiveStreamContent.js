@@ -67,7 +67,7 @@ export default function FilmingLiveStreamContent() {
                   The main sport we film and live stream is Australian Football, but we also film netball, cricket, basketball, motor sports, Gaelic football and many other sports.
                 </p>
                 <p>
-                  Our videographers are the best in the business — highly skilled, well trained, and specifically trained to film the way our clients want.
+                  Our videographers are the best in the business, highly skilled, well trained, and specifically trained to film the way our clients want.
                 </p>
               </div>
               <div className="space-y-4">
@@ -91,16 +91,7 @@ export default function FilmingLiveStreamContent() {
 
             {/* Contact + CTA row */}
             <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div>
-                <p className="text-gray-400 text-sm mb-1">Kind Regards — <span className="text-white font-semibold">Luke Hosie</span>, Managing Director</p>
-                <p className="text-sm text-gray-400">
-                  <span className="text-red-400 font-semibold">Phone:</span>{' '}
-                  <a href="tel:0404846412" className="text-[#2ca3ee] hover:underline">0404 846 412</a>
-                  {' · '}
-                  <span className="text-red-400 font-semibold">Email:</span>{' '}
-                  <a href="mailto:thesafootballer@adam.com.au" className="text-[#2ca3ee] hover:underline">thesafootballer@adam.com.au</a>
-                </p>
-              </div>
+              
               <a
                 href="/contact"
                 className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition text-sm whitespace-nowrap"
