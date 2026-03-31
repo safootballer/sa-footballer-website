@@ -399,47 +399,44 @@ export default async function HomePage() {
       </section>
 
       {/* Videos Section */}
-      <section className="bg-white py-12">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-6 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">LATEST VIDEOS</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.videos.length > 0 ? (
-              content.videos.map((video) => {
-                const videoId = getYouTubeId(video.youtubeUrl)
-                const thumbnail = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null
-                
-                return (
-                  <a key={video._id} href={video.youtubeUrl} target="_blank" className="group">
-                    <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition">
-                      {videoId ? (
-                        <div className="relative pb-[56.25%]">
-                          <iframe
-                            className="absolute top-0 left-0 w-full h-full"
-                            src={`https://www.youtube.com/embed/${videoId}`}
-                            title={video.title}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          ></iframe>
-                        </div>
-                      ) : (
-                        <div className="w-full h-40 bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
-                          <span className="text-white text-5xl">▶️</span>
-                        </div>
-                      )}
-                      <div className="p-4">
-                        <h3 className="font-bold text-sm line-clamp-2">{video.title}</h3>
-                      </div>
-                    </div>
-                  </a>
-                )
-              })
-            ) : (
-              <div className="col-span-4 text-center text-gray-500 py-12">No videos available yet</div>
-            )}
-          </div>
-        </div>
-      </section>
+<section className="bg-white py-12">
+  <div className="container mx-auto px-4">
+    <h2 className="text-3xl font-bold mb-6 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">LATEST VIDEOS</h2>
+    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {content.videos.length > 0 ? (
+        content.videos.map((video) => {
+          const videoId = getYouTubeId(video.youtubeUrl)
+          
+          return (
+            <div key={video._id} className="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition">
+              {videoId ? (
+                <div className="relative pb-[56.25%]">
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full"
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    title={video.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ) : (
+                <div className="w-full h-40 bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
+                  <span className="text-white text-5xl">▶️</span>
+                </div>
+              )}
+              <div className="p-4">
+                <h3 className="font-bold text-sm line-clamp-2">{video.title}</h3>
+              </div>
+            </div>
+          )
+        })
+      ) : (
+        <div className="col-span-4 text-center text-gray-500 py-12">No videos available yet</div>
+      )}
+    </div>
+  </div>
+</section>
 
       {/* Footer */}
       <footer className="bg-black text-white py-12">
