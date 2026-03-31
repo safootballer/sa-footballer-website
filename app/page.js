@@ -144,7 +144,7 @@ export default async function HomePage() {
             '/slider/resized/18.png',
             '/slider/resized/19.png',
             '/slider/resized/20.png',
-            '/slider/resized/21.png',
+             '/slider/resized/21.png',
             '/slider/resized/22.png'
           ]}
           autoplayInterval={5000}
@@ -406,29 +406,32 @@ export default async function HomePage() {
             {content.videos.length > 0 ? (
               content.videos.map((video) => {
                 const videoId = getYouTubeId(video.youtubeUrl)
+                const thumbnail = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null
                 
                 return (
-                  <div key={video._id} className="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition">
-                    {videoId ? (
-                      <div className="relative pb-[56.25%]">
-                        <iframe
-                          className="absolute top-0 left-0 w-full h-full"
-                          src={`https://www.youtube.com/embed/${videoId}`}
-                          title={video.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
+                  <a key={video._id} href={video.youtubeUrl} target="_blank" className="group">
+                    <div className="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition">
+                      {videoId ? (
+                        <div className="relative pb-[56.25%]">
+                          <iframe
+                            className="absolute top-0 left-0 w-full h-full"
+                            src={`https://www.youtube.com/embed/${videoId}`}
+                            title={video.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                      ) : (
+                        <div className="w-full h-40 bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
+                          <span className="text-white text-5xl">▶️</span>
+                        </div>
+                      )}
+                      <div className="p-4">
+                        <h3 className="font-bold text-sm line-clamp-2">{video.title}</h3>
                       </div>
-                    ) : (
-                      <div className="w-full h-40 bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
-                        <span className="text-white text-5xl">▶️</span>
-                      </div>
-                    )}
-                    <div className="p-4">
-                      <h3 className="font-bold text-sm line-clamp-2">{video.title}</h3>
                     </div>
-                  </div>
+                  </a>
                 )
               })
             ) : (
