@@ -2,12 +2,13 @@
 import Header from '../../components/Header'
 
 export default function PartnersPage() {
-  // Define partners with their logo filenames and names
-  const principalPartner = {
-    name: 'Bartercard',
-    logo: '/partners/bartercard.png',
-    link: 'https://www.bartercard.com.au'
-  }
+  const principalPartners = [
+    {
+      name: 'Bartercard',
+      logo: '/partners/bartercard.png',
+      link: 'https://www.bartercard.com.au'
+    }
+  ]
 
   const platinumPartners = [
     {
@@ -19,13 +20,60 @@ export default function PartnersPage() {
       name: 'SWAARM',
       logo: '/partners/swaarm.png',
       link: '#'
-    }
+    },
+    {
+      name: 'MGA Insurance Group',
+      logo: '/partners/mga.png',
+      link: '#'
+    },
+    {
+      name: 'Print Wrap Pack',
+      logo: '/partners/printwrappack.png',
+      link: '#'
+    },
+    {
+      name: 'Farmer to Fridge',
+      logo: '/partners/farmer.png',
+      link: '#'
+    },
+    {
+      name: 'Sports Centre',
+      logo: '/partners/sportscentre.png',
+      link: '#'
+    },
   ]
 
   const majorPartners = [
-    // Uncomment and add partners as needed
-    // { name: 'Partner 1', logo: '/partners/partner1.png', link: '#' },
-    // { name: 'Partner 2', logo: '/partners/partner2.png', link: '#' },
+    {
+      name: 'Partner Name',
+      logo: '/partners/logo.png',
+      link: '#'
+    },
+    {
+      name: 'Partner Name',
+      logo: '/partners/logo.png',
+      link: '#'
+    },
+    {
+      name: 'Partner Name',
+      logo: '/partners/logo.png',
+      link: '#'
+    },
+    {
+      name: 'Partner Name',
+      logo: '/partners/logo.png',
+      link: '#'
+    },
+    {
+      name: 'Partner Name',
+      logo: '/partners/logo.png',
+      link: '#'
+    },
+    {
+      name: 'Partner Name',
+      logo: '/partners/logo.png',
+      link: '#'
+    },
   ]
 
   return (
@@ -41,34 +89,38 @@ export default function PartnersPage() {
 
       <section className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
-          
-          {/* Principal Partner */}
+
+          {/* Principal Partners */}
           <div className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-8 text-[#2ca3ee]">PRINCIPAL PARTNER</h2>
-            <div className="bg-white rounded-lg shadow-lg p-12 text-center">
-              <div className="flex justify-center items-center mb-6">
-                <a href={principalPartner.link} target="_blank" rel="noopener noreferrer">
-                  <img 
-                    src={principalPartner.logo}
-                    alt={principalPartner.name}
-                    className="max-h-40 object-contain hover:scale-105 transition"
-                  />
-                </a>
-              </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">{principalPartner.name}</h3>
-              <p className="text-gray-600">Our valued Principal Partner</p>
+            <h2 className="text-3xl font-bold text-center mb-8 text-[#2ca3ee]">PRINCIPAL PARTNERS</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {principalPartners.map((partner, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-lg p-12 text-center">
+                  <div className="flex justify-center items-center mb-6">
+                    <a href={partner.link} target="_blank" rel="noopener noreferrer">
+                      <img
+                        src={partner.logo}
+                        alt={partner.name}
+                        className="max-h-40 object-contain hover:scale-105 transition"
+                      />
+                    </a>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">{partner.name}</h3>
+                  <p className="text-gray-600">Principal Partner</p>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Platinum Partners */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-8 text-[#2ca3ee]">PLATINUM PARTNERS</h2>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {platinumPartners.map((partner, index) => (
                 <div key={index} className="bg-white rounded-lg shadow-lg p-8 text-center">
                   <div className="flex justify-center items-center mb-6">
                     <a href={partner.link} target="_blank" rel="noopener noreferrer">
-                      <img 
+                      <img
                         src={partner.logo}
                         alt={partner.name}
                         className="max-h-32 object-contain hover:scale-105 transition"
@@ -85,29 +137,22 @@ export default function PartnersPage() {
           {/* Major Partners */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-8 text-[#2ca3ee]">MAJOR PARTNERS</h2>
-            {majorPartners.length > 0 ? (
-              <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {majorPartners.map((partner, index) => (
-                  <div key={index} className="bg-white rounded-lg shadow-lg p-6 text-center">
-                    <div className="flex justify-center items-center mb-4">
-                      <a href={partner.link} target="_blank" rel="noopener noreferrer">
-                        <img 
-                          src={partner.logo}
-                          alt={partner.name}
-                          className="max-h-24 object-contain hover:scale-105 transition"
-                        />
-                      </a>
-                    </div>
-                    <p className="text-sm font-semibold text-gray-700">{partner.name}</p>
+            <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
+              {majorPartners.map((partner, index) => (
+                <div key={index} className="bg-white rounded-lg shadow-lg p-6 text-center">
+                  <div className="flex justify-center items-center mb-4">
+                    <a href={partner.link} target="_blank" rel="noopener noreferrer">
+                      <img
+                        src={partner.logo}
+                        alt={partner.name}
+                        className="max-h-24 object-contain hover:scale-105 transition"
+                      />
+                    </a>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="bg-white rounded-lg shadow-lg p-12 text-center">
-                <p className="text-gray-500 text-lg">Major Partners logos coming soon...</p>
-              
-              </div>
-            )}
+                  <p className="text-sm font-semibold text-gray-700">{partner.name}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Call to Action */}
@@ -116,8 +161,8 @@ export default function PartnersPage() {
             <p className="text-lg mb-6">
               Join our family of valued partners and support South Australian Football
             </p>
-            <a 
-              href="/contact" 
+            <a
+              href="/contact"
               className="inline-block bg-white text-[#2ca3ee] px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition"
             >
               Contact Us
