@@ -2,7 +2,7 @@ import { client } from '../../../lib/sanity'
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 60
+export const revalidate = 0
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
@@ -11,15 +11,16 @@ export async function GET(request) {
   let filter = '*[_type == "video"]'
   
   if (category !== 'all') {
+
     const categoryMap = {
-      'live-stream': 'Live Stream',
-      'filming': 'Filming',
-      'panel-shows': 'Panel Shows'
+      'live-stream': 'live-stream',
+      'filming': 'filming',
+      'panel-shows': 'panel-shows'
     }
     
-    const categoryName = categoryMap[category]
-    if (categoryName) {
-      filter = `*[_type == "video" && category == "${categoryName}"]`
+    const categoryValue = categoryMap[category]
+    if (categoryValue) {
+      filter = `*[_type == "video" && category == "${categoryValue}"]`
     }
   }
 
@@ -32,10 +33,10 @@ export async function GET(request) {
   }`
 
   try {
-    const videos = await client.fetch(query)
-    return NextResponse.json(videos)
-  } catch (error) {
-    console.error('Error fetching videos:', error)
-    return NextResponse.json([], { status: 500 })
-  }
+  const videos = await client.fetch(query, {}, { cache: 'no-store' })
+  return NextResponse.json(videos)
+} catch (error) {
+  console.error('Error fetching videos:', error)
+  return NextResponse.json([], { status: 500 })
+}
 }
