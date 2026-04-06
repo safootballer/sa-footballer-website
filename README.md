@@ -435,7 +435,6 @@ SANITY_API_TOKEN=<your_token>
 ### Chief of Staff
 - **Name:** Lyka Ituralba
 - **AU Mobile:** 0480 041 170
-- **WhatsApp:** +63 977 277 1563
 - **Email:** safootballer.lyka@adam.com.au
 
 ### Social Media
