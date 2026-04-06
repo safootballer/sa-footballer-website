@@ -45,35 +45,76 @@ export default function PartnersPage() {
 
   const majorPartners = [
     {
-      name: 'Partner Name',
-      logo: '/partners/logo.png',
+      name: 'Alpha Trophies',
+      logo: '/partners/alpha.png',
       link: '#'
     },
     {
-      name: 'Partner Name',
-      logo: '/partners/logo.png',
+      name: 'Arbitrage Investments Quality Sourcing',
+      logo: '/partners/arbitrage.png',
       link: '#'
     },
     {
-      name: 'Partner Name',
-      logo: '/partners/logo.png',
+      name: 'Boss Driving School',
+      logo: '/partners/boss.png',
       link: '#'
     },
     {
-      name: 'Partner Name',
-      logo: '/partners/logo.png',
+      name: 'FootyBanners',
+      logo: '/partners/footy.png',
       link: '#'
     },
     {
-      name: 'Partner Name',
-      logo: '/partners/logo.png',
+      name: 'GPSS',
+      logo: '/partners/GPSS.png',
       link: '#'
     },
     {
-      name: 'Partner Name',
-      logo: '/partners/logo.png',
+      name: 'Gridare',
+      logo: '/partners/gridare.png',
       link: '#'
     },
+    {
+      name: 'iSports Solutions',
+      logo: '/partners/isports.png',
+      link: '#'
+    },{
+      name: 'Kids Cancer Project',
+      logo: '/partners/kids.png',
+      link: '#'
+    },{
+      name: 'MR Communications',
+      logo: '/partners/mr.png',
+      link: '#'
+    },{
+      name: 'Sailax Global Technology',
+      logo: '/partners/sailex.png',
+      link: '#'
+    },{
+      name: 'Solid Display Systems',
+      logo: '/partners/solid.png',
+      link: '#'
+    },
+    ,{
+      name: 'The Ryan Bowman Legacy of Care Foundation',
+      logo: '/partners/ryan.png',
+      link: '#'
+    },{
+      name: 'The Tradie Grid',
+      logo: '/partners/tradie.png',
+      link: '#'
+    },
+    {
+      name: 'TwoTwoSix Digital',
+      logo: '/partners/226.png',
+      link: '#'
+    },
+    {
+      name: 'Variety',
+      logo: '/partners/variety.png',
+      link: '#'
+    },
+  
   ]
 
   return (
