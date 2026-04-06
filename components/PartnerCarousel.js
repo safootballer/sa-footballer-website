@@ -6,12 +6,29 @@ export default function PartnerCarousel() {
 
   // Define partners with logos from public folder
   const partners = [
-    { name: 'Bartercard', logo: '/partners/bartercard.png', link: 'https://www.bartercard.com.au' },
-    { name: 'PWP', logo: '/partners/pwp.png', link: '#' },
-    { name: 'SWAARM', logo: '/partners/swaarm.png', link: '#' },
-    // Add more partners here
-  ]
-
+  { name: 'Bartercard', logo: '/partners/bartercard.png', link: 'https://www.bartercard.com.au' },
+  { name: 'PWP', logo: '/partners/pwp.png', link: '#' },
+  { name: 'SWAARM', logo: '/partners/swaarm.jpg', link: '#' },
+  { name: 'MGA Insurance Group', logo: '/partners/mga.png', link: '#' },
+  { name: 'Print Wrap Pack', logo: '/partners/printwrappack.jpg', link: '#' },
+  { name: 'Farmer to Fridge', logo: '/partners/farmer.png', link: '#' },
+  { name: 'Sports Centre', logo: '/partners/sportscentre.png', link: '#' },
+  { name: 'Alpha Trophies', logo: '/partners/alpha.png', link: '#' },
+  { name: 'Arbitrage Investments Quality Sourcing', logo: '/partners/arbitrage.png', link: '#' },
+  { name: 'Boss Driving School', logo: '/partners/boss.png', link: '#' },
+  { name: 'FootyBanners', logo: '/partners/footy.png', link: '#' },
+  { name: 'GPSS', logo: '/partners/gpss.png', link: '#' },
+  { name: 'Gridare', logo: '/partners/griadare.png', link: '#' },
+  { name: 'iSports Solutions', logo: '/partners/isports.png', link: '#' },
+  { name: 'Kids Cancer Project', logo: '/partners/kids.png', link: '#' },
+  { name: 'MR Communications', logo: '/partners/mr.png', link: '#' },
+  { name: 'Sailax Global Technology', logo: '/partners/sailex.png', link: '#' },
+  { name: 'Solid Display Systems', logo: '/partners/solid.png', link: '#' },
+  { name: 'The Ryan Bowman Legacy of Care Foundation', logo: '/partners/ryan.png', link: '#' },
+  { name: 'The Tradie Grid', logo: '/partners/tradie.png', link: '#' },
+  { name: 'TwoTwoSix Digital', logo: '/partners/226.png', link: '#' },
+  { name: 'Variety', logo: '/partners/variety.png', link: '#' },
+]
   // Auto-rotate every 3 seconds
   useEffect(() => {
     if (partners.length === 0) return
