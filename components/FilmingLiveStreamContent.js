@@ -18,7 +18,9 @@ export default function FilmingLiveStreamContent() {
   async function fetchVideos() {
     setLoading(true)
     try {
-      const response = await fetch('/api/filming-live-stream?category=' + selectedCategory)
+      const response = await fetch('/api/filming-live-stream?category=' + selectedCategory, {
+        cache: 'no-store'
+        })
       const data = await response.json()
       setVideos(data)
     } catch (error) {
