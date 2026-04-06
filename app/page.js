@@ -426,7 +426,7 @@ export default async function HomePage() {
                 </div>
               )}
               <div className="p-4">
-                <h3 className="font-bold text-sm line-clamp-2">{video.title}</h3>
+                <h3 className="font-bold text-sm line-clamp-2 text-gray-800">{video.title}</h3>
               </div>
             </div>
           )
