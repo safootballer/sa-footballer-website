@@ -186,11 +186,11 @@ export default function CountryFootballContent() {
                             })}
                           </p>
                           <div className="flex justify-between items-center mb-2 pb-2 border-b">
-                            <span className="font-bold text-lg">{match.homeTeam}</span>
+                            <span className="font-bold text-lg text-grey-800">{match.homeTeam}</span>
                             <span className="text-2xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
                           </div>
                           <div className="flex justify-between items-center mb-4 pb-2 border-b">
-                            <span className="font-bold text-lg">{match.awayTeam}</span>
+                            <span className="font-bold text-lg text-grey-800">{match.awayTeam}</span>
                             <span className="text-2xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
                           </div>
                           {match.venue && (
