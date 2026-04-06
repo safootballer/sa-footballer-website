@@ -66,12 +66,12 @@ export default function PartnersPage() {
     },
     {
       name: 'GPSS',
-      logo: '/partners/GPSS.png',
+      logo: '/partners/gpss.png',
       link: '#'
     },
     {
       name: 'Gridare',
-      logo: '/partners/gridare.png',
+      logo: '/partners/griadare.png',
       link: '#'
     },
     {
