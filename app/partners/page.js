@@ -18,7 +18,7 @@ export default function PartnersPage() {
     },
     {
       name: 'SWAARM',
-      logo: '/partners/swaarm.png',
+      logo: '/partners/swaarm.jpg',
       link: '#'
     },
     {
@@ -28,7 +28,7 @@ export default function PartnersPage() {
     },
     {
       name: 'Print Wrap Pack',
-      logo: '/partners/printwrappack.png',
+      logo: '/partners/printwrappack.jpg',
       link: '#'
     },
     {
