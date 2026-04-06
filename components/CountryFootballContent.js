@@ -139,7 +139,7 @@ export default function CountryFootballContent() {
                             </span>
                           </div>
                           
-                          <h4 className="text-xl font-bold mb-2 group-hover:text-[#2ca3ee] transition">
+                          <h4 className="text-xl text-grey-800 font-bold mb-2 group-hover:text-[#2ca3ee] transition">
                             {article.title}
                           </h4>
                           
