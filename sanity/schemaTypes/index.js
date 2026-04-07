@@ -6,6 +6,7 @@ import photo from './photo'
 import photoBulkUpload from './photoBulkUpload'
 import siteSettings from './siteSettings'
 import customPage from './customPage'
+import subscriber from './subscriber'
 
 export const schemaTypes = [
   editorial,
@@ -15,5 +16,6 @@ export const schemaTypes = [
   photo,
   photoBulkUpload,
   customPage,
-  siteSettings
+  siteSettings,
+  subscriber
 ]
