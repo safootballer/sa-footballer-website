@@ -60,4 +60,14 @@ export const structure = (S) =>
           S.documentTypeList('photoBulkUpload')
             .title('Photo Bulk Upload')
         ),
+
+      S.divider(),
+
+      // SUBSCRIBERS
+      S.listItem()
+        .title('📧 Subscribers')
+        .child(
+          S.documentTypeList('subscriber')
+            .title('Subscribers')
+        ),
     ])
