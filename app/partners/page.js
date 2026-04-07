@@ -11,7 +11,6 @@ export default function PartnersPage() {
   ]
 
   const platinumPartners = [
-    
     {
       name: 'SWAARM',
       logo: '/partners/swaarm.jpg',
@@ -32,7 +31,6 @@ export default function PartnersPage() {
       logo: '/partners/farmer.png',
       link: '#'
     },
-    
   ]
 
   const majorPartners = [
@@ -70,11 +68,13 @@ export default function PartnersPage() {
       name: 'iSports Solutions',
       logo: '/partners/isports.png',
       link: '#'
-    },{
+    },
+    {
       name: 'Kids Cancer Project',
       logo: '/partners/kids.png',
       link: '#'
-    },{
+    },
+    {
       name: 'MR Communications',
       logo: '/partners/mr.png',
       link: '#'
@@ -99,11 +99,12 @@ export default function PartnersPage() {
       logo: '/partners/solid.png',
       link: '#'
     },
-    ,{
+    {
       name: 'The Ryan Bowman Legacy of Care Foundation',
       logo: '/partners/ryan.png',
       link: '#'
-    },{
+    },
+    {
       name: 'The Tradie Grid',
       logo: '/partners/tradie.png',
       link: '#'
@@ -118,7 +119,6 @@ export default function PartnersPage() {
       logo: '/partners/variety.png',
       link: '#'
     },
-  
   ]
 
   return (
@@ -135,12 +135,12 @@ export default function PartnersPage() {
       <section className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
 
-          {/* Principal Partners */}
+          {/* Principal Partners — centred single card */}
           <div className="mb-16">
             <h2 className="text-3xl font-bold text-center mb-8 text-[#2ca3ee]">PRINCIPAL PARTNERS</h2>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="flex justify-center">
               {principalPartners.map((partner, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-lg p-12 text-center">
+                <div key={index} className="bg-white rounded-lg shadow-lg p-12 text-center w-full max-w-sm">
                   <div className="flex justify-center items-center mb-6">
                     <a href={partner.link} target="_blank" rel="noopener noreferrer">
                       <img
