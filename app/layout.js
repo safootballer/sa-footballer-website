@@ -1,6 +1,6 @@
 import './globals.css'
 import InstallPrompt from '@/components/InstallPrompt'
-
+import SubscribePopup from '@/components/SubscribePopup'
 
 export const metadata = {
   title: {
@@ -37,6 +37,7 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <InstallPrompt />
+        <SubscribePopup />
       </body>
 
     </html>
