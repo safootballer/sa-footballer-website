@@ -540,6 +540,6 @@ npm install
 ---
 
 *For technical support, contact Talha Sarfraz at talhasarfraz29@gmail.com*  
-*For content/business/partnership inquiries, contact Luke Hosie at thesafootballer@adam.com.au*
+*For content/business inquiries, contact Luke Hosie at thesafootballer@adam.com.au*
 
 *For support or questions, contact Luke Hosie at thesafootballer@adam.com.au*
