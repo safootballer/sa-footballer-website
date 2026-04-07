@@ -59,20 +59,45 @@ export const metadata = {
   description: 'Download SA Footballer magazines - SA Footballer, Ammo Footy Budget, Women\'s Footy Budget, Country Footy Budget',
 }
 
+// ── All partners (flat list — no tiers) ──────────────────────────
+const ALL_PARTNERS = [
+  { name: 'Bartercard',                              logo: '/partners/bartercard.png',    link: 'https://www.bartercard.com.au' },
+  { name: 'SWAARM',                                  logo: '/partners/swaarm.jpg',        link: '#' },
+  { name: 'MGA Insurance Group',                     logo: '/partners/mga.png',           link: '#' },
+  { name: 'Print Wrap Pack',                         logo: '/partners/printwrappack.jpg', link: '#' },
+  { name: 'Farmer to Fridge',                        logo: '/partners/farmer.png',        link: '#' },
+  { name: 'Alpha Trophies',                          logo: '/partners/alpha.png',         link: '#' },
+  { name: 'Arbitrage Investments Quality Sourcing',  logo: '/partners/arbitrage.png',     link: '#' },
+  { name: 'Boss Driving School',                     logo: '/partners/boss.png',          link: '#' },
+  { name: 'FootyBanners',                            logo: '/partners/footy.png',         link: '#' },
+  { name: 'GPSS',                                    logo: '/partners/gpss.png',          link: '#' },
+  { name: 'Gridare',                                 logo: '/partners/griadare.png',      link: '#' },
+  { name: 'iSports Solutions',                       logo: '/partners/isports.png',       link: '#' },
+  { name: 'Kids Cancer Project',                     logo: '/partners/kids.png',          link: '#' },
+  { name: 'MR Communications',                       logo: '/partners/mr.png',            link: '#' },
+  { name: 'PWP',                                     logo: '/partners/pwp.png',           link: '#' },
+  { name: 'Sailax Global Technology',                logo: '/partners/sailex.png',        link: '#' },
+  { name: 'Sports Centre',                           logo: '/partners/sportscentre.png',  link: '#' },
+  { name: 'Solid Display Systems',                   logo: '/partners/solid.png',         link: '#' },
+  { name: 'The Ryan Bowman Legacy of Care Foundation', logo: '/partners/ryan.png',        link: '#' },
+  { name: 'The Tradie Grid',                         logo: '/partners/tradie.png',        link: '#' },
+  { name: 'TwoTwoSix Digital',                       logo: '/partners/226.png',           link: '#' },
+  { name: 'Variety',                                 logo: '/partners/variety.png',       link: '#' },
+]
+
 export default async function MagazinesPage() {
   const content = await getMagazinesContent()
 
-  // Get latest magazines by type
-const saFootballer = content.magazines.filter(m => m.magazineType === 'SA Footballer')[0]
-const ammoFooty = content.magazines.filter(m => m.magazineType === 'Ammo Footy Budget')[0]
-const womensFooty = content.magazines.filter(m => m.magazineType === "Women's Footy Budget")[0]
-const countryFooty = content.magazines.filter(m => m.magazineType === 'Country Footy Budget')[0]
+  const saFootballer = content.magazines.filter(m => m.magazineType === 'SA Footballer')[0]
+  const ammoFooty    = content.magazines.filter(m => m.magazineType === 'Ammo Footy Budget')[0]
+  const womensFooty  = content.magazines.filter(m => m.magazineType === "Women's Footy Budget")[0]
+  const countryFooty = content.magazines.filter(m => m.magazineType === 'Country Footy Budget')[0]
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">OUR MAGAZINES</h1>
@@ -211,9 +236,7 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
       <section className="bg-white py-12">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">AFL</h2>
-          
           <div className="grid md:grid-cols-2 gap-8 mb-8">
-            {/* AFL Editorials */}
             <div>
               <h3 className="text-xl font-bold mb-4">LATEST EDITORIALS</h3>
               <div className="space-y-4">
@@ -222,9 +245,7 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
                     <div key={article._id} className="bg-gray-50 p-4 rounded-lg shadow">
                       <h4 className="font-bold text-lg mb-2">{article.title}</h4>
                       <p className="text-gray-600 text-sm mb-2">{article.excerpt}</p>
-                      <a href={`/editorials/${article.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline">
-                        Read More →
-                      </a>
+                      <a href={`/editorials/${article.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline">Read More →</a>
                     </div>
                   ))
                 ) : (
@@ -232,8 +253,6 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
                 )}
               </div>
             </div>
-
-            {/* AFL Match Results */}
             <div>
               <h3 className="text-xl font-bold mb-4">LATEST MATCH RESULTS</h3>
               <div className="space-y-4">
@@ -248,9 +267,7 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
                         <span className="font-bold">{match.awayTeam}</span>
                         <span className="text-xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
                       </div>
-                      <a href={`/match-results/${match.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline text-sm">
-                        View Full Report →
-                      </a>
+                      <a href={`/match-results/${match.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline text-sm">View Full Report →</a>
                     </div>
                   ))
                 ) : (
@@ -265,9 +282,7 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
       {/* SANFL Content */}
       <section className="container mx-auto px-4 py-12">
         <h2 className="text-3xl font-bold mb-8 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">SANFL</h2>
-        
         <div className="grid md:grid-cols-2 gap-8 mb-8">
-          {/* SANFL Editorials */}
           <div>
             <h3 className="text-xl font-bold mb-4">LATEST EDITORIALS</h3>
             <div className="space-y-4">
@@ -276,9 +291,7 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
                   <div key={article._id} className="bg-white p-4 rounded-lg shadow">
                     <h4 className="font-bold text-lg mb-2">{article.title}</h4>
                     <p className="text-gray-600 text-sm mb-2">{article.excerpt}</p>
-                    <a href={`/editorials/${article.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline">
-                      Read More →
-                    </a>
+                    <a href={`/editorials/${article.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline">Read More →</a>
                   </div>
                 ))
               ) : (
@@ -286,8 +299,6 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
               )}
             </div>
           </div>
-
-          {/* SANFL Match Results */}
           <div>
             <h3 className="text-xl font-bold mb-4">LATEST MATCH RESULTS</h3>
             <div className="space-y-4">
@@ -296,15 +307,13 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
                   <div key={match._id} className="bg-white p-4 rounded-lg shadow">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-bold">{match.homeTeam}</span>
-                      <span className="text-xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
+                      <span className="text-xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
                     </div>
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-bold">{match.awayTeam}</span>
                       <span className="text-xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
                     </div>
-                    <a href={`/match-results/${match.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline text-sm">
-                      View Full Report →
-                    </a>
+                    <a href={`/match-results/${match.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline text-sm">View Full Report →</a>
                   </div>
                 ))
               ) : (
@@ -321,38 +330,19 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-4">SUBSCRIBE FOR FREE</h2>
             <p className="mb-8">Get the latest SA Footballer magazines delivered straight to your inbox</p>
-            
             <form className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
-                <input 
-                  type="text" 
-                  placeholder="First Name" 
-                  className="w-full px-4 py-3 rounded text-gray-900"
-                  required
-                />
-                <input 
-                  type="text" 
-                  placeholder="Last Name" 
-                  className="w-full px-4 py-3 rounded text-gray-900"
-                  required
-                />
+                <input type="text" placeholder="First Name" className="w-full px-4 py-3 rounded text-gray-900" required />
+                <input type="text" placeholder="Last Name" className="w-full px-4 py-3 rounded text-gray-900" required />
               </div>
-              <input 
-                type="email" 
-                placeholder="Email Address" 
-                className="w-full px-4 py-3 rounded text-gray-900"
-                required
-              />
+              <input type="email" placeholder="Email Address" className="w-full px-4 py-3 rounded text-gray-900" required />
               <div className="text-left">
                 <label className="flex items-start space-x-2">
                   <input type="checkbox" className="mt-1" required />
                   <span className="text-sm">I agree to receive magazines and updates from The South Australian Footballer</span>
                 </label>
               </div>
-              <button 
-                type="submit" 
-                className="w-full bg-[#e6fe00] text-black py-3 rounded-full font-bold hover:bg-yellow-400 transition"
-              >
+              <button type="submit" className="w-full bg-[#e6fe00] text-black py-3 rounded-full font-bold hover:bg-yellow-400 transition">
                 SUBSCRIBE NOW
               </button>
             </form>
@@ -360,24 +350,37 @@ const countryFooty = content.magazines.filter(m => m.magazineType === 'Country F
         </div>
       </section>
 
-      {/* Advertiser Logos */}
+      {/* ── Our Magazine Partners — all partners, logo + name cards ── */}
       <section className="bg-gray-100 py-12">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">OUR MAGAZINE PARTNERS</h2>
-          <div className="flex items-center justify-center gap-8 flex-wrap">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="w-32 h-20 bg-white rounded shadow flex items-center justify-center">
-                <span className="text-gray-400 text-xs">Partner {i}</span>
-              </div>
+          <h2 className="text-3xl font-bold mb-2 text-center text-[#2ca3ee]">OUR MAGAZINE PARTNERS</h2>
+          <p className="text-center text-gray-500 mb-8">Proudly supported by these organisations</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
+            {ALL_PARTNERS.map((partner, index) => (
+              <a
+                key={index}
+                href={partner.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white rounded-lg shadow hover:shadow-lg transition group flex flex-col items-center justify-between p-4 text-center"
+              >
+                <div className="flex items-center justify-center h-20 w-full mb-3">
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-h-16 max-w-full object-contain group-hover:scale-105 transition"
+                  />
+                </div>
+                <p className="text-xs font-semibold text-gray-700 leading-tight">{partner.name}</p>
+              </a>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Archive Section */}
+      {/* Archive */}
       <section id="archive" className="container mx-auto px-4 py-12">
         <h2 className="text-3xl font-bold mb-8 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">MAGAZINE ARCHIVE</h2>
-        
         <div className="grid md:grid-cols-4 lg:grid-cols-6 gap-4">
           {content.magazines.length > 0 ? (
             content.magazines.map((mag) => (
