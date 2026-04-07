@@ -11,11 +11,7 @@ export default function PartnersPage() {
   ]
 
   const platinumPartners = [
-    {
-      name: 'PWP',
-      logo: '/partners/pwp.png',
-      link: '#'
-    },
+    
     {
       name: 'SWAARM',
       logo: '/partners/swaarm.jpg',
@@ -36,11 +32,7 @@ export default function PartnersPage() {
       logo: '/partners/farmer.png',
       link: '#'
     },
-    {
-      name: 'Sports Centre',
-      logo: '/partners/sportscentre.png',
-      link: '#'
-    },
+    
   ]
 
   const majorPartners = [
@@ -86,11 +78,23 @@ export default function PartnersPage() {
       name: 'MR Communications',
       logo: '/partners/mr.png',
       link: '#'
-    },{
+    },
+    {
+      name: 'PWP',
+      logo: '/partners/pwp.png',
+      link: '#'
+    },
+    {
       name: 'Sailax Global Technology',
       logo: '/partners/sailex.png',
       link: '#'
-    },{
+    },
+    {
+      name: 'Sports Centre',
+      logo: '/partners/sportscentre.png',
+      link: '#'
+    },
+    {
       name: 'Solid Display Systems',
       logo: '/partners/solid.png',
       link: '#'
