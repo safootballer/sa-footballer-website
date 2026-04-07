@@ -2,9 +2,9 @@
 
 import { NextResponse } from 'next/server'
 
-const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID
-const SANITY_DATASET    = process.env.SANITY_DATASET || 'production'
-const SANITY_TOKEN      = process.env.SANITY_TOKEN
+const SANITY_PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+const SANITY_DATASET    = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+const SANITY_TOKEN      = process.env.SANITY_API_TOKEN
 const RESEND_API_KEY    = process.env.RESEND_API_KEY
 const FROM_EMAIL        = 'noreply@safootballer.com.au'
 const FROM_NAME         = 'The South Australian Footballer'
