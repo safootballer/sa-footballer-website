@@ -5,9 +5,38 @@ import { NextResponse } from 'next/server'
 const SANITY_PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const SANITY_DATASET    = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 const SANITY_TOKEN      = process.env.SANITY_API_TOKEN
-const RESEND_API_KEY    = process.env.RESEND_API_KEY
-const FROM_EMAIL        = 'noreply@safootballer.com.au'
-const FROM_NAME         = 'The South Australian Footballer'
+const RESEND_AUDIENCE_ID = process.env.RESEND_AUDIENCE_ID
+const RESEND_API_KEY     = process.env.RESEND_API_KEY
+const FROM_EMAIL         = 'noreply@safootballer.com.au'
+const FROM_NAME          = 'The South Australian Footballer'
+
+// ── Add contact to Resend Audience ───────────────────────────────
+async function addToResendAudience(firstName, lastName, email) {
+  if (!RESEND_AUDIENCE_ID) return // skip if not configured
+
+  const res = await fetch(
+    `https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`,
+    {
+      method:  'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        email,
+        first_name:   firstName,
+        last_name:    lastName,
+        unsubscribed: false,
+      }),
+    }
+  )
+
+  if (!res.ok) {
+    // Non-fatal — log but don't throw so subscribe still works
+    const err = await res.text()
+    console.warn(`Resend Audience sync warning: ${err}`)
+  }
+}
 
 // ── Save subscriber to Sanity ─────────────────────────────────────
 async function saveToSanity(firstName, lastName, email) {
@@ -201,7 +230,10 @@ export async function POST(request) {
     // 1. Save to Sanity
     await saveToSanity(firstName, lastName, email)
 
-    // 2. Send welcome email
+    // 2. Sync to Resend Audience (for Broadcasts)
+    await addToResendAudience(firstName, lastName, email)
+
+    // 3. Send welcome email
     await sendWelcomeEmail(firstName, email)
 
     return NextResponse.json(
