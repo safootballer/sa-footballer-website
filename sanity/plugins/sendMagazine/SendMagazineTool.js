@@ -1,155 +1,77 @@
 // sanity/plugins/sendMagazine/SendMagazineTool.jsx
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 
 const API_URL = 'https://www.safootballer.com.au/api/send-magazine'
-
-const MAGAZINE_DEFAULTS = [
-  { label: 'The South Australian Footballer', placeholder: 'SA Footballer Edition 05' },
-  { label: 'The SA Ammo Footy Budget',        placeholder: 'Ammo Footy Budget Edition 05' },
-  { label: 'The SA Women\'s Footy Budget',    placeholder: 'Women\'s Footy Budget Edition 05' },
-  { label: 'The SA Country Footy Budget',     placeholder: 'Country Footy Budget Edition 05' },
-]
-
-const ACCENT = '#2ca3ee'
-const YELLOW = '#e6fe00'
+const ACCENT  = '#2ca3ee'
+const YELLOW  = '#e6fe00'
 
 const s = {
-  wrap:       { maxWidth: 700, margin: '32px auto', padding: '0 20px', fontFamily: 'sans-serif' },
-  heading:    { fontSize: '1.6rem', fontWeight: 900, color: '#0a1a2e', margin: '0 0 4px' },
-  sub:        { color: '#64748b', fontSize: '0.9rem', margin: '0 0 28px' },
-  card:       { background: '#fff', border: '2px solid #e2e8f0', borderRadius: 12,
-                padding: '20px', marginBottom: 20 },
-  cardTitle:  { fontWeight: 800, color: ACCENT, fontSize: '0.95rem', margin: '0 0 14px',
-                borderBottom: `2px solid ${ACCENT}`, paddingBottom: 8 },
-  row:        { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 },
-  label:      { display: 'block', fontWeight: 700, fontSize: '0.78rem',
-                color: '#374151', marginBottom: 4 },
-  input:      { width: '100%', padding: '9px 12px', border: '2px solid #e2e8f0',
-                borderRadius: 8, fontSize: '0.88rem', color: '#0f172a',
-                boxSizing: 'border-box', fontFamily: 'sans-serif', outline: 'none' },
-  uploadBtn:  { display: 'inline-block', padding: '8px 16px', background: '#f0f9ff',
-                border: `2px dashed ${ACCENT}`, borderRadius: 8, cursor: 'pointer',
-                fontSize: '0.8rem', color: ACCENT, fontWeight: 700, textAlign: 'center',
-                width: '100%', boxSizing: 'border-box' },
-  preview:    { width: '100%', height: 120, objectFit: 'cover',
-                borderRadius: 8, marginTop: 8 },
-  secretWrap: { background: '#fff7ed', border: '2px solid #fed7aa',
-                borderRadius: 10, padding: 16, marginBottom: 20 },
+  wrap:      { maxWidth: 680, margin: '32px auto', padding: '0 20px', fontFamily: 'sans-serif' },
+  heading:   { fontSize: '1.6rem', fontWeight: 900, color: '#0a1a2e', margin: '0 0 4px' },
+  sub:       { color: '#64748b', fontSize: '0.9rem', margin: '0 0 28px' },
+  infoBox:   { background: '#f0f9ff', border: `1px solid #bae6fd`,
+               borderRadius: 10, padding: '14px 18px', marginBottom: 20 },
+  infoTitle: { fontWeight: 700, color: '#0369a1', fontSize: '0.85rem', margin: '0 0 6px' },
+  infoList:  { margin: 0, padding: '0 0 0 16px', color: '#475569',
+               fontSize: '0.82rem', lineHeight: 1.8 },
+  secretWrap:{ background: '#fff7ed', border: '2px solid #fed7aa',
+               borderRadius: 10, padding: 16, marginBottom: 16 },
   editionWrap:{ background: '#f0fdf4', border: '2px solid #86efac',
-                borderRadius: 10, padding: 16, marginBottom: 20 },
-  btn:        { width: '100%', padding: '14px', background: YELLOW, color: '#000',
-                border: 'none', borderRadius: 50, fontWeight: 900,
-                fontSize: '1rem', cursor: 'pointer', letterSpacing: '0.03em' },
-  btnDis:     { width: '100%', padding: '14px', background: '#d1d5db', color: '#6b7280',
-                border: 'none', borderRadius: 50, fontWeight: 900,
-                fontSize: '1rem', cursor: 'not-allowed', letterSpacing: '0.03em' },
-  error:      { background: '#fef2f2', border: '1px solid #fca5a5',
-                borderRadius: 8, padding: '10px 14px', color: '#dc2626',
-                fontSize: '0.82rem', marginBottom: 14 },
-  success:    { background: '#f0fdf4', border: '2px solid #86efac',
-                borderRadius: 12, padding: 32, textAlign: 'center' },
-  statsRow:   { display: 'flex', justifyContent: 'center', gap: 32, margin: '16px 0' },
-  statNum:    { fontSize: '2.5rem', fontWeight: 900, color: ACCENT },
-  statLbl:    { fontSize: '0.78rem', color: '#64748b' },
-}
-
-function MagazineCard({ index, data, onChange }) {
-  const fileRef = useRef()
-
-  const handleFile = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const reader = new FileReader()
-    reader.onload = (ev) => {
-      const base64 = ev.target.result.split(',')[1]
-      onChange(index, { coverBase64: base64, coverMime: file.type, coverPreview: ev.target.result })
-    }
-    reader.readAsDataURL(file)
-  }
-
-  return (
-    <div style={s.card}>
-      <p style={s.cardTitle}>
-        {['📰', '💰', '👩', '🌾'][index]} {MAGAZINE_DEFAULTS[index].label}
-      </p>
-
-      <div style={s.row}>
-        <div>
-          <label style={s.label}>Magazine Title</label>
-          <input
-            style={s.input}
-            type="text"
-            placeholder={MAGAZINE_DEFAULTS[index].placeholder}
-            value={data.title}
-            onChange={e => onChange(index, { title: e.target.value })}
-          />
-        </div>
-        <div>
-          <label style={s.label}>PDF Download URL</label>
-          <input
-            style={s.input}
-            type="url"
-            placeholder="https://..."
-            value={data.url}
-            onChange={e => onChange(index, { url: e.target.value })}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label style={s.label}>Cover Image (optional)</label>
-        <div style={s.uploadBtn} onClick={() => fileRef.current.click()}>
-          {data.coverPreview ? '🔄 Change Cover Image' : '📷 Upload Cover Image'}
-        </div>
-        <input
-          ref={fileRef}
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          onChange={handleFile}
-        />
-        {data.coverPreview && (
-          <img src={data.coverPreview} alt="Cover preview" style={s.preview} />
-        )}
-      </div>
-    </div>
-  )
+               borderRadius: 10, padding: 16, marginBottom: 16 },
+  overrideWrap:{ background: '#fafafa', border: '1px solid #e2e8f0',
+               borderRadius: 10, padding: 16, marginBottom: 20 },
+  label:     { display: 'block', fontWeight: 700, fontSize: '0.78rem',
+               color: '#374151', marginBottom: 4 },
+  input:     { width: '100%', padding: '9px 12px', border: '2px solid #e2e8f0',
+               borderRadius: 8, fontSize: '0.88rem', color: '#0f172a',
+               boxSizing: 'border-box', fontFamily: 'sans-serif',
+               outline: 'none', marginBottom: 12 },
+  hint:      { fontSize: '0.72rem', color: '#94a3b8',
+               marginTop: -8, marginBottom: 12, display: 'block' },
+  toggle:    { background: 'none', border: 'none', color: ACCENT,
+               fontWeight: 700, fontSize: '0.82rem', cursor: 'pointer',
+               padding: 0, marginBottom: 12 },
+  btn:       { width: '100%', padding: '14px', background: YELLOW,
+               color: '#000', border: 'none', borderRadius: 50,
+               fontWeight: 900, fontSize: '1rem', cursor: 'pointer' },
+  btnDis:    { width: '100%', padding: '14px', background: '#d1d5db',
+               color: '#6b7280', border: 'none', borderRadius: 50,
+               fontWeight: 900, fontSize: '1rem', cursor: 'not-allowed' },
+  error:     { background: '#fef2f2', border: '1px solid #fca5a5',
+               borderRadius: 8, padding: '10px 14px', color: '#dc2626',
+               fontSize: '0.82rem', marginBottom: 14 },
+  success:   { background: '#f0fdf4', border: '2px solid #86efac',
+               borderRadius: 12, padding: 32, textAlign: 'center' },
+  statsRow:  { display: 'flex', justifyContent: 'center', gap: 32, margin: '16px 0' },
+  statNum:   { fontSize: '2.5rem', fontWeight: 900, color: ACCENT },
+  statLbl:   { fontSize: '0.78rem', color: '#64748b' },
+  grid:      { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 },
 }
 
 export default function SendMagazineTool() {
-  const [secret, setSecret]           = useState('')
+  const [secret, setSecret]             = useState('')
   const [editionLabel, setEditionLabel] = useState('')
-  const [magazines, setMagazines]     = useState([
-    { title: '', url: '', coverBase64: '', coverMime: '', coverPreview: '' },
-    { title: '', url: '', coverBase64: '', coverMime: '', coverPreview: '' },
-    { title: '', url: '', coverBase64: '', coverMime: '', coverPreview: '' },
-    { title: '', url: '', coverBase64: '', coverMime: '', coverPreview: '' },
-  ])
-  const [status, setStatus]   = useState('idle')
-  const [result, setResult]   = useState(null)
+  const [showOverrides, setShowOverrides] = useState(false)
+  const [pdfUrls, setPdfUrls]           = useState({
+    saFootballer: '', ammoFooty: '', womensFooty: '', countryFooty: ''
+  })
+  const [status, setStatus] = useState('idle')
+  const [result, setResult] = useState(null)
 
-  const updateMag = (index, fields) => {
-    setMagazines(prev => prev.map((m, i) => i === index ? { ...m, ...fields } : m))
-  }
+  const updatePdf = (key, val) =>
+    setPdfUrls(prev => ({ ...prev, [key]: val }))
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('loading')
     setResult(null)
 
-    // Strip preview URLs before sending (not needed in API)
-    const payload = {
-      secret,
-      editionLabel,
-      magazines: magazines.map(({ coverPreview, ...rest }) => rest),
-    }
-
     try {
-      const res  = await fetch(API_URL, {
+      const res = await fetch(API_URL, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload),
+        body:    JSON.stringify({ secret, editionLabel, pdfUrls }),
       })
       const data = await res.json()
 
@@ -170,12 +92,7 @@ export default function SendMagazineTool() {
     setStatus('idle')
     setResult(null)
     setEditionLabel('')
-    setMagazines([
-      { title: '', url: '', coverBase64: '', coverMime: '', coverPreview: '' },
-      { title: '', url: '', coverBase64: '', coverMime: '', coverPreview: '' },
-      { title: '', url: '', coverBase64: '', coverMime: '', coverPreview: '' },
-      { title: '', url: '', coverBase64: '', coverMime: '', coverPreview: '' },
-    ])
+    setPdfUrls({ saFootballer: '', ammoFooty: '', womensFooty: '', countryFooty: '' })
   }
 
   if (status === 'success' && result) {
@@ -216,13 +133,24 @@ export default function SendMagazineTool() {
       <h1 style={s.heading}>📨 Send Weekly Editions</h1>
       <p style={s.sub}>Send all 4 magazines to every active subscriber at once</p>
 
+      {/* Info */}
+      <div style={s.infoBox}>
+        <p style={s.infoTitle}>ℹ️ How this works</p>
+        <ul style={s.infoList}>
+          <li>Cover images are pulled automatically from the latest magazines in Sanity</li>
+          <li>PDF links are also pulled from Sanity automatically</li>
+          <li>You can override any PDF link below if needed</li>
+          <li>Email is sent to all active subscribers</li>
+        </ul>
+      </div>
+
       <form onSubmit={handleSubmit}>
 
-        {/* Secret key */}
+        {/* Secret */}
         <div style={s.secretWrap}>
           <label style={{ ...s.label, color: '#92400e' }}>🔑 Secret Key *</label>
           <input
-            style={s.input}
+            style={{ ...s.input, marginBottom: 0 }}
             type="password"
             placeholder="Enter SEND_MAGAZINE_SECRET"
             value={secret}
@@ -236,7 +164,7 @@ export default function SendMagazineTool() {
         <div style={s.editionWrap}>
           <label style={{ ...s.label, color: '#166534' }}>📅 Edition Label *</label>
           <input
-            style={s.input}
+            style={{ ...s.input, marginBottom: 4 }}
             type="text"
             placeholder="e.g. Edition 05 — Round 5, 2026"
             value={editionLabel}
@@ -244,20 +172,59 @@ export default function SendMagazineTool() {
             required
             disabled={status === 'loading'}
           />
-          <span style={{ fontSize: '0.75rem', color: '#64748b', marginTop: 4, display: 'block' }}>
-            This appears as the email subject and edition heading
+          <span style={{ ...s.hint, marginTop: 0, marginBottom: 0 }}>
+            Used as the email subject and heading inside the email
           </span>
         </div>
 
-        {/* 4 magazine cards */}
-        {magazines.map((mag, i) => (
-          <MagazineCard
-            key={i}
-            index={i}
-            data={mag}
-            onChange={updateMag}
-          />
-        ))}
+        {/* Optional PDF overrides */}
+        <div style={s.overrideWrap}>
+          <button
+            type="button"
+            style={s.toggle}
+            onClick={() => setShowOverrides(v => !v)}
+          >
+            {showOverrides ? '▲ Hide' : '▼ Show'} PDF URL overrides (optional)
+          </button>
+          <span style={{ ...s.hint, marginBottom: 0 }}>
+            Leave blank to use PDF links already saved in Sanity
+          </span>
+
+          {showOverrides && (
+            <div style={{ marginTop: 12 }}>
+              <div style={s.grid}>
+                <div>
+                  <label style={s.label}>📰 SA Footballer PDF</label>
+                  <input style={s.input} type="url" placeholder="https://..."
+                    value={pdfUrls.saFootballer}
+                    onChange={e => updatePdf('saFootballer', e.target.value)}
+                    disabled={status === 'loading'} />
+                </div>
+                <div>
+                  <label style={s.label}>💰 Ammo Footy Budget PDF</label>
+                  <input style={s.input} type="url" placeholder="https://..."
+                    value={pdfUrls.ammoFooty}
+                    onChange={e => updatePdf('ammoFooty', e.target.value)}
+                    disabled={status === 'loading'} />
+                </div>
+                <div>
+                  <label style={s.label}>👩 Women's Footy Budget PDF</label>
+                  <input style={s.input} type="url" placeholder="https://..."
+                    value={pdfUrls.womensFooty}
+                    onChange={e => updatePdf('womensFooty', e.target.value)}
+                    disabled={status === 'loading'} />
+                </div>
+                <div>
+                  <label style={s.label}>🌾 Country Footy Budget PDF</label>
+                  <input style={s.input} type="url" placeholder="https://..."
+                    value={pdfUrls.countryFooty}
+                    onChange={e => updatePdf('countryFooty', e.target.value)}
+                    disabled={status === 'loading'} />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Error */}
         {status === 'error' && result && (
