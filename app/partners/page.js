@@ -81,7 +81,7 @@ export default function PartnersPage() {
     },
     {
       name: 'Livestock SA',
-      logo: '/partners/livestock.png',
+      logo: '/partners/livestock.jpeg',
       link: '#'
     },
     {
