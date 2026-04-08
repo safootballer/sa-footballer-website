@@ -45,6 +45,11 @@ export default function PartnersPage() {
       link: '#'
     },
     {
+      name: 'Bash Performance',
+      logo: '/partners/bash.png',
+      link: '#'
+    },
+    {
       name: 'Boss Driving School',
       logo: '/partners/boss.png',
       link: '#'
@@ -75,12 +80,17 @@ export default function PartnersPage() {
       link: '#'
     },
     {
+      name: 'Livestock SA',
+      logo: '/partners/livestock.png',
+      link: '#'
+    },
+    {
       name: 'MR Communications',
       logo: '/partners/mr.png',
       link: '#'
     },
     {
-      name: 'PWP',
+      name: 'Private Wealth Partners',
       logo: '/partners/pwp.png',
       link: '#'
     },
