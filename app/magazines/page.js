@@ -125,7 +125,7 @@ export default async function MagazinesPage() {
           <h2 className="text-3xl font-bold mb-8 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">AFL</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">LATEST EDITORIALS</h3>
+              <h3 className="text-xl text-gray-600 font-bold mb-4">LATEST EDITORIALS</h3>
               <div className="space-y-4">
                 {content.aflArticles.length > 0 ? content.aflArticles.map(a => (
                   <div key={a._id} className="bg-gray-50 p-4 rounded-lg shadow">
@@ -137,16 +137,16 @@ export default async function MagazinesPage() {
               </div>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-4">LATEST MATCH RESULTS</h3>
+              <h3 className="text-xl text-gray-600 font-bold mb-4">LATEST MATCH RESULTS</h3>
               <div className="space-y-4">
                 {content.aflMatches.length > 0 ? content.aflMatches.map(m => (
                   <div key={m._id} className="bg-gray-50 p-4 rounded-lg shadow">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-bold">{m.homeTeam}</span>
+                      <span className="font-bold text-gray-600">{m.homeTeam}</span>
                       <span className="text-xl font-bold text-[#2ca3ee]">{m.homeScore}</span>
                     </div>
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-bold">{m.awayTeam}</span>
+                      <span className="font-bold text-gray-600">{m.awayTeam}</span>
                       <span className="text-xl font-bold text-[#2ca3ee]">{m.awayScore}</span>
                     </div>
                     <a href={`/match-results/${m.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline text-sm">View Full Report →</a>
@@ -163,7 +163,7 @@ export default async function MagazinesPage() {
         <h2 className="text-3xl font-bold mb-8 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">SANFL</h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">LATEST EDITORIALS</h3>
+            <h3 className="text-xl text-gray-600 font-bold mb-4">LATEST EDITORIALS</h3>
             <div className="space-y-4">
               {content.sanflArticles.length > 0 ? content.sanflArticles.map(a => (
                 <div key={a._id} className="bg-white p-4 rounded-lg shadow">
@@ -175,16 +175,16 @@ export default async function MagazinesPage() {
             </div>
           </div>
           <div>
-            <h3 className="text-xl font-bold mb-4">LATEST MATCH RESULTS</h3>
+            <h3 className="text-xl text-gray-600 font-bold mb-4">LATEST MATCH RESULTS</h3>
             <div className="space-y-4">
               {content.sanflMatches.length > 0 ? content.sanflMatches.map(m => (
                 <div key={m._id} className="bg-white p-4 rounded-lg shadow">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-bold">{m.homeTeam}</span>
+                    <span className="font-bold text-gray-600">{m.homeTeam}</span>
                     <span className="text-xl font-bold text-[#2ca3ee]">{m.homeScore}</span>
                   </div>
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-bold">{m.awayTeam}</span>
+                    <span className="font-bold text-gray-600">{m.awayTeam}</span>
                     <span className="text-xl font-bold text-[#2ca3ee]">{m.awayScore}</span>
                   </div>
                   <a href={`/match-results/${m.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline text-sm">View Full Report →</a>
