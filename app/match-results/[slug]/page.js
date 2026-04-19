@@ -87,11 +87,11 @@ export default async function MatchResultPage({ params }) {
           <div className="max-w-4xl mx-auto">
             <div className="grid md:grid-cols-2 gap-8">
               <div className="text-center md:text-right">
-                <h2 className="text-3xl font-bold mb-2">{match.homeTeam}</h2>
+                <h2 className="text-3xl text-gray-600 font-bold mb-2">{match.homeTeam}</h2>
                 <div className="text-6xl font-bold text-[#2ca3ee]">{match.homeScore}</div>
               </div>
               <div className="text-center md:text-left">
-                <h2 className="text-3xl font-bold mb-2">{match.awayTeam}</h2>
+                <h2 className="text-3xl text-gray-600 font-bold mb-2">{match.awayTeam}</h2>
                 <div className="text-6xl font-bold text-[#2ca3ee]">{match.awayScore}</div>
               </div>
             </div>
@@ -103,7 +103,7 @@ export default async function MatchResultPage({ params }) {
         <div className="max-w-4xl mx-auto">
           <article className="bg-white rounded-lg shadow-lg p-8">
             {match.content ? (
-              <div className="prose prose-lg max-w-none">
+              <div className="prose prose-lg max-w-none text-gray-600">
                 <PortableText value={match.content} />
               </div>
             ) : (
