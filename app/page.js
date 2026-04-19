@@ -177,11 +177,11 @@ export default async function HomePage() {
             {aflMatches[0] ? (
               <div className="p-6">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="font-bold text-lg">{aflMatches[0].homeTeam}</span>
+                  <span className="font-bold text-gray-600 text-lg">{aflMatches[0].homeTeam}</span>
                   <span className="text-2xl font-bold text-[#2ca3ee]">{aflMatches[0].homeScore}</span>
                 </div>
                 <div className="flex justify-between items-center mb-4">
-                  <span className="font-bold text-lg">{aflMatches[0].awayTeam}</span>
+                  <span className="font-bold text-gray-600 text-lg">{aflMatches[0].awayTeam}</span>
                   <span className="text-2xl font-bold text-[#2ca3ee]">{aflMatches[0].awayScore}</span>
                 </div>
                 <a href={`/match-results/${aflMatches[0].slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline">
@@ -227,11 +227,11 @@ export default async function HomePage() {
               {sanflMatches[0] ? (
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-3">
-                    <span className="font-bold text-lg">{sanflMatches[0].homeTeam}</span>
+                    <span className="font-bold text-gray-600 text-lg">{sanflMatches[0].homeTeam}</span>
                     <span className="text-2xl font-bold text-[#2ca3ee]">{sanflMatches[0].homeScore}</span>
                   </div>
                   <div className="flex justify-between items-center mb-4">
-                    <span className="font-bold text-lg">{sanflMatches[0].awayTeam}</span>
+                    <span className="font-bold text-gray-600 text-lg">{sanflMatches[0].awayTeam}</span>
                     <span className="text-2xl font-bold text-[#2ca3ee]">{sanflMatches[0].awayScore}</span>
                   </div>
                   <a href={`/match-results/${sanflMatches[0].slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline">
