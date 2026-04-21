@@ -88,33 +88,10 @@ export default function Header() {
 
             <a href="/editorials" className="font-bold hover:text-gray-200">EDITORIALS</a>
 
-            {/* LADDER */}
-            <div className="relative group">
-              <button className="font-bold hover:text-gray-200 pb-4 pt-4">LADDER ▼</button>
-              <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <a href="/ladder?competition=SANFL" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFL</a>
-                <a href="/ladder?competition=SANFLW" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFLW</a>
-                <a href="/ladder?competition=Amateur" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
-                <a href="/ladder?competition=SAWFL+Women%27s" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"SAWFL WOMEN'S"}</a>
-                <a href="/ladder?competition=Country+Football" className="block px-4 py-3 hover:bg-gray-100">COUNTRY FOOTBALL</a>
-              </div>
-            </div>
-
-            {/* GOAL KICKERS */}
-            <div className="relative group">
-              <button className="font-bold hover:text-gray-200 pb-4 pt-4">GOAL KICKERS ▼</button>
-              <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <a href="/goal-kickers?competition=SANFL" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFL</a>
-                <a href="/goal-kickers?competition=SANFLW" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFLW</a>
-                <a href="/goal-kickers?competition=Amateur" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
-                <a href="/goal-kickers?competition=SAWFL+Women%27s" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"SAWFL WOMEN'S"}</a>
-                <a href="/goal-kickers?competition=Country+Football" className="block px-4 py-3 hover:bg-gray-100">COUNTRY FOOTBALL</a>
-              </div>
-            </div>
-
+            
             {/* COUNTRY FOOTBALL */}
             <div className="relative group">
-              <button className="font-bold hover:text-gray-200 whitespace-nowrap pb-4 pt-4">COUNTRY FOOTBALL MATCH EDITORIALS AND RESULTS ▼</button>
+              <button className="font-bold hover:text-gray-200 whitespace-nowrap pb-4 pt-4">COUNTRY FOOTBALL EDITORIALS AND RESULTS ▼</button>
               <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-96 overflow-y-auto">
                 <a href="/country-football?league=adelaide-plains" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">ADELAIDE PLAINS</a>
                 <a href="/country-football?league=barossa" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">BAROSSA LIGHT & GAWLER</a>
@@ -143,6 +120,31 @@ export default function Header() {
               </div>
             </div>
           </div>
+
+          {/* LADDER */}
+            <div className="relative group">
+              <button className="font-bold hover:text-gray-200 pb-4 pt-4">LADDER ▼</button>
+              <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <a href="/ladder?competition=SANFL" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFL</a>
+                <a href="/ladder?competition=SANFLW" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFLW</a>
+                <a href="/ladder?competition=Amateur" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
+                <a href="/ladder?competition=SAWFL+Women%27s" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"SAWFL WOMEN'S"}</a>
+                <a href="/ladder?competition=Country+Football" className="block px-4 py-3 hover:bg-gray-100">COUNTRY FOOTBALL</a>
+              </div>
+            </div>
+
+            {/* GOAL KICKERS */}
+            <div className="relative group">
+              <button className="font-bold hover:text-gray-200 pb-4 pt-4">GOAL KICKERS ▼</button>
+              <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <a href="/goal-kickers?competition=SANFL" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFL</a>
+                <a href="/goal-kickers?competition=SANFLW" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFLW</a>
+                <a href="/goal-kickers?competition=Amateur" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
+                <a href="/goal-kickers?competition=SAWFL+Women%27s" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"SAWFL WOMEN'S"}</a>
+                <a href="/goal-kickers?competition=Country+Football" className="block px-4 py-3 hover:bg-gray-100">COUNTRY FOOTBALL</a>
+              </div>
+            </div>
+
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center justify-between py-3">
