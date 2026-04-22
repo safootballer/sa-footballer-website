@@ -170,7 +170,7 @@ export default function GoalKickersContent() {
                                 {i + 1}
                               </span>
                             </td>
-                            <td className="px-4 py-3 font-semibold">{p.playerName}</td>
+                            <td className="px-4 py-3 text-[#2ca3ee] font-semibold">{p.playerName}</td>
                             <td className="px-4 py-3 text-gray-500">{cleanTeamName(p.teamName)}</td>
                             <td className="px-3 py-3 text-center">{p.games}</td>
                             <td className="px-3 py-3 text-center font-bold text-[#2ca3ee] text-base">{p.goals}</td>
