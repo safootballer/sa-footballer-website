@@ -15,11 +15,13 @@ const CATEGORY_MAP = {
   sanflw:   'SANFLW',
   amateurs: 'Amateur',
   sawfl:    "SAWFL Women's",
+  country:  'Country Football',
 }
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url)
-  const category = searchParams.get('category')
+  const category      = searchParams.get('category')
+  const countryLeague = searchParams.get('countryLeague')
 
   const conditions = [
     '_type == "upcomingMatch"',
@@ -28,6 +30,16 @@ export async function GET(req) {
 
   if (category && category !== 'all' && CATEGORY_MAP[category]) {
     conditions.push(`competition == "${CATEGORY_MAP[category]}"`)
+  }
+
+  // For country football pages, ONLY show Country Football matches
+  // Never show Amateur/SANFL etc on country football page
+  if (category === 'country') {
+    conditions.push('competition == "Country Football"')
+  }
+
+  if (countryLeague) {
+    conditions.push(`countryLeague == "${countryLeague}"`)
   }
 
   const query = `*[${conditions.join(' && ')}] | order(matchDate asc) {
