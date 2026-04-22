@@ -86,8 +86,6 @@ export default function Header() {
               </div>
             </div>
 
-            <a href="/editorials" className="font-bold hover:text-gray-200">EDITORIALS</a>
-
             {/* LADDER */}
             <div className="relative group">
               <button className="font-bold hover:text-gray-200 pb-4 pt-4">LADDER ▼</button>
@@ -114,7 +112,7 @@ export default function Header() {
 
             {/* COUNTRY FOOTBALL */}
             <div className="relative group">
-              <button className="font-bold hover:text-gray-200 whitespace-nowrap pb-4 pt-4">COUNTRY FOOTBALL EDITORIALS AND RESULTS ▼</button>
+              <button className="font-bold hover:text-gray-200 whitespace-nowrap pb-4 pt-4">COUNTRY FOOTBALL MATCH EDITORIALS AND RESULTS ▼</button>
               <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-96 overflow-y-auto">
                 <a href="/country-football?league=adelaide-plains" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">ADELAIDE PLAINS</a>
                 <a href="/country-football?league=barossa" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">BAROSSA LIGHT & GAWLER</a>
@@ -180,8 +178,6 @@ export default function Header() {
               <a href="/match-results?cat=amateurs" className="block py-1 pl-4 text-gray-600">AMATEURS</a>
               <a href="/match-results?cat=sawfl" className="block py-1 pl-4 text-gray-600">{"SAWFL WOMEN'S"}</a>
             </div>
-
-            <a href="/editorials" className="block py-2 text-gray-700 font-semibold">EDITORIALS</a>
 
             <div className="py-2">
               <p className="font-bold text-[#2ca3ee]">LADDER</p>
