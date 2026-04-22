@@ -112,7 +112,7 @@ export default function Header() {
 
             {/* COUNTRY FOOTBALL */}
             <div className="relative group">
-              <button className="font-bold hover:text-gray-200 whitespace-nowrap pb-4 pt-4">COUNTRY FOOTBALL MATCH EDITORIALS AND RESULTS ▼</button>
+              <button className="font-bold hover:text-gray-200 whitespace-nowrap pb-4 pt-4">COUNTRY FOOTBALL MATCH RESULTS ▼</button>
               <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-96 overflow-y-auto">
                 <a href="/country-football?league=adelaide-plains" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">ADELAIDE PLAINS</a>
                 <a href="/country-football?league=barossa" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">BAROSSA LIGHT & GAWLER</a>
@@ -197,7 +197,7 @@ export default function Header() {
               <a href="/goal-kickers?competition=Country+Football" className="block py-1 pl-4 text-gray-600">COUNTRY FOOTBALL</a>
             </div>
 
-            <a href="/country-football" className="block py-2 text-gray-700 font-semibold">COUNTRY FOOTBALL MATCH EDITORIALS AND RESULTS</a>
+            <a href="/country-football" className="block py-2 text-gray-700 font-semibold">COUNTRY FOOTBALL MATCH RESULTS</a>
 
             <div className="border-t mt-4 pt-4">
               <a href="/about" className="block py-2 text-gray-600">ABOUT US</a>
