@@ -168,9 +168,9 @@ export default function GoalKickersContent() {
                 <thead>
                   <tr className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider">
                     <th className="px-4 py-3 text-left">#</th>
-                    <th className="px-4 py-3 text-left">Player</th>
+                    <th className="px-4 py-3 font-bold text-[#2ca3ee] text-left">Player</th>
                     <th className="px-4 py-3 text-left">Team</th>
-                    <th className="px-3 py-3 text-center">GP</th>
+                    <th className="px-3 py-3 text-gray-500 text-center">GP</th>
                     <th className="px-3 py-3 text-center font-bold text-[#2ca3ee]">Goals</th>
                   </tr>
                 </thead>
