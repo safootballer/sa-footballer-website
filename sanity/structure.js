@@ -63,6 +63,22 @@ export const structure = (S) =>
 
       S.divider(),
 
+      // LADDER & GOAL KICKERS
+      S.listItem()
+        .title('🏆 League Ladders')
+        .child(
+          S.documentTypeList('ladder')
+            .title('League Ladders')
+        ),
+      S.listItem()
+        .title('🏉 Goal Kickers')
+        .child(
+          S.documentTypeList('goalKickers')
+            .title('Goal Kickers')
+        ),
+
+      S.divider(),
+
       // SUBSCRIBERS
       S.listItem()
         .title('📧 Subscribers')
