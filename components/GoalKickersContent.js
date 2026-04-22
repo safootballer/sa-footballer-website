@@ -4,7 +4,9 @@ import { LEVEL1_ORDER, LEVEL2_ORDER, getLeagueCategory } from '../lib/leagueMap'
 
 function cleanTeamName(name) {
   if (!name) return ''
-  return name.replace(/\s*-\s*(C\d+|M\d+|U\d+|Under\s*\d+|Div\s*\d+|Division\s*\d+|Reserves|R1|R2)$/i, '').trim()
+  return name
+    .replace(/\s*-\s*(C\d+|M\d+|U\d+|Under\s*\d+|Div\s*\d+|Division\s*\d+|Reserves|R1|R2|[A-Z]\d+)$/i, '')
+    .trim()
 }
 
 function getGradeId(doc) {
