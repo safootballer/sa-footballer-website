@@ -168,10 +168,10 @@ export default function GoalKickersContent() {
                 <thead>
                   <tr className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider">
                     <th className="px-4 py-3 text-left">#</th>
-                    <th className="px-4 py-3 font-bold text-[#2ca3ee] text-left">Player</th>
+                    <th className="px-4 py-3 font-bold  text-left">Player</th>
                     <th className="px-4 py-3 text-left">Team</th>
-                    <th className="px-3 py-3 text-gray-500 text-center">GP</th>
-                    <th className="px-3 py-3 text-center font-bold text-[#2ca3ee]">Goals</th>
+                    <th className="px-3 py-3 text-center">GP</th>
+                    <th className="px-3 py-3 text-center font-bold">Goals</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -182,9 +182,9 @@ export default function GoalKickersContent() {
                           {i + 1}
                         </span>
                       </td>
-                      <td className="px-4 py-3 font-semibold">{p.playerName}</td>
+                      <td className="px-4 py-3 text-[#2ca3ee] font-semibold">{p.playerName}</td>
                       <td className="px-4 py-3 text-gray-500">{cleanTeamName(p.teamName)}</td>
-                      <td className="px-3 py-3 text-center">{p.games}</td>
+                      <td className="px-3 py-3 text-gray-500 text-center">{p.games}</td>
                       <td className="px-3 py-3 text-center font-bold text-[#2ca3ee] text-base">{p.goals}</td>
                     </tr>
                   ))}
