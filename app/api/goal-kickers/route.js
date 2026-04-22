@@ -8,27 +8,11 @@ const client = createClient({
   useCdn: true,
 })
 
-export async function GET(req) {
-  const { searchParams } = new URL(req.url)
-  const competition   = searchParams.get('competition')
-  const countryLeague = searchParams.get('countryLeague')
-
-  const conditions = ['_type == "goalKickers"']
-
-  if (competition && competition !== 'all') {
-    conditions.push(`competition == "${competition}"`)
-  }
-  if (countryLeague) {
-    conditions.push(`countryLeague == "${countryLeague}"`)
-  }
-
-  const filter = `*[${conditions.join(' && ')}]`
-
-  const query = `${filter} | order(syncedAt desc) {
+export async function GET() {
+  const query = `*[_type == "goalKickers"] | order(syncedAt desc) {
     _id, title, slug, competition, countryLeague, gradeName, season, syncedAt,
     players[] { ranking, playerName, teamName, games, goals, bp }
   }`
-
   try {
     const data = await client.fetch(query)
     return NextResponse.json(data)
