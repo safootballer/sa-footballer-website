@@ -11,13 +11,13 @@ export default function MatchResultsContent() {
   const [loadingUpcoming, setLoadingUpcoming]   = useState(true)
 
   const categories = [
-    { id: 'all',    name: 'ALL' },
-    { id: 'afl',    name: 'AFL' },
-    { id: 'aflw',   name: 'AFLW' },
-    { id: 'sanfl',  name: 'SANFL' },
-    { id: 'sanflw', name: 'SANFLW' },
+    { id: 'all',      name: 'ALL' },
+    { id: 'afl',      name: 'AFL' },
+    { id: 'aflw',     name: 'AFLW' },
+    { id: 'sanfl',    name: 'SANFL' },
+    { id: 'sanflw',   name: 'SANFLW' },
     { id: 'amateurs', name: 'AMATEURS' },
-    { id: 'sawfl',  name: "SAWFL WOMEN'S" },
+    { id: 'sawfl',    name: "SAWFL WOMEN'S" },
   ]
 
   async function fetchMatchResults() {
@@ -66,15 +66,7 @@ export default function MatchResultsContent() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center space-x-2 py-4 overflow-x-auto">
             {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-6 py-2 rounded-full font-bold whitespace-nowrap transition ${
-                  selectedCategory === cat.id
-                    ? 'bg-[#2ca3ee] text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
+              <button key={cat.id} onClick={() => setSelectedCategory(cat.id)} className={`px-6 py-2 rounded-full font-bold whitespace-nowrap transition ${selectedCategory === cat.id ? 'bg-[#2ca3ee] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>
                 {cat.name}
               </button>
             ))}
@@ -92,20 +84,14 @@ export default function MatchResultsContent() {
         ) : matchResults.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {matchResults.map((match) => (
-              
-                key={match._id}
-                href={`/match-results/${match.slug.current}`}
-                className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition"
-              >
-                <div className="bg-[#2ca3ee] text-white px-4 py-2 font-bold text-sm">
-                  {match.competition}
-                  {match.round && <span className="ml-2 opacity-75">· {match.round}</span>}
+              <a key={match._id} href={`/match-results/${match.slug.current}`} className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                <div className="bg-[#2ca3ee] text-white px-4 py-2 font-bold text-sm flex justify-between items-center">
+                  <span>{match.competition}</span>
+                  {match.round && <span className="opacity-75 text-xs">{match.round}</span>}
                 </div>
                 <div className="p-6">
                   <p className="text-gray-500 text-sm mb-3">
-                    {new Date(match.matchDate).toLocaleDateString('en-AU', {
-                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-                    })}
+                    {new Date(match.matchDate).toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                   </p>
                   <div className="flex justify-between items-center mb-2 pb-2 border-b">
                     <span className="font-bold text-lg">{match.homeTeam}</span>
@@ -115,12 +101,8 @@ export default function MatchResultsContent() {
                     <span className="font-bold text-lg">{match.awayTeam}</span>
                     <span className="text-2xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
                   </div>
-                  {match.venue && (
-                    <p className="text-gray-600 text-sm mb-3">📍 {match.venue}</p>
-                  )}
-                  <div className="text-[#2ca3ee] font-semibold group-hover:underline">
-                    Read Full Report →
-                  </div>
+                  {match.venue && <p className="text-gray-600 text-sm mb-3">📍 {match.venue}</p>}
+                  <div className="text-[#2ca3ee] font-semibold group-hover:underline">Read Full Report →</div>
                 </div>
               </a>
             ))}
@@ -130,9 +112,7 @@ export default function MatchResultsContent() {
             <div className="text-6xl mb-4">🏈</div>
             <h3 className="text-2xl font-bold text-gray-700 mb-2">No Match Results Yet</h3>
             <p className="text-gray-600">
-              {selectedCategory === 'all'
-                ? 'Check back soon for the latest match results'
-                : `No ${categories.find(c => c.id === selectedCategory)?.name} match results available yet`}
+              {selectedCategory === 'all' ? 'Check back soon for the latest match results' : `No ${categories.find(c => c.id === selectedCategory)?.name} match results available yet`}
             </p>
           </div>
         )}
@@ -153,23 +133,17 @@ export default function MatchResultsContent() {
         ) : upcomingMatches.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {upcomingMatches.map((match) => (
-              <div
-                key={match._id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-[#e6fe00]"
-              >
+              <div key={match._id} className="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-[#e6fe00]">
                 <div className="bg-gray-800 text-white px-4 py-2 font-bold text-sm flex justify-between items-center">
                   <span>{match.competition}</span>
                   {match.round && <span className="opacity-75 text-xs">{match.round}</span>}
                 </div>
                 <div className="p-6">
                   <p className="text-[#2ca3ee] font-bold text-sm mb-4">
-                    📅 {new Date(match.matchDate).toLocaleDateString('en-AU', {
-                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-                    })}
+                    {'📅 '}
+                    {new Date(match.matchDate).toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                     {' · '}
-                    {new Date(match.matchDate).toLocaleTimeString('en-AU', {
-                      hour: '2-digit', minute: '2-digit'
-                    })}
+                    {new Date(match.matchDate).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}
                   </p>
                   <div className="flex justify-between items-center mb-2 pb-2 border-b">
                     <span className="font-bold text-lg">{match.homeTeam}</span>
@@ -179,14 +153,8 @@ export default function MatchResultsContent() {
                     <span className="font-bold text-lg">{match.awayTeam}</span>
                     <span className="text-gray-400 font-bold text-sm">AWAY</span>
                   </div>
-                  {match.venue && (
-                    <p className="text-gray-600 text-sm mb-2">📍 {match.venue}</p>
-                  )}
-                  {match.notes && (
-                    <p className="text-sm font-semibold text-[#2ca3ee] mt-2">
-                      ⭐ {match.notes}
-                    </p>
-                  )}
+                  {match.venue && <p className="text-gray-600 text-sm mb-2">📍 {match.venue}</p>}
+                  {match.notes && <p className="text-sm font-semibold text-[#2ca3ee] mt-2">{'⭐ '}{match.notes}</p>}
                 </div>
               </div>
             ))}
