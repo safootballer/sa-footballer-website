@@ -73,6 +73,11 @@ export default function GoalKickersContent() {
 
   const activeTable = tables.find(t => t._id === selected)
 
+  // Sort by goals desc, take top 20
+  const sortedPlayers = activeTable
+    ? [...(activeTable.players || [])].sort((a, b) => b.goals - a.goals).slice(0, 20)
+    : []
+
   return (
     <>
       {/* Hero */}
@@ -88,33 +93,15 @@ export default function GoalKickersContent() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center space-x-2 py-4 overflow-x-auto">
             {COMPETITIONS.map(c => (
-              <button
-                key={c.id}
-                onClick={() => { setCompetition(c.id); setCountryLeague('') }}
-                className={`px-5 py-2 rounded-full font-bold whitespace-nowrap transition text-sm ${
-                  competition === c.id
-                    ? 'bg-[#2ca3ee] text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
+              <button key={c.id} onClick={() => { setCompetition(c.id); setCountryLeague('') }} className={`px-5 py-2 rounded-full font-bold whitespace-nowrap transition text-sm ${competition === c.id ? 'bg-[#2ca3ee] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>
                 {c.name}
               </button>
             ))}
           </div>
-
-          {/* Country league sub-filter */}
           {competition === 'Country Football' && (
             <div className="flex items-center justify-center flex-wrap gap-2 pb-4">
               {COUNTRY_LEAGUES.map(l => (
-                <button
-                  key={l.id}
-                  onClick={() => setCountryLeague(l.id)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition ${
-                    countryLeague === l.id
-                      ? 'bg-[#e6fe00] text-black'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
+                <button key={l.id} onClick={() => setCountryLeague(l.id)} className={`px-4 py-1.5 rounded-full text-xs font-semibold transition ${countryLeague === l.id ? 'bg-[#e6fe00] text-black' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
                   {l.name}
                 </button>
               ))}
@@ -143,15 +130,7 @@ export default function GoalKickersContent() {
               <h3 className="font-bold text-gray-700 mb-3 uppercase text-sm tracking-wide">Select Grade</h3>
               <div className="flex flex-col gap-2">
                 {tables.map(t => (
-                  <button
-                    key={t._id}
-                    onClick={() => setSelected(t._id)}
-                    className={`text-left px-4 py-3 rounded-lg font-semibold text-sm transition border ${
-                      selected === t._id
-                        ? 'bg-[#2ca3ee] text-white border-[#2ca3ee]'
-                        : 'bg-white text-gray-700 border-gray-200 hover:border-[#2ca3ee]'
-                    }`}
-                  >
+                  <button key={t._id} onClick={() => setSelected(t._id)} className={`text-left px-4 py-3 rounded-lg font-semibold text-sm transition border ${selected === t._id ? 'bg-[#2ca3ee] text-white border-[#2ca3ee]' : 'bg-white text-gray-700 border-gray-200 hover:border-[#2ca3ee]'}`}>
                     {t.gradeName || t.title}
                   </button>
                 ))}
@@ -162,19 +141,13 @@ export default function GoalKickersContent() {
             {activeTable && (
               <div className="flex-1">
                 <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-
-                  {/* Table header */}
                   <div className="bg-[#2ca3ee] text-white px-6 py-4 flex justify-between items-center">
                     <div>
                       <h2 className="text-xl font-bold">{activeTable.competition}</h2>
-                      <p className="text-sm opacity-80">
-                        {activeTable.gradeName} · {activeTable.season}
-                      </p>
+                      <p className="text-sm opacity-80">{activeTable.gradeName} · {activeTable.season}</p>
                     </div>
                     {activeTable.syncedAt && (
-                      <p className="text-xs opacity-70">
-                        Updated {new Date(activeTable.syncedAt).toLocaleDateString('en-AU')}
-                      </p>
+                      <p className="text-xs opacity-70">Updated {new Date(activeTable.syncedAt).toLocaleDateString('en-AU')}</p>
                     )}
                   </div>
 
@@ -187,27 +160,20 @@ export default function GoalKickersContent() {
                           <th className="px-4 py-3 text-left">Team</th>
                           <th className="px-3 py-3 text-center">GP</th>
                           <th className="px-3 py-3 text-center font-bold text-[#2ca3ee]">Goals</th>
-                          <th className="px-3 py-3 text-center">BP</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {(activeTable.players || []).map((p, i) => (
+                        {sortedPlayers.map((p, i) => (
                           <tr key={i} className={`border-t ${i < 3 ? 'bg-yellow-50' : ''} hover:bg-gray-50`}>
                             <td className="px-4 py-3">
-                              <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
-                                i === 0 ? 'bg-yellow-400 text-white' :
-                                i === 1 ? 'bg-gray-400 text-white' :
-                                i === 2 ? 'bg-orange-400 text-white' :
-                                'bg-gray-100 text-gray-600'
-                              }`}>
-                                {p.ranking}
+                              <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${i === 0 ? 'bg-yellow-400 text-white' : i === 1 ? 'bg-gray-400 text-white' : i === 2 ? 'bg-orange-400 text-white' : 'bg-gray-100 text-gray-600'}`}>
+                                {i + 1}
                               </span>
                             </td>
                             <td className="px-4 py-3 font-semibold">{p.playerName}</td>
                             <td className="px-4 py-3 text-gray-500">{cleanTeamName(p.teamName)}</td>
                             <td className="px-3 py-3 text-center">{p.games}</td>
                             <td className="px-3 py-3 text-center font-bold text-[#2ca3ee] text-base">{p.goals}</td>
-                            <td className="px-3 py-3 text-center text-gray-500">{p.bp > 0 ? p.bp : '-'}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -215,7 +181,7 @@ export default function GoalKickersContent() {
                   </div>
 
                   <div className="px-6 py-3 bg-gray-50 text-xs text-gray-400">
-                    GP = Games Played · BP = Best Player Awards
+                    GP = Games Played · Top 20 goal kickers ranked by goals scored
                   </div>
                 </div>
               </div>
