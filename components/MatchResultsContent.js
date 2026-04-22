@@ -5,26 +5,27 @@ import { useSearchParams } from 'next/navigation'
 export default function MatchResultsContent() {
   const searchParams = useSearchParams()
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('cat') || 'all')
-  const [matchResults, setMatchResults] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [matchResults, setMatchResults]         = useState([])
+  const [upcomingMatches, setUpcomingMatches]   = useState([])
+  const [loading, setLoading]                   = useState(true)
+  const [loadingUpcoming, setLoadingUpcoming]   = useState(true)
 
   const categories = [
-    { id: 'all', name: 'ALL' },
-    { id: 'afl', name: 'AFL' },
-    { id: 'aflw', name: 'AFLW' },
-    { id: 'sanfl', name: 'SANFL' },
+    { id: 'all',    name: 'ALL' },
+    { id: 'afl',    name: 'AFL' },
+    { id: 'aflw',   name: 'AFLW' },
+    { id: 'sanfl',  name: 'SANFL' },
     { id: 'sanflw', name: 'SANFLW' },
     { id: 'amateurs', name: 'AMATEURS' },
-    { id: 'sawfl', name: "SAWFL WOMEN'S" },
+    { id: 'sawfl',  name: "SAWFL WOMEN'S" },
   ]
 
-  // Declare function before useEffect
   async function fetchMatchResults() {
     setLoading(true)
     try {
       const response = await fetch('/api/match-results?category=' + selectedCategory)
       const data = await response.json()
-      setMatchResults(data)
+      setMatchResults(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error('Error fetching match results:', error)
       setMatchResults([])
@@ -32,13 +33,27 @@ export default function MatchResultsContent() {
     setLoading(false)
   }
 
-  // Now useEffect can use it
+  async function fetchUpcomingMatches() {
+    setLoadingUpcoming(true)
+    try {
+      const response = await fetch('/api/upcoming-matches?category=' + selectedCategory)
+      const data = await response.json()
+      setUpcomingMatches(Array.isArray(data) ? data : [])
+    } catch (error) {
+      console.error('Error fetching upcoming matches:', error)
+      setUpcomingMatches([])
+    }
+    setLoadingUpcoming(false)
+  }
+
   useEffect(() => {
     fetchMatchResults()
+    fetchUpcomingMatches()
   }, [selectedCategory])
 
   return (
     <>
+      {/* Hero */}
       <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">MATCH RESULTS</h1>
@@ -46,6 +61,7 @@ export default function MatchResultsContent() {
         </div>
       </section>
 
+      {/* Category filter */}
       <section className="bg-white border-b sticky top-0 z-40 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center space-x-2 py-4 overflow-x-auto">
@@ -66,6 +82,7 @@ export default function MatchResultsContent() {
         </div>
       </section>
 
+      {/* Match Results */}
       <section className="container mx-auto px-4 py-12">
         {loading ? (
           <div className="text-center py-12">
@@ -74,41 +91,39 @@ export default function MatchResultsContent() {
           </div>
         ) : matchResults.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {matchResults.map((match) => {
-              return (
-                <a key={match._id} href={`/match-results/${match.slug.current}`} className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
-                  <div className="bg-[#2ca3ee] text-white px-4 py-2 font-bold text-sm">
-                    {match.competition}
+            {matchResults.map((match) => (
+              
+                key={match._id}
+                href={`/match-results/${match.slug.current}`}
+                className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition"
+              >
+                <div className="bg-[#2ca3ee] text-white px-4 py-2 font-bold text-sm">
+                  {match.competition}
+                  {match.round && <span className="ml-2 opacity-75">· {match.round}</span>}
+                </div>
+                <div className="p-6">
+                  <p className="text-gray-500 text-sm mb-3">
+                    {new Date(match.matchDate).toLocaleDateString('en-AU', {
+                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    })}
+                  </p>
+                  <div className="flex justify-between items-center mb-2 pb-2 border-b">
+                    <span className="font-bold text-lg">{match.homeTeam}</span>
+                    <span className="text-2xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
                   </div>
-                  <div className="p-6">
-                    <p className="text-gray-500 text-sm mb-3">
-                      {new Date(match.matchDate).toLocaleDateString('en-AU', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </p>
-                    <div className="flex justify-between items-center mb-2 pb-2 border-b">
-                      <span className="font-bold text-lg">{match.homeTeam}</span>
-                      <span className="text-2xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
-                    </div>
-                    <div className="flex justify-between items-center mb-4 pb-2 border-b">
-                      <span className="font-bold text-lg">{match.awayTeam}</span>
-                      <span className="text-2xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
-                    </div>
-                    {match.venue && (
-                      <p className="text-gray-600 text-sm mb-3">
-                        📍 {match.venue}
-                      </p>
-                    )}
-                    <div className="text-[#2ca3ee] font-semibold group-hover:underline">
-                      Read Full Report →
-                    </div>
+                  <div className="flex justify-between items-center mb-4 pb-2 border-b">
+                    <span className="font-bold text-lg">{match.awayTeam}</span>
+                    <span className="text-2xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
                   </div>
-                </a>
-              )
-            })}
+                  {match.venue && (
+                    <p className="text-gray-600 text-sm mb-3">📍 {match.venue}</p>
+                  )}
+                  <div className="text-[#2ca3ee] font-semibold group-hover:underline">
+                    Read Full Report →
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
         ) : (
           <div className="text-center py-12">
@@ -119,6 +134,68 @@ export default function MatchResultsContent() {
                 ? 'Check back soon for the latest match results'
                 : `No ${categories.find(c => c.id === selectedCategory)?.name} match results available yet`}
             </p>
+          </div>
+        )}
+      </section>
+
+      {/* Upcoming Matches */}
+      <section className="container mx-auto px-4 pb-16">
+        <div className="flex items-center gap-4 mb-8">
+          <h2 className="text-3xl font-bold text-gray-800">UPCOMING MATCHES</h2>
+          <div className="flex-1 h-1 bg-gradient-to-r from-[#2ca3ee] to-transparent rounded"></div>
+        </div>
+
+        {loadingUpcoming ? (
+          <div className="text-center py-8">
+            <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#2ca3ee] border-t-transparent"></div>
+            <p className="mt-3 text-gray-600">Loading upcoming matches...</p>
+          </div>
+        ) : upcomingMatches.length > 0 ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {upcomingMatches.map((match) => (
+              <div
+                key={match._id}
+                className="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-[#e6fe00]"
+              >
+                <div className="bg-gray-800 text-white px-4 py-2 font-bold text-sm flex justify-between items-center">
+                  <span>{match.competition}</span>
+                  {match.round && <span className="opacity-75 text-xs">{match.round}</span>}
+                </div>
+                <div className="p-6">
+                  <p className="text-[#2ca3ee] font-bold text-sm mb-4">
+                    📅 {new Date(match.matchDate).toLocaleDateString('en-AU', {
+                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    })}
+                    {' · '}
+                    {new Date(match.matchDate).toLocaleTimeString('en-AU', {
+                      hour: '2-digit', minute: '2-digit'
+                    })}
+                  </p>
+                  <div className="flex justify-between items-center mb-2 pb-2 border-b">
+                    <span className="font-bold text-lg">{match.homeTeam}</span>
+                    <span className="text-gray-400 font-bold text-sm">HOME</span>
+                  </div>
+                  <div className="flex justify-between items-center mb-4 pb-2 border-b">
+                    <span className="font-bold text-lg">{match.awayTeam}</span>
+                    <span className="text-gray-400 font-bold text-sm">AWAY</span>
+                  </div>
+                  {match.venue && (
+                    <p className="text-gray-600 text-sm mb-2">📍 {match.venue}</p>
+                  )}
+                  {match.notes && (
+                    <p className="text-sm font-semibold text-[#2ca3ee] mt-2">
+                      ⭐ {match.notes}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8">
+            <div className="text-5xl mb-3">📅</div>
+            <h3 className="text-xl font-bold text-gray-700 mb-2">No Upcoming Matches</h3>
+            <p className="text-gray-600">Check back soon for fixture announcements</p>
           </div>
         )}
       </section>

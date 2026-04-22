@@ -9,6 +9,7 @@ import customPage from './customPage'
 import subscriber from './subscriber'
 import ladder from './ladder'
 import goalKickers from './goalKickers'
+import upcomingMatch from './upcomingMatch'
 
 export const schemaTypes = [
   editorial,
@@ -22,4 +23,5 @@ export const schemaTypes = [
   subscriber,
   ladder,
   goalKickers,
+  upcomingMatch,
 ]

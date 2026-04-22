@@ -37,6 +37,12 @@ export const structure = (S) =>
             .title('Match Results')
         ),
       S.listItem()
+        .title('📅 Upcoming Matches')
+        .child(
+          S.documentTypeList('upcomingMatch')
+            .title('Upcoming Matches')
+        ),
+      S.listItem()
         .title('📖 Magazines')
         .child(
           S.documentTypeList('magazine')
