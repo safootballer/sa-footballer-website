@@ -9,7 +9,6 @@ export async function GET(request) {
   const category     = searchParams.get('category') || 'all'
   const amateurGrade = searchParams.get('amateurGrade') || null
 
-  // Always exclude Country Football — it goes to /country-football page
   let filter = '*[_type == "matchResult" && competition != "Country Football"]'
 
   if (category !== 'all') {
@@ -27,12 +26,11 @@ export async function GET(request) {
     }
   }
 
-  // If filtering amateurs by grade
   if (category === 'amateurs' && amateurGrade) {
     filter = `*[_type == "matchResult" && competition == "Amateur" && amateurGrade == "${amateurGrade}"]`
   }
 
-  const query = `${filter} | order(matchDate desc)[0...30] {
+  const query = `${filter} | order(matchDate desc) {
     _id, title, slug, competition, amateurGrade,
     homeTeam, awayTeam, homeScore, awayScore,
     matchDate, venue, round
