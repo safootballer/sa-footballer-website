@@ -69,7 +69,7 @@ export default async function HomePage() {
   const content = await getHomeContent()
   const randomLeagues = getRandomLeagues()
 
-  const getLatestMatch  = (comp) => content.matchReports.find(m => m.competition === comp)
+  const getLatestMatch = (comp) => content.matchReports.find(m => m.competition === comp)
   const getNextUpcoming = (comp) => content.upcoming.find(u => u.competition === comp)
 
   const CompetitionSection = ({ title, comp, matchCat, bg = 'bg-gray-50' }) => {
@@ -165,12 +165,9 @@ export default async function HomePage() {
         />
       </section>
 
-      <CompetitionSection title="AFL"           comp="AFL"            matchCat="afl"      bg="bg-gray-50" />
-      <CompetitionSection title="AFLW"          comp="AFLW"           matchCat="aflw"     bg="bg-white" />
-      <CompetitionSection title="SANFL"         comp="SANFL"          matchCat="sanfl"    bg="bg-gray-50" />
-      <CompetitionSection title="SANFLW"        comp="SANFLW"         matchCat="sanflw"   bg="bg-white" />
-      <CompetitionSection title="AMATEURS"      comp="Amateur"        matchCat="amateurs" bg="bg-gray-50" />
-      <CompetitionSection title="SAWFL WOMEN'S" comp="SAWFL Women's"  matchCat="sawfl"    bg="bg-white" />
+      <CompetitionSection title="AFL"           comp="AFL"           matchCat="afl"   bg="bg-gray-50" />
+      <CompetitionSection title="SANFL"         comp="SANFL"         matchCat="sanfl" bg="bg-white" />
+      <CompetitionSection title="SAWFL WOMEN'S" comp="SAWFL Women's" matchCat="sawfl" bg="bg-gray-50" />
 
       {/* Country Football */}
       <section className="bg-gray-50 py-12">
