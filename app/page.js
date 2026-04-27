@@ -14,7 +14,7 @@ async function getHomeContent() {
     "videos": *[_type == "video"] | order(publishedAt desc)[0...4] {
       _id, title, youtubeUrl, publishedAt, category
     },
-    "matchReports": *[_type == "matchResult" && competition != "Country Football"] | order(matchDate desc)[0...20] {
+    "matchReports": *[_type == "matchResult" && competition != "Country Football"] | order(matchDate desc)[0...50] {
       _id, title, slug, competition, homeTeam, awayTeam, homeScore, awayScore, matchDate
     },
     "upcoming": *[_type == "upcomingMatch" && matchDate > "${now}" && competition != "Country Football"] | order(matchDate asc)[0...20] {
