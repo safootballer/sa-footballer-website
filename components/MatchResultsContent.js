@@ -181,11 +181,11 @@ export default function MatchResultsContent() {
                     {new Date(match.matchDate).toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                   </p>
                   <div className="flex justify-between items-center mb-2 pb-2 border-b">
-                    <span className="font-bold text-lg">{match.homeTeam}</span>
+                    <span className="font-bold text-gray-400 text-lg">{match.homeTeam}</span>
                     <span className="text-2xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
                   </div>
                   <div className="flex justify-between items-center mb-4 pb-2 border-b">
-                    <span className="font-bold text-lg">{match.awayTeam}</span>
+                    <span className="font-bold text-gray-400 text-lg">{match.awayTeam}</span>
                     <span className="text-2xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
                   </div>
                   {match.venue && <p className="text-gray-600 text-sm mb-3">📍 {match.venue}</p>}
@@ -237,11 +237,11 @@ export default function MatchResultsContent() {
                     {new Date(match.matchDate).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}
                   </p>
                   <div className="flex justify-between items-center mb-2 pb-2 border-b">
-                    <span className="font-bold text-lg">{match.homeTeam}</span>
+                    <span className="font-bold text-gray-400 text-lg">{match.homeTeam}</span>
                     <span className="text-gray-400 font-bold text-sm">HOME</span>
                   </div>
                   <div className="flex justify-between items-center mb-4 pb-2 border-b">
-                    <span className="font-bold text-lg">{match.awayTeam}</span>
+                    <span className="font-bold text-gray-400 text-lg">{match.awayTeam}</span>
                     <span className="text-gray-400 font-bold text-sm">AWAY</span>
                   </div>
                   {match.venue && <p className="text-gray-600 text-sm mb-2">📍 {match.venue}</p>}
