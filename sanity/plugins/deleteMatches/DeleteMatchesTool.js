@@ -19,7 +19,7 @@ const COMPETITIONS = [
 
 const s = {
   wrap:       { maxWidth: 680, margin: '32px auto', padding: '0 20px', fontFamily: 'sans-serif' },
-  heading:    { fontSize: '1.6rem', fontWeight: 900, color: '#0a1a2e', margin: '0 0 4px' },
+  heading:    { fontSize: '1.6rem', fontWeight: 900, color: '#61ce26', margin: '0 0 4px' },
   sub:        { color: '#64748b', fontSize: '0.9rem', margin: '0 0 28px' },
   dateWrap:   { background: '#fff7ed', border: '2px solid #fed7aa', borderRadius: 10, padding: 16, marginBottom: 24 },
   label:      { display: 'block', fontWeight: 700, fontSize: '0.78rem', color: '#374151', marginBottom: 4 },
