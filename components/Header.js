@@ -90,6 +90,7 @@ export default function Header() {
             <div className="relative group">
               <button className="font-bold hover:text-gray-200 pb-4 pt-4">LADDER ▼</button>
               <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <a href="/ladder" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AFL</a>
                 <a href="/ladder?competition=SANFL" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFL</a>
                 <a href="/ladder?competition=SANFLW" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFLW</a>
                 <a href="/ladder?competition=Amateur" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
@@ -102,6 +103,7 @@ export default function Header() {
             <div className="relative group">
               <button className="font-bold hover:text-gray-200 pb-4 pt-4">GOAL KICKERS ▼</button>
               <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <a href="/goal-kickers" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AFL</a>
                 <a href="/goal-kickers?competition=SANFL" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFL</a>
                 <a href="/goal-kickers?competition=SANFLW" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFLW</a>
                 <a href="/goal-kickers?competition=Amateur" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
@@ -181,6 +183,7 @@ export default function Header() {
 
             <div className="py-2">
               <p className="font-bold text-[#2ca3ee]">LADDER</p>
+              <a href="/ladder" className="block py-1 pl-4 text-gray-600">AFL</a>
               <a href="/ladder?competition=SANFL" className="block py-1 pl-4 text-gray-600">SANFL</a>
               <a href="/ladder?competition=SANFLW" className="block py-1 pl-4 text-gray-600">SANFLW</a>
               <a href="/ladder?competition=Amateur" className="block py-1 pl-4 text-gray-600">{"AMATEURS (MEN'S)"}</a>
@@ -190,6 +193,7 @@ export default function Header() {
 
             <div className="py-2">
               <p className="font-bold text-[#2ca3ee]">GOAL KICKERS</p>
+              <a href="/goal-kickers" className="block py-1 pl-4 text-gray-600">AFL</a>
               <a href="/goal-kickers?competition=SANFL" className="block py-1 pl-4 text-gray-600">SANFL</a>
               <a href="/goal-kickers?competition=SANFLW" className="block py-1 pl-4 text-gray-600">SANFLW</a>
               <a href="/goal-kickers?competition=Amateur" className="block py-1 pl-4 text-gray-600">{"AMATEURS (MEN'S)"}</a>
