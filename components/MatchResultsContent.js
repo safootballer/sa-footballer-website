@@ -26,18 +26,47 @@ const AMATEUR_GRADES = [
   { id: 'division-c7',         name: 'Division C7',         group: 'C-Grade' },
   { id: 'division-c8',         name: 'Division C8',         group: 'C-Grade' },
 ]
-
 const AMATEUR_GROUPS = ['League', 'Reserves', 'C-Grade']
+
+const SAWFL_GRADES = [
+  { id: 'division-1',          name: 'Division 1',          group: 'League' },
+  { id: 'division-2',          name: 'Division 2',          group: 'League' },
+  { id: 'division-3',          name: 'Division 3',          group: 'League' },
+  { id: 'division-4',          name: 'Division 4',          group: 'League' },
+  { id: 'division-5',          name: 'Division 5',          group: 'League' },
+  { id: 'division-6',          name: 'Division 6',          group: 'League' },
+  { id: 'division-1-reserves', name: 'Division 1 Reserves', group: 'Reserves' },
+  { id: 'division-2-reserves', name: 'Division 2 Reserves', group: 'Reserves' },
+]
+const SAWFL_GROUPS = ['League', 'Reserves']
+
+const SANFL_GRADES = [
+  { id: 'league',   name: 'SANFL League', group: 'League' },
+  { id: 'under-18', name: 'Under 18',     group: 'Youth' },
+  { id: 'under-16', name: 'Under 16',     group: 'Youth' },
+]
+const SANFL_GROUPS = ['League', 'Youth']
 
 export default function MatchResultsContent() {
   const searchParams = useSearchParams()
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('cat') || 'all')
-  const [amateurGroup, setAmateurGroup]         = useState('League')
-  const [amateurGrade, setAmateurGrade]         = useState('')
-  const [matchResults, setMatchResults]         = useState([])
-  const [upcomingMatches, setUpcomingMatches]   = useState([])
-  const [loading, setLoading]                   = useState(true)
-  const [loadingUpcoming, setLoadingUpcoming]   = useState(true)
+
+  // Amateur state
+  const [amateurGroup, setAmateurGroup] = useState('League')
+  const [amateurGrade, setAmateurGrade] = useState('')
+
+  // SAWFL state
+  const [sawflGroup, setSawflGroup] = useState('League')
+  const [sawflGrade, setSawflGrade] = useState('')
+
+  // SANFL state
+  const [sanflGroup, setSanflGroup] = useState('League')
+  const [sanflGrade, setSanflGrade] = useState('')
+
+  const [matchResults, setMatchResults]       = useState([])
+  const [upcomingMatches, setUpcomingMatches] = useState([])
+  const [loading, setLoading]                 = useState(true)
+  const [loadingUpcoming, setLoadingUpcoming] = useState(true)
 
   const categories = [
     { id: 'all',      name: 'ALL' },
@@ -49,41 +78,49 @@ export default function MatchResultsContent() {
     { id: 'sawfl',    name: "SAWFL WOMEN'S" },
   ]
 
-  // When category changes reset amateur filters
   function handleCategoryChange(cat) {
     setSelectedCategory(cat)
-    if (cat !== 'amateurs') {
-      setAmateurGroup('League')
-      setAmateurGrade('')
-    }
+    if (cat !== 'amateurs') { setAmateurGroup('League'); setAmateurGrade('') }
+    if (cat !== 'sawfl')    { setSawflGroup('League');   setSawflGrade('') }
+    if (cat !== 'sanfl')    { setSanflGroup('League');   setSanflGrade('') }
   }
 
-  // When amateur group changes reset grade and pick first in group
-  function handleGroupChange(group) {
+  // Amateur handlers
+  function handleAmateurGroupChange(group) {
     setAmateurGroup(group)
     const first = AMATEUR_GRADES.find(g => g.group === group)
     setAmateurGrade(first?.id ?? '')
   }
 
-  // When grade selected
-  function handleGradeChange(gradeId) {
-    setAmateurGrade(gradeId)
+  // SAWFL handlers
+  function handleSawflGroupChange(group) {
+    setSawflGroup(group)
+    const first = SAWFL_GRADES.find(g => g.group === group)
+    setSawflGrade(first?.id ?? '')
+  }
+
+  // SANFL handlers
+  function handleSanflGroupChange(group) {
+    setSanflGroup(group)
+    if (group === 'League') {
+      setSanflGrade('league')
+    } else {
+      const first = SANFL_GRADES.find(g => g.group === group)
+      setSanflGrade(first?.id ?? '')
+    }
   }
 
   async function fetchMatchResults() {
     setLoading(true)
     try {
       let url = '/api/match-results?category=' + selectedCategory
-      if (selectedCategory === 'amateurs' && amateurGrade) {
-        url += '&amateurGrade=' + amateurGrade
-      }
+      if (selectedCategory === 'amateurs' && amateurGrade) url += '&amateurGrade=' + amateurGrade
+      if (selectedCategory === 'sawfl'    && sawflGrade)   url += '&amateurGrade=' + sawflGrade
+      if (selectedCategory === 'sanfl'    && sanflGrade)   url += '&sanflGrade=' + sanflGrade
       const response = await fetch(url)
       const data = await response.json()
       setMatchResults(Array.isArray(data) ? data : [])
-    } catch (error) {
-      console.error('Error fetching match results:', error)
-      setMatchResults([])
-    }
+    } catch { setMatchResults([]) }
     setLoading(false)
   }
 
@@ -93,27 +130,34 @@ export default function MatchResultsContent() {
       const response = await fetch('/api/upcoming-matches?category=' + selectedCategory)
       const data = await response.json()
       setUpcomingMatches(Array.isArray(data) ? data : [])
-    } catch (error) {
-      console.error('Error fetching upcoming matches:', error)
-      setUpcomingMatches([])
-    }
+    } catch { setUpcomingMatches([]) }
     setLoadingUpcoming(false)
   }
 
   useEffect(() => {
     fetchMatchResults()
     fetchUpcomingMatches()
-  }, [selectedCategory, amateurGrade])
+  }, [selectedCategory, amateurGrade, sawflGrade, sanflGrade])
 
-  // Auto-select first grade when switching to amateurs
+  // Auto-select first grade when switching categories
   useEffect(() => {
     if (selectedCategory === 'amateurs' && !amateurGrade) {
       const first = AMATEUR_GRADES.find(g => g.group === amateurGroup)
       if (first) setAmateurGrade(first.id)
     }
+    if (selectedCategory === 'sawfl' && !sawflGrade) {
+      const first = SAWFL_GRADES.find(g => g.group === sawflGroup)
+      if (first) setSawflGrade(first.id)
+    }
+    if (selectedCategory === 'sanfl' && !sanflGrade) {
+      setSanflGrade('league')
+    }
   }, [selectedCategory])
 
-  const gradesInGroup = AMATEUR_GRADES.filter(g => g.group === amateurGroup)
+  const amateurGradesInGroup = AMATEUR_GRADES.filter(g => g.group === amateurGroup)
+  const sawflGradesInGroup   = SAWFL_GRADES.filter(g => g.group === sawflGroup)
+  const sanflGradesInGroup   = SANFL_GRADES.filter(g => g.group === sanflGroup)
+
   const activeGradeName = AMATEUR_GRADES.find(g => g.id === amateurGrade)?.name ?? ''
 
   return (
@@ -126,38 +170,86 @@ export default function MatchResultsContent() {
         </div>
       </section>
 
-      {/* Level 1 — Category filter */}
+      {/* Navigation */}
       <section className="bg-white border-b sticky top-0 z-40 shadow-md">
         <div className="container mx-auto px-4">
+
+          {/* Level 1 — Category */}
           <div className="flex items-center justify-center space-x-2 py-4 overflow-x-auto">
             {categories.map((cat) => (
-              <button key={cat.id} onClick={() => handleCategoryChange(cat.id)} className={`px-6 py-2 rounded-full font-bold whitespace-nowrap transition ${selectedCategory === cat.id ? 'bg-[#2ca3ee] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>
+              <button key={cat.id} onClick={() => handleCategoryChange(cat.id)}
+                className={`px-6 py-2 rounded-full font-bold whitespace-nowrap transition ${selectedCategory === cat.id ? 'bg-[#2ca3ee] text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>
                 {cat.name}
               </button>
             ))}
           </div>
 
-          {/* Level 2 — Amateur group filter */}
+          {/* Level 2 — Amateur groups */}
           {selectedCategory === 'amateurs' && (
             <div className="flex items-center justify-center space-x-2 pb-3 overflow-x-auto">
               {AMATEUR_GROUPS.map(group => (
-                <button key={group} onClick={() => handleGroupChange(group)} className={`px-5 py-1.5 rounded-full font-bold whitespace-nowrap transition text-sm ${amateurGroup === group ? 'bg-[#e6a800] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                <button key={group} onClick={() => handleAmateurGroupChange(group)}
+                  className={`px-5 py-1.5 rounded-full font-bold whitespace-nowrap transition text-sm ${amateurGroup === group ? 'bg-[#e6a800] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
                   {group.toUpperCase()}
                 </button>
               ))}
             </div>
           )}
-
-          {/* Level 3 — Individual grade filter */}
           {selectedCategory === 'amateurs' && (
             <div className="flex items-center justify-center flex-wrap gap-2 pb-3">
-              {gradesInGroup.map(g => (
-                <button key={g.id} onClick={() => handleGradeChange(g.id)} className={`px-4 py-1.5 rounded-full text-xs font-semibold transition ${amateurGrade === g.id ? 'bg-[#16a34a] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+              {amateurGradesInGroup.map(g => (
+                <button key={g.id} onClick={() => setAmateurGrade(g.id)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition ${amateurGrade === g.id ? 'bg-[#16a34a] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
                   {g.name}
                 </button>
               ))}
             </div>
           )}
+
+          {/* Level 2 — SAWFL groups */}
+          {selectedCategory === 'sawfl' && (
+            <div className="flex items-center justify-center space-x-2 pb-3 overflow-x-auto">
+              {SAWFL_GROUPS.map(group => (
+                <button key={group} onClick={() => handleSawflGroupChange(group)}
+                  className={`px-5 py-1.5 rounded-full font-bold whitespace-nowrap transition text-sm ${sawflGroup === group ? 'bg-[#e6a800] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                  {group.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          )}
+          {selectedCategory === 'sawfl' && (
+            <div className="flex items-center justify-center flex-wrap gap-2 pb-3">
+              {sawflGradesInGroup.map(g => (
+                <button key={g.id} onClick={() => setSawflGrade(g.id)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition ${sawflGrade === g.id ? 'bg-[#16a34a] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                  {g.name}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Level 2 — SANFL groups */}
+          {selectedCategory === 'sanfl' && (
+            <div className="flex items-center justify-center space-x-2 pb-3 overflow-x-auto">
+              {SANFL_GROUPS.map(group => (
+                <button key={group} onClick={() => handleSanflGroupChange(group)}
+                  className={`px-5 py-1.5 rounded-full font-bold whitespace-nowrap transition text-sm ${sanflGroup === group ? 'bg-[#e6a800] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                  {group.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          )}
+          {selectedCategory === 'sanfl' && sanflGroup === 'Youth' && (
+            <div className="flex items-center justify-center flex-wrap gap-2 pb-3">
+              {sanflGradesInGroup.map(g => (
+                <button key={g.id} onClick={() => setSanflGrade(g.id)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold transition ${sanflGrade === g.id ? 'bg-[#16a34a] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                  {g.name}
+                </button>
+              ))}
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -173,7 +265,13 @@ export default function MatchResultsContent() {
             {matchResults.map((match) => (
               <a key={match._id} href={`/match-results/${match.slug.current}`} className="group bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
                 <div className="bg-[#2ca3ee] text-white px-4 py-2 font-bold text-sm flex justify-between items-center">
-                  <span>{match.amateurGrade ? `Amateurs · ${AMATEUR_GRADES.find(g => g.id === match.amateurGrade)?.name ?? match.amateurGrade}` : match.competition}</span>
+                  <span>
+                    {match.amateurGrade
+                      ? `${match.competition} · ${AMATEUR_GRADES.find(g => g.id === match.amateurGrade)?.name ?? SAWFL_GRADES.find(g => g.id === match.amateurGrade)?.name ?? match.amateurGrade}`
+                      : match.sanflGrade
+                      ? `SANFL · ${SANFL_GRADES.find(g => g.id === match.sanflGrade)?.name ?? match.sanflGrade}`
+                      : match.competition}
+                  </span>
                   {match.round && <span className="opacity-75 text-xs">{match.round}</span>}
                 </div>
                 <div className="p-6">
@@ -198,13 +296,7 @@ export default function MatchResultsContent() {
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🏈</div>
             <h3 className="text-2xl font-bold text-gray-700 mb-2">No Match Results Yet</h3>
-            <p className="text-gray-600">
-              {selectedCategory === 'amateurs' && activeGradeName
-                ? `No results available yet for ${activeGradeName}`
-                : selectedCategory === 'all'
-                ? 'Check back soon for the latest match results'
-                : `No ${categories.find(c => c.id === selectedCategory)?.name} match results available yet`}
-            </p>
+            <p className="text-gray-600">Check back soon for the latest match results</p>
           </div>
         )}
       </section>

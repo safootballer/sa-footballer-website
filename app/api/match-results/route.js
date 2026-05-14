@@ -8,6 +8,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const category     = searchParams.get('category') || 'all'
   const amateurGrade = searchParams.get('amateurGrade') || null
+  const sanflGrade   = searchParams.get('sanflGrade') || null
 
   let filter = '*[_type == "matchResult" && competition != "Country Football"]'
 
@@ -26,12 +27,27 @@ export async function GET(request) {
     }
   }
 
+  // Amateur grade filter
   if (category === 'amateurs' && amateurGrade) {
     filter = `*[_type == "matchResult" && competition == "Amateur" && amateurGrade == "${amateurGrade}"]`
   }
 
+  // SAWFL Women's grade filter
+  if (category === 'sawfl' && amateurGrade) {
+    filter = `*[_type == "matchResult" && competition == "SAWFL Women's" && amateurGrade == "${amateurGrade}"]`
+  }
+
+  // SANFL grade filter
+  if (category === 'sanfl' && sanflGrade) {
+    if (sanflGrade === 'league') {
+      filter = `*[_type == "matchResult" && competition == "SANFL" && (sanflGrade == "league" || !defined(sanflGrade))]`
+    } else {
+      filter = `*[_type == "matchResult" && competition == "SANFL" && sanflGrade == "${sanflGrade}"]`
+    }
+  }
+
   const query = `${filter} | order(matchDate desc) {
-    _id, title, slug, competition, amateurGrade,
+    _id, title, slug, competition, amateurGrade, sanflGrade,
     homeTeam, awayTeam, homeScore, awayScore,
     matchDate, venue, round
   }`
