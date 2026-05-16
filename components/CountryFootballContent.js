@@ -128,11 +128,11 @@ export default function CountryFootballContent() {
                     {new Date(match.matchDate).toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                   </p>
                   <div className="flex justify-between items-center mb-2 pb-2 border-b">
-                    <span className="font-bold text-lg">{match.homeTeam}</span>
+                    <span className="font-bold text-gray-600 text-lg">{match.homeTeam}</span>
                     <span className="text-2xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
                   </div>
                   <div className="flex justify-between items-center mb-4 pb-2 border-b">
-                    <span className="font-bold text-lg">{match.awayTeam}</span>
+                    <span className="font-bold text-gray-600 text-lg">{match.awayTeam}</span>
                     <span className="text-2xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
                   </div>
                   {match.venue && <p className="text-gray-600 text-sm mb-3">📍 {match.venue}</p>}
