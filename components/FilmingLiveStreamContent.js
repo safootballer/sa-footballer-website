@@ -1,35 +1,17 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 
 export default function FilmingLiveStreamContent() {
-  const searchParams = useSearchParams()
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('cat') || 'all')
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const categories = [
-    { id: 'all',         name: 'ALL' },
-    { id: 'live-stream', name: 'LIVE STREAM' },
-    { id: 'filming',     name: 'FILMING' },
-  ]
-
-  async function fetchVideos() {
-    setLoading(true)
-    try {
-      // Treat 'all' as filming + live stream only (exclude panel shows)
-      const cat = selectedCategory === 'all' ? 'filming-and-live-stream' : selectedCategory
-      const response = await fetch('/api/filming-live-stream?category=' + cat, { cache: 'no-store' })
-      const data = await response.json()
-      setVideos(data)
-    } catch (error) {
-      console.error('Error fetching videos:', error)
-      setVideos([])
-    }
-    setLoading(false)
-  }
-
-  useEffect(() => { fetchVideos() }, [selectedCategory])
+  useEffect(() => {
+    fetch('/api/filming-live-stream?category=filming-and-live-stream', { cache: 'no-store' })
+      .then(r => r.json())
+      .then(data => setVideos(Array.isArray(data) ? data : []))
+      .catch(() => setVideos([]))
+      .finally(() => setLoading(false))
+  }, [])
 
   function getYouTubeId(url) {
     if (!url) return null
@@ -70,28 +52,12 @@ export default function FilmingLiveStreamContent() {
                 </a>
               </div>
             </div>
-            <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div className="border-t border-gray-700 pt-8">
               <a href="/contact"
-                className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition text-sm whitespace-nowrap">
+                className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition text-sm">
                 Get a Quote
               </a>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Category nav */}
-      <section className="bg-white border-b sticky top-0 z-40 shadow-md">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center space-x-2 py-4 overflow-x-auto">
-            {categories.map((cat) => (
-              <button key={cat.id} onClick={() => setSelectedCategory(cat.id)}
-                className={`px-6 py-2 rounded-full font-bold whitespace-nowrap transition ${
-                  selectedCategory === cat.id ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}>
-                {cat.name}
-              </button>
-            ))}
           </div>
         </div>
       </section>
@@ -146,11 +112,7 @@ export default function FilmingLiveStreamContent() {
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🎥</div>
             <h3 className="text-2xl font-bold text-gray-700 mb-2">No Videos Yet</h3>
-            <p className="text-gray-600">
-              {selectedCategory === 'all'
-                ? 'Check back soon for the latest videos'
-                : `No ${categories.find(c => c.id === selectedCategory)?.name} videos available yet`}
-            </p>
+            <p className="text-gray-600">Check back soon for the latest videos</p>
           </div>
         )}
       </section>
