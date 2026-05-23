@@ -9,18 +9,17 @@ export default function FilmingLiveStreamContent() {
   const [loading, setLoading] = useState(true)
 
   const categories = [
-    { id: 'all', name: 'ALL' },
+    { id: 'all',         name: 'ALL' },
     { id: 'live-stream', name: 'LIVE STREAM' },
-    { id: 'filming', name: 'FILMING' },
-    { id: 'panel-shows', name: 'PANEL SHOWS' },
+    { id: 'filming',     name: 'FILMING' },
   ]
 
   async function fetchVideos() {
     setLoading(true)
     try {
-      const response = await fetch('/api/filming-live-stream?category=' + selectedCategory, {
-        cache: 'no-store'
-        })
+      // Treat 'all' as filming + live stream only (exclude panel shows)
+      const cat = selectedCategory === 'all' ? 'filming-and-live-stream' : selectedCategory
+      const response = await fetch('/api/filming-live-stream?category=' + cat, { cache: 'no-store' })
       const data = await response.json()
       setVideos(data)
     } catch (error) {
@@ -30,9 +29,7 @@ export default function FilmingLiveStreamContent() {
     setLoading(false)
   }
 
-  useEffect(() => {
-    fetchVideos()
-  }, [selectedCategory])
+  useEffect(() => { fetchVideos() }, [selectedCategory])
 
   function getYouTubeId(url) {
     if (!url) return null
@@ -47,79 +44,51 @@ export default function FilmingLiveStreamContent() {
       <section className="bg-gradient-to-r from-red-600 to-red-800 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">FILMING & LIVE STREAM</h1>
-          <p className="text-xl">Watch SA Football matches and panel shows</p>
+          <p className="text-xl">Watch SA Football matches live and on demand</p>
         </div>
       </section>
 
-      {/* Info band — sits directly under hero */}
+      {/* Info band */}
       <section className="bg-gray-900 text-white py-14">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-
             <h2 className="text-2xl font-bold text-red-500 mb-6 uppercase tracking-wide">
               Filming and Live Streaming Football and Sport
             </h2>
-
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-4 text-gray-300 text-base leading-relaxed mb-10">
               <div className="space-y-4">
-                <p>
-                  The South Australian Footballer is the best credentialed live streaming and filming company in South Australia.
-                </p>
-                <p>
-                  The main sport we film and live stream is Australian Football, but we also film netball, cricket, basketball, motor sports, Gaelic football and many other sports.
-                </p>
-                <p>
-                  Our videographers are the best in the business, highly skilled, well trained, and specifically trained to film the way our clients want.
-                </p>
+                <p>The South Australian Footballer is the best credentialed live streaming and filming company in South Australia.</p>
+                <p>The main sport we film and live stream is Australian Football, but we also film netball, cricket, basketball, motor sports, Gaelic football and many other sports.</p>
+                <p>Our videographers are the best in the business, highly skilled, well trained, and specifically trained to film the way our clients want.</p>
               </div>
               <div className="space-y-4">
-                <p>
-                  Our prices are the most competitive in South Australia, and we have a list of references a mile long.
-                </p>
-                <p>
-                  We hold a reference from Travis Lynn, President of the Hills Football League, and can present a host of other references and contacts regarding the quality of our work.
-                </p>
-
-                {/* Reference download */}
-                <a
-                  href="/references/hills-football-league-reference.pdf"
-                  target="_blank"
-                  className="inline-flex items-center gap-2 bg-[#2ca3ee] hover:bg-[#00b8f1] text-white px-5 py-2.5 rounded font-semibold transition text-sm"
-                >
+                <p>Our prices are the most competitive in South Australia, and we have a list of references a mile long.</p>
+                <p>We hold a reference from Travis Lynn, President of the Hills Football League, and can present a host of other references and contacts regarding the quality of our work.</p>
+                <a href="/references/hills-football-league-reference.pdf" target="_blank"
+                  className="inline-flex items-center gap-2 bg-[#2ca3ee] hover:bg-[#00b8f1] text-white px-5 py-2.5 rounded font-semibold transition text-sm">
                   📄 Download Reference Letter
                 </a>
               </div>
             </div>
-
-            {/* Contact + CTA row */}
             <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              
-              <a
-                href="/contact"
-                className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition text-sm whitespace-nowrap"
-              >
+              <a href="/contact"
+                className="inline-block bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition text-sm whitespace-nowrap">
                 Get a Quote
               </a>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* Category nav — sticky */}
+      {/* Category nav */}
       <section className="bg-white border-b sticky top-0 z-40 shadow-md">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center space-x-2 py-4 overflow-x-auto">
             {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
+              <button key={cat.id} onClick={() => setSelectedCategory(cat.id)}
                 className={`px-6 py-2 rounded-full font-bold whitespace-nowrap transition ${
-                  selectedCategory === cat.id
-                    ? 'bg-red-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
-              >
+                  selectedCategory === cat.id ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}>
                 {cat.name}
               </button>
             ))}
@@ -131,7 +100,7 @@ export default function FilmingLiveStreamContent() {
       <section className="container mx-auto px-4 py-12">
         {loading ? (
           <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#2ca3ee] border-t-transparent"></div>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent"></div>
             <p className="mt-4 text-gray-600">Loading videos...</p>
           </div>
         ) : videos.length > 0 ? (
@@ -159,17 +128,13 @@ export default function FilmingLiveStreamContent() {
                   <div className="p-4">
                     <h3 className="font-bold mb-2 line-clamp-2 text-gray-800">{video.title}</h3>
                     {video.category && (
-                      <p className="text-sm font-semibold text-[#2ca3ee] mb-2">
-                        {video.category === 'live-stream' && 'Live Stream'}
-                        {video.category === 'filming' && 'Filming'}
-                        {video.category === 'panel-shows' && 'Panel Show'}
+                      <p className="text-sm font-semibold text-red-600 mb-2">
+                        {video.category === 'live-stream' ? 'Live Stream' : 'Filming'}
                       </p>
                     )}
                     <p className="text-sm text-gray-700">
                       {new Date(video.publishedAt).toLocaleDateString('en-AU', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
+                        year: 'numeric', month: 'long', day: 'numeric'
                       })}
                     </p>
                   </div>
