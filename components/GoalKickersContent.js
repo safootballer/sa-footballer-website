@@ -1,23 +1,24 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { LEVEL1_ORDER, LEVEL2_ORDER, getLeagueCategory } from '../lib/leagueMap'
 
 function cleanTeamName(name) {
   if (!name) return ''
-  return name
-    .replace(/\s*-\s*(C\d+|M\d+|U\d+|Under\s*\d+|Div\s*\d+|Division\s*\d+|Reserves|R1|R2|[A-Z]\d+)$/i, '')
-    .trim()
+  return name.replace(/\s*-\s*(C\d+|M\d+|U\d+|Under\s*\d+|Div\s*\d+|Division\s*\d+|Reserves|R1|R2|[A-Z]\d+)$/i, '').trim()
 }
 
 function getGradeId(doc) {
-  // _id is stored as "goalKickers-{gradeId}" or "goalkickers-{gradeId}"
   return doc._id?.replace(/^goalKickers-|^goalkickers-/, '') || ''
 }
 
 export default function GoalKickersContent() {
+  const searchParams = useSearchParams()
+  const initialCompetition = searchParams.get('competition') ?? 'SANFL'
+
   const [allDocs, setAllDocs]   = useState([])
   const [loading, setLoading]   = useState(true)
-  const [level1, setLevel1]     = useState('SANFL')
+  const [level1, setLevel1]     = useState(LEVEL1_ORDER.includes(initialCompetition) ? initialCompetition : 'SANFL')
   const [level2, setLevel2]     = useState(null)
   const [activeId, setActiveId] = useState(null)
 
@@ -31,8 +32,7 @@ export default function GoalKickersContent() {
 
   useEffect(() => {
     const opts = getLevel2Options(level1)
-    const first = opts[0] ?? null
-    setLevel2(first)
+    setLevel2(opts[0] ?? null)
     setActiveId(null)
   }, [level1, allDocs])
 
@@ -67,10 +67,10 @@ export default function GoalKickersContent() {
       })
   }
 
-  const level2Options  = getLevel2Options(level1)
-  const gradeOptions   = level2 ? getGrades(level1, level2) : []
-  const activeDoc      = gradeOptions.find(d => getGradeId(d) === activeId)
-  const sortedPlayers  = activeDoc
+  const level2Options = getLevel2Options(level1)
+  const gradeOptions  = level2 ? getGrades(level1, level2) : []
+  const activeDoc     = gradeOptions.find(d => getGradeId(d) === activeId)
+  const sortedPlayers = activeDoc
     ? [...(activeDoc.players || [])].sort((a, b) => b.goals - a.goals).slice(0, 20)
     : []
 
@@ -85,7 +85,6 @@ export default function GoalKickersContent() {
 
   return (
     <>
-      {/* Hero */}
       <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">GOAL KICKERS</h1>
@@ -93,35 +92,28 @@ export default function GoalKickersContent() {
         </div>
       </section>
 
-      {/* Level 1 — sticky */}
       <section className="bg-white border-b shadow-md sticky top-0 z-40">
         <div className="container mx-auto px-4 py-3">
           <div className="flex flex-wrap gap-2 justify-center">
             {LEVEL1_ORDER.map(l1 => (
-              <button key={l1} onClick={() => setLevel1(l1)} style={tabBtn(level1 === l1, '#2ca3ee')}>
-                {l1}
-              </button>
+              <button key={l1} onClick={() => setLevel1(l1)} style={tabBtn(level1 === l1, '#2ca3ee')}>{l1}</button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Level 2 */}
       {level2Options.length > 0 && (
         <section className="bg-gray-50 border-b">
           <div className="container mx-auto px-4 py-2">
             <div className="flex flex-wrap gap-2 justify-center">
               {level2Options.map(l2 => (
-                <button key={l2} onClick={() => setLevel2(l2)} style={tabBtn(level2 === l2, '#e6a800')}>
-                  {l2}
-                </button>
+                <button key={l2} onClick={() => setLevel2(l2)} style={tabBtn(level2 === l2, '#e6a800')}>{l2}</button>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* Level 3 */}
       {gradeOptions.length > 0 && (
         <section className="bg-gray-100 border-b">
           <div className="container mx-auto px-4 py-2">
@@ -168,7 +160,7 @@ export default function GoalKickersContent() {
                 <thead>
                   <tr className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider">
                     <th className="px-4 py-3 text-left">#</th>
-                    <th className="px-4 py-3 font-bold  text-left">Player</th>
+                    <th className="px-4 py-3 font-bold text-left">Player</th>
                     <th className="px-4 py-3 text-left">Team</th>
                     <th className="px-3 py-3 text-center">GP</th>
                     <th className="px-3 py-3 text-center font-bold">Goals</th>

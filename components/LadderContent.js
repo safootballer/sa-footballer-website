@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { LEVEL1_ORDER, LEVEL2_ORDER, getLeagueCategory } from '../lib/leagueMap'
 
 function cleanTeamName(name) {
@@ -12,9 +13,12 @@ function getGradeId(doc) {
 }
 
 export default function LadderContent() {
+  const searchParams = useSearchParams()
+  const initialCompetition = searchParams.get('competition') ?? 'SANFL'
+
   const [allDocs, setAllDocs]   = useState([])
   const [loading, setLoading]   = useState(true)
-  const [level1, setLevel1]     = useState('SANFL')
+  const [level1, setLevel1]     = useState(LEVEL1_ORDER.includes(initialCompetition) ? initialCompetition : 'SANFL')
   const [level2, setLevel2]     = useState(null)
   const [activeId, setActiveId] = useState(null)
 
@@ -78,7 +82,6 @@ export default function LadderContent() {
 
   return (
     <>
-      {/* Hero */}
       <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">LEAGUE LADDERS</h1>
@@ -86,7 +89,6 @@ export default function LadderContent() {
         </div>
       </section>
 
-      {/* Level 1 */}
       <section className="bg-white border-b shadow-md sticky top-0 z-40">
         <div className="container mx-auto px-4 py-3">
           <div className="flex flex-wrap gap-2 justify-center">
@@ -97,7 +99,6 @@ export default function LadderContent() {
         </div>
       </section>
 
-      {/* Level 2 */}
       {level2Options.length > 0 && (
         <section className="bg-gray-50 border-b">
           <div className="container mx-auto px-4 py-2">
@@ -110,7 +111,6 @@ export default function LadderContent() {
         </section>
       )}
 
-      {/* Level 3 */}
       {gradeOptions.length > 0 && (
         <section className="bg-gray-100 border-b">
           <div className="container mx-auto px-4 py-2">
