@@ -18,7 +18,7 @@ export default function GoalKickersContent() {
 
   const [allDocs, setAllDocs]   = useState([])
   const [loading, setLoading]   = useState(true)
-  const [level1, setLevel1]     = useState(LEVEL1_ORDER.includes(initialCompetition) ? initialCompetition : 'SANFL')
+  const [level1, setLevel1]     = useState(LEVEL1_ORDER.includes(initialCompetition) ? initialCompetition : initialCompetition === 'Amateur' ? "Amateurs (Men's)" : 'SANFL')
   const [level2, setLevel2]     = useState(null)
   const [activeId, setActiveId] = useState(null)
 

@@ -37,19 +37,13 @@ export default function Header() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between py-3">
             <div className="flex justify-start w-1/3">
-              <a href="#">
-                <img src="/partner-logo-1.png" alt="Partner Logo 1" className="h-16 md:h-20 object-contain" onError={(e) => e.target.style.display = 'none'} />
-              </a>
+              <a href="#"><img src="/partner-logo-1.png" alt="Partner Logo 1" className="h-16 md:h-20 object-contain" onError={(e) => e.target.style.display = 'none'} /></a>
             </div>
             <div className="flex justify-center w-1/3">
-              <a href="https://www.safootballer.com.au/">
-                <img src="/partner-logo-2.png" alt="Partner Logo 2" className="h-16 md:h-20 object-contain" onError={(e) => e.target.style.display = 'none'} />
-              </a>
+              <a href="https://www.safootballer.com.au/"><img src="/partner-logo-2.png" alt="Partner Logo 2" className="h-16 md:h-20 object-contain" onError={(e) => e.target.style.display = 'none'} /></a>
             </div>
             <div className="flex justify-end w-1/3">
-              <a href="https://www.safootballer.com.au/">
-                <img src="/partner-logo-3.png" alt="Partner Logo 3" className="h-16 md:h-20 object-contain" onError={(e) => e.target.style.display = 'none'} />
-              </a>
+              <a href="https://www.safootballer.com.au/"><img src="/partner-logo-3.png" alt="Partner Logo 3" className="h-16 md:h-20 object-contain" onError={(e) => e.target.style.display = 'none'} /></a>
             </div>
           </div>
         </div>
@@ -93,7 +87,7 @@ export default function Header() {
                 <a href="/ladder" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AFL</a>
                 <a href="/ladder?competition=SANFL" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFL</a>
                 <a href="/ladder?competition=SANFLW" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFLW</a>
-                <a href="/ladder?competition=Amateur" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
+                <a href="/ladder?competition=Amateurs+(Men%27s)" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
                 <a href="/ladder?competition=SAWFL+Women%27s" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"SAWFL WOMEN'S"}</a>
                 <a href="/ladder?competition=Country+Football" className="block px-4 py-3 hover:bg-gray-100">COUNTRY FOOTBALL</a>
               </div>
@@ -106,7 +100,7 @@ export default function Header() {
                 <a href="/goal-kickers" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AFL</a>
                 <a href="/goal-kickers?competition=SANFL" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFL</a>
                 <a href="/goal-kickers?competition=SANFLW" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SANFLW</a>
-                <a href="/goal-kickers?competition=Amateur" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
+                <a href="/goal-kickers?competition=Amateurs+(Men%27s)" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"AMATEURS (MEN'S)"}</a>
                 <a href="/goal-kickers?competition=SAWFL+Women%27s" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"SAWFL WOMEN'S"}</a>
                 <a href="/goal-kickers?competition=Country+Football" className="block px-4 py-3 hover:bg-gray-100">COUNTRY FOOTBALL</a>
               </div>
@@ -186,7 +180,7 @@ export default function Header() {
               <a href="/ladder" className="block py-1 pl-4 text-gray-600">AFL</a>
               <a href="/ladder?competition=SANFL" className="block py-1 pl-4 text-gray-600">SANFL</a>
               <a href="/ladder?competition=SANFLW" className="block py-1 pl-4 text-gray-600">SANFLW</a>
-              <a href="/ladder?competition=Amateur" className="block py-1 pl-4 text-gray-600">{"AMATEURS (MEN'S)"}</a>
+              <a href="/ladder?competition=Amateurs+(Men%27s)" className="block py-1 pl-4 text-gray-600">{"AMATEURS (MEN'S)"}</a>
               <a href="/ladder?competition=SAWFL+Women%27s" className="block py-1 pl-4 text-gray-600">{"SAWFL WOMEN'S"}</a>
               <a href="/ladder?competition=Country+Football" className="block py-1 pl-4 text-gray-600">COUNTRY FOOTBALL</a>
             </div>
@@ -196,7 +190,7 @@ export default function Header() {
               <a href="/goal-kickers" className="block py-1 pl-4 text-gray-600">AFL</a>
               <a href="/goal-kickers?competition=SANFL" className="block py-1 pl-4 text-gray-600">SANFL</a>
               <a href="/goal-kickers?competition=SANFLW" className="block py-1 pl-4 text-gray-600">SANFLW</a>
-              <a href="/goal-kickers?competition=Amateur" className="block py-1 pl-4 text-gray-600">{"AMATEURS (MEN'S)"}</a>
+              <a href="/goal-kickers?competition=Amateurs+(Men%27s)" className="block py-1 pl-4 text-gray-600">{"AMATEURS (MEN'S)"}</a>
               <a href="/goal-kickers?competition=SAWFL+Women%27s" className="block py-1 pl-4 text-gray-600">{"SAWFL WOMEN'S"}</a>
               <a href="/goal-kickers?competition=Country+Football" className="block py-1 pl-4 text-gray-600">COUNTRY FOOTBALL</a>
             </div>
