@@ -42,10 +42,11 @@ const SAWFL_GROUPS = ['League', 'Reserves']
 
 const SANFL_GRADES = [
   { id: 'league',   name: 'SANFL League', group: 'League' },
+  { id: 'reserves', name: 'Reserves',     group: 'Reserves' },
   { id: 'under-18', name: 'Under 18',     group: 'Youth' },
   { id: 'under-16', name: 'Under 16',     group: 'Youth' },
 ]
-const SANFL_GROUPS = ['League', 'Youth']
+const SANFL_GROUPS = ['League', 'Reserves', 'Youth']
 
 export default function MatchResultsContent() {
   const searchParams = useSearchParams()
@@ -104,6 +105,8 @@ export default function MatchResultsContent() {
     setSanflGroup(group)
     if (group === 'League') {
       setSanflGrade('league')
+    } else if (group === 'Reserves') {
+      setSanflGrade('reserves')
     } else {
       const first = SANFL_GRADES.find(g => g.group === group)
       setSanflGrade(first?.id ?? '')

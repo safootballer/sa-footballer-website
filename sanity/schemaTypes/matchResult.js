@@ -73,6 +73,7 @@ export default {
       options: {
         list: [
           {title: 'League',   value: 'league'},
+          {title: 'Reserves', value: 'reserves'},
           {title: 'Under 18', value: 'under-18'},
           {title: 'Under 16', value: 'under-16'},
         ]
