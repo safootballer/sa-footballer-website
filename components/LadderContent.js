@@ -5,8 +5,6 @@ import { LEVEL1_ORDER, LEVEL2_ORDER, getLeagueCategory } from '../lib/leagueMap'
 
 function cleanTeamName(name) {
   if (!name) return ''
-  function cleanTeamName(name) {
-  if (!name) return ''
   return name
     .replace(/\s*-\s*M\d+R?\s*$/i, '')
     .replace(/\s*-\s*W\d+R?\s*$/i, '')
