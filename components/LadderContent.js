@@ -35,6 +35,7 @@ function cleanTeamName(name) {
     .trim()
 }
 
+
 function getGradeId(doc) {
   return doc._id?.replace(/^ladder-/, '') || ''
 }
@@ -208,7 +209,7 @@ export default function LadderContent() {
                       <td className="px-4 py-3 text-gray-600 font-semibold">{cleanTeamName(team.teamName)}</td>
                       <td className="px-3 py-3 text-gray-400 text-center">{team.played}</td>
                       <td className="px-3 py-3 text-center font-bold text-[#2ca3ee]">{team.points}</td>
-                      <td className="px-3 py-3 text-gray-400 text-center">{team.percentage}</td>
+                      <td className="px-3 py-3 text-gray-400 text-center">{team.percentage != null ? Number(team.percentage).toFixed(2) : '-'}</td>
                       <td className="px-3 py-3 text-center text-green-600 font-semibold">{team.wins}</td>
                       <td className="px-3 py-3 text-center text-red-500">{team.losses}</td>
                       <td className="px-3 py-3 text-gray-400 text-center">{team.draws}</td>
