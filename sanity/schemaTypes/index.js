@@ -11,7 +11,8 @@ import ladder from './ladder'
 import goalKickers from './goalKickers'
 import upcomingMatch from './upcomingMatch'
 import upcomingMatchesBulk from './upcomingMatchesBulk'
-
+import aflLadder from './aflLadder'
+import aflGoalKickers from './aflGoalKickers'
 
 export const schemaTypes = [
   editorial,
@@ -21,10 +22,12 @@ export const schemaTypes = [
   photo,
   photoBulkUpload,
   upcomingMatchesBulk,
+  upcomingMatch,
   customPage,
   siteSettings,
   subscriber,
   ladder,
   goalKickers,
-  upcomingMatch,
+  aflLadder,
+  aflGoalKickers,
 ]
