@@ -98,7 +98,7 @@ export default function ContactPage() {
               <h3 className="text-gray-600 font-bold text-lg mb-4">Follow Us on Social Media</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 <a 
-                  href="https://www.facebook.com/southaustralianfootballerandsport" 
+                  href="https://www.facebook.com/southaustralianfootballerandsports" 
                   target="_blank"
                   className="flex items-center gap-3 p-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                 >
@@ -126,7 +126,7 @@ export default function ContactPage() {
                 </a>
 
                 <a 
-                  href="https://youtube.com/@southaustralianfootballer?si=AUCVkYzXgV8k1N1a" 
+                  href="https://www.youtube.com/channel/UCohBOBxeJt9AruGWffeW-OQ" 
                   target="_blank"
                   className="flex items-center gap-3 p-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
                 >
