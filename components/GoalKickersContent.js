@@ -5,7 +5,34 @@ import { LEVEL1_ORDER, LEVEL2_ORDER, getLeagueCategory } from '../lib/leagueMap'
 
 function cleanTeamName(name) {
   if (!name) return ''
-  return name.replace(/\s*-\s*(C\d+|M\d+|U\d+|Under\s*\d+|Div\s*\d+|Division\s*\d+|Reserves|R1|R2|[A-Z]\d+)$/i, '').trim()
+  return name
+    .replace(/\s*-\s*M\d+R?\s*$/i, '')
+    .replace(/\s*-\s*W\d+R?\s*$/i, '')
+    .replace(/\s*-\s*C\d+\s*$/i, '')
+    .replace(/\s*-?\s*[A-Z]\s+Grade\s*$/i, '')
+    .replace(/\s*-\s*Under\s*\d+\s*$/i, '')
+    .replace(/\s*-\s*U\d+\s*$/i, '')
+    .replace(/\s*\bM\d+R?\b\s*$/i, '')
+    .replace(/\s*\bW\d+R?\b\s*$/i, '')
+    .replace(/\s*\bC\d+\b\s*$/i, '')
+    .replace(/\s*[-–]\s*Men'?s?\s*$/i, '')
+    .replace(/\s*[-–]\s*Women'?s?\s*$/i, '')
+    .replace(/\s*\bMen'?s?\b\s*$/i, '')
+    .replace(/\s*\bWomen'?s?\b\s*$/i, '')
+    .replace(/\s*[-–]\s*Seniors?\s*$/i, '')
+    .replace(/\s*[-–]\s*Juniors?\s*$/i, '')
+    .replace(/\s*\bSeniors?\b\s*$/i, '')
+    .replace(/\s*\bJuniors?\b\s*$/i, '')
+    .replace(/\s*[-–]?\s*[A-H]\s+Grade\s*$/i, '')
+    .replace(/\s*[-–]?\s*Senior\s+Men'?s?\s*$/i, '')
+    .replace(/\s*[-–]?\s*Senior\s+Women'?s?\s*$/i, '')
+    .replace(/\s+Football Club\s*$/i, '')
+    .replace(/\s+FC\s*$/i, '')
+    .replace(/\s*\bLeague\b\s*$/i, '')
+    .replace(/\s*\bReserves\b\s*$/i, '')
+    .replace(/\s*\bUnder\s*\d+\b\s*$/i, '')
+    .replace(/\s*\bU\d+\b\s*$/i, '')
+    .trim()
 }
 
 function getGradeId(doc) {
