@@ -2,7 +2,7 @@
 // Registers the Send Magazine tool in Sanity Studio
 
 import { definePlugin } from 'sanity'
-import SendMagazineTool from './SendMagazineTool'
+import SendMagazineTool from './SendMagazineTool.jsx'
 
 export const sendMagazinePlugin = definePlugin({
   name: 'send-magazine',
