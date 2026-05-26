@@ -5,12 +5,14 @@ import { LEVEL1_ORDER, LEVEL2_ORDER, getLeagueCategory } from '../lib/leagueMap'
 
 function cleanTeamName(name) {
   if (!name) return ''
+  function cleanTeamName(name) {
+  if (!name) return ''
   return name
     .replace(/\s*-\s*M\d+R?\s*$/i, '')
     .replace(/\s*-\s*W\d+R?\s*$/i, '')
     .replace(/\s*-\s*C\d+\s*$/i, '')
     .replace(/\s*-?\s*[A-Z]\s+Grade\s*$/i, '')
-    .replace(/\s*-\s*Under\s*\d+\s*$/i, '')
+    .replace(/\s*-\s*Under\s*[\d.]+\s*$/i, '')
     .replace(/\s*-\s*U\d+\s*$/i, '')
     .replace(/\s*\bM\d+R?\b\s*$/i, '')
     .replace(/\s*\bW\d+R?\b\s*$/i, '')
@@ -20,19 +22,28 @@ function cleanTeamName(name) {
     .replace(/\s*\bMen'?s?\b\s*$/i, '')
     .replace(/\s*\bWomen'?s?\b\s*$/i, '')
     .replace(/\s*[-–]\s*Seniors?\s*$/i, '')
-    .replace(/\s*[-–]\s*[A-Z]\s*$/i, '')  // removes - A, - B, - C ... - Z
     .replace(/\s*[-–]\s*Juniors?\s*$/i, '')
     .replace(/\s*\bSeniors?\b\s*$/i, '')
     .replace(/\s*\bJuniors?\b\s*$/i, '')
     .replace(/\s*[-–]?\s*[A-H]\s+Grade\s*$/i, '')
     .replace(/\s*[-–]?\s*Senior\s+Men'?s?\s*$/i, '')
     .replace(/\s*[-–]?\s*Senior\s+Women'?s?\s*$/i, '')
+    .replace(/\s*[-–]\s*[A-Z]\s*$/i, '')
     .replace(/\s+Football Club\s*$/i, '')
     .replace(/\s+FC\s*$/i, '')
     .replace(/\s*\bLeague\b\s*$/i, '')
     .replace(/\s*\bReserves\b\s*$/i, '')
-    .replace(/\s*\bUnder\s*\d+\b\s*$/i, '')
-    .replace(/\s*\bU\d+\b\s*$/i, '')
+    .replace(/\s*\bBoys\s+Under\s*[\d.]+\b\s*$/i, '')
+    .replace(/\s*\bGirls\s+Under\s*[\d.]+\b\s*$/i, '')
+    .replace(/\s*\bUnder\s*[\d.]+\s*Boys\b\s*$/i, '')
+    .replace(/\s*\bUnder\s*[\d.]+\s*Girls\b\s*$/i, '')
+    .replace(/\s*\bUnder\s*[\d.]+\b\s*$/i, '')
+    .replace(/\s*\bU[\d.]+\s*Boys\b\s*$/i, '')
+    .replace(/\s*\bU[\d.]+\s*Girls\b\s*$/i, '')
+    .replace(/\s*\bU[\d.]+s?\b\s*$/i, '')
+    .replace(/\s*\bSnr\s+Colts\b\s*$/i, '')
+    .replace(/\s*\bSenior\s+Colts\b\s*$/i, '')
+    .replace(/\s*\bColts\b\s*$/i, '')
     .trim()
 }
 
