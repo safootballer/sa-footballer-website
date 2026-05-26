@@ -37,10 +37,10 @@ export const structure = (S) =>
             .title('Match Results')
         ),
       S.listItem()
-        .title('📅 Upcoming Matches')
+        .title('📅 Upcoming Matches (Bulk)')
         .child(
-          S.documentTypeList('upcomingMatch')
-            .title('Upcoming Matches')
+          S.documentTypeList('upcomingMatchesBulk')
+            .title('Upcoming Matches (Bulk)')
         ),
       S.listItem()
         .title('📖 Magazines')

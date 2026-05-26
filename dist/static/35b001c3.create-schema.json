@@ -1,0 +1,3603 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "AFL",
+              "value": "AFL"
+            },
+            {
+              "title": "AFLW",
+              "value": "AFLW"
+            },
+            {
+              "title": "SANFL",
+              "value": "SANFL"
+            },
+            {
+              "title": "SANFLW",
+              "value": "SANFLW"
+            },
+            {
+              "title": "Amateur",
+              "value": "Amateur"
+            },
+            {
+              "title": "SAWFL Women's",
+              "value": "SAWFL Women's"
+            },
+            {
+              "title": "Country Football",
+              "value": "Country Football"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "AFL",
+                  "AFLW",
+                  "SANFL",
+                  "SANFLW",
+                  "Amateur",
+                  "SAWFL Women's",
+                  "Country Football"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "competition",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Adelaide Plains",
+              "value": "adelaide-plains"
+            },
+            {
+              "title": "Barossa Light & Gawler",
+              "value": "barossa"
+            },
+            {
+              "title": "Broken Hill",
+              "value": "broken-hill"
+            },
+            {
+              "title": "Eastern Eyre",
+              "value": "eastern-eyre"
+            },
+            {
+              "title": "Far North",
+              "value": "far-north"
+            },
+            {
+              "title": "Great Flinders",
+              "value": "great-flinders"
+            },
+            {
+              "title": "Great Southern",
+              "value": "great-southern"
+            },
+            {
+              "title": "Hills Division 1",
+              "value": "hills-div1"
+            },
+            {
+              "title": "Hills Country Division",
+              "value": "hills-country"
+            },
+            {
+              "title": "Kangaroo Island",
+              "value": "kangaroo-island"
+            },
+            {
+              "title": "Kowree Naracoorte Tatiara",
+              "value": "knt"
+            },
+            {
+              "title": "Limestone Coast",
+              "value": "limestone-coast"
+            },
+            {
+              "title": "Murray Valley",
+              "value": "murray-valley"
+            },
+            {
+              "title": "Mid South Eastern",
+              "value": "mid-south-eastern"
+            },
+            {
+              "title": "North Eastern",
+              "value": "north-eastern"
+            },
+            {
+              "title": "Northern Areas",
+              "value": "northern-areas"
+            },
+            {
+              "title": "Port Lincoln",
+              "value": "port-lincoln"
+            },
+            {
+              "title": "River Murray",
+              "value": "river-murray"
+            },
+            {
+              "title": "Riverland",
+              "value": "riverland"
+            },
+            {
+              "title": "Southern",
+              "value": "southern"
+            },
+            {
+              "title": "Spencer Gulf",
+              "value": "spencer-gulf"
+            },
+            {
+              "title": "Western Eyre",
+              "value": "western-eyre"
+            },
+            {
+              "title": "Whyalla",
+              "value": "whyalla"
+            },
+            {
+              "title": "Yorke Peninsula",
+              "value": "yorke-peninsula"
+            }
+          ]
+        },
+        "hidden": "conditional",
+        "name": "countryLeague",
+        "type": "string",
+        "title": "Country League (Only for Country Football)"
+      },
+      {
+        "rows": 3,
+        "description": "Short summary for cards",
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "featuredImage",
+        "type": "image"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "content",
+        "type": "array"
+      },
+      {
+        "name": "author",
+        "type": "string"
+      },
+      {
+        "name": "publishedAt",
+        "type": "datetime"
+      }
+    ],
+    "name": "editorial",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "AFL",
+              "value": "AFL"
+            },
+            {
+              "title": "AFLW",
+              "value": "AFLW"
+            },
+            {
+              "title": "SANFL",
+              "value": "SANFL"
+            },
+            {
+              "title": "SANFLW",
+              "value": "SANFLW"
+            },
+            {
+              "title": "Amateur",
+              "value": "Amateur"
+            },
+            {
+              "title": "SAWFL Women's",
+              "value": "SAWFL Women's"
+            },
+            {
+              "title": "Country Football",
+              "value": "Country Football"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "AFL",
+                  "AFLW",
+                  "SANFL",
+                  "SANFLW",
+                  "Amateur",
+                  "SAWFL Women's",
+                  "Country Football"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "competition",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Division 1",
+              "value": "division-1"
+            },
+            {
+              "title": "Division 2",
+              "value": "division-2"
+            },
+            {
+              "title": "Division 3",
+              "value": "division-3"
+            },
+            {
+              "title": "Division 4",
+              "value": "division-4"
+            },
+            {
+              "title": "Division 5",
+              "value": "division-5"
+            },
+            {
+              "title": "Division 6",
+              "value": "division-6"
+            },
+            {
+              "title": "Division 7",
+              "value": "division-7"
+            },
+            {
+              "title": "Division 1 Reserves",
+              "value": "division-1-reserves"
+            },
+            {
+              "title": "Division 2 Reserves",
+              "value": "division-2-reserves"
+            },
+            {
+              "title": "Division 3 Reserves",
+              "value": "division-3-reserves"
+            },
+            {
+              "title": "Division 4 Reserves",
+              "value": "division-4-reserves"
+            },
+            {
+              "title": "Division 5 Reserves",
+              "value": "division-5-reserves"
+            },
+            {
+              "title": "Division 6 Reserves",
+              "value": "division-6-reserves"
+            },
+            {
+              "title": "Division 7 Reserves",
+              "value": "division-7-reserves"
+            },
+            {
+              "title": "Division C1",
+              "value": "division-c1"
+            },
+            {
+              "title": "Division C2",
+              "value": "division-c2"
+            },
+            {
+              "title": "Division C3",
+              "value": "division-c3"
+            },
+            {
+              "title": "Division C4",
+              "value": "division-c4"
+            },
+            {
+              "title": "Division C5",
+              "value": "division-c5"
+            },
+            {
+              "title": "Division C6",
+              "value": "division-c6"
+            },
+            {
+              "title": "Division C7",
+              "value": "division-c7"
+            },
+            {
+              "title": "Division C8",
+              "value": "division-c8"
+            }
+          ]
+        },
+        "description": "Used for Amateurs and SAWFL Women's divisions",
+        "hidden": "conditional",
+        "name": "amateurGrade",
+        "type": "string",
+        "title": "Amateur / SAWFL Grade"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "League",
+              "value": "league"
+            },
+            {
+              "title": "Reserves",
+              "value": "reserves"
+            },
+            {
+              "title": "Under 18",
+              "value": "under-18"
+            },
+            {
+              "title": "Under 16",
+              "value": "under-16"
+            }
+          ]
+        },
+        "hidden": "conditional",
+        "name": "sanflGrade",
+        "type": "string",
+        "title": "SANFL Grade"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Adelaide Plains",
+              "value": "adelaide-plains"
+            },
+            {
+              "title": "Barossa Light & Gawler",
+              "value": "barossa"
+            },
+            {
+              "title": "Broken Hill",
+              "value": "broken-hill"
+            },
+            {
+              "title": "Eastern Eyre",
+              "value": "eastern-eyre"
+            },
+            {
+              "title": "Far North",
+              "value": "far-north"
+            },
+            {
+              "title": "Great Flinders",
+              "value": "great-flinders"
+            },
+            {
+              "title": "Great Southern",
+              "value": "great-southern"
+            },
+            {
+              "title": "Hills Division 1",
+              "value": "hills-div1"
+            },
+            {
+              "title": "Hills Country Division",
+              "value": "hills-country"
+            },
+            {
+              "title": "Kangaroo Island",
+              "value": "kangaroo-island"
+            },
+            {
+              "title": "Kowree Naracoorte Tatiara",
+              "value": "knt"
+            },
+            {
+              "title": "Limestone Coast",
+              "value": "limestone-coast"
+            },
+            {
+              "title": "Murray Valley",
+              "value": "murray-valley"
+            },
+            {
+              "title": "Mid South Eastern",
+              "value": "mid-south-eastern"
+            },
+            {
+              "title": "North Eastern",
+              "value": "north-eastern"
+            },
+            {
+              "title": "Northern Areas",
+              "value": "northern-areas"
+            },
+            {
+              "title": "Port Lincoln",
+              "value": "port-lincoln"
+            },
+            {
+              "title": "River Murray",
+              "value": "river-murray"
+            },
+            {
+              "title": "Riverland",
+              "value": "riverland"
+            },
+            {
+              "title": "Southern",
+              "value": "southern"
+            },
+            {
+              "title": "Spencer Gulf",
+              "value": "spencer-gulf"
+            },
+            {
+              "title": "Western Eyre",
+              "value": "western-eyre"
+            },
+            {
+              "title": "Whyalla",
+              "value": "whyalla"
+            },
+            {
+              "title": "Yorke Peninsula",
+              "value": "yorke-peninsula"
+            }
+          ]
+        },
+        "hidden": "conditional",
+        "name": "countryLeague",
+        "type": "string",
+        "title": "Country League (Only for Country Football)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "homeTeam",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "awayTeam",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "homeScore",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "awayScore",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "matchDate",
+        "type": "datetime"
+      },
+      {
+        "name": "venue",
+        "type": "string"
+      },
+      {
+        "name": "round",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "content",
+        "type": "array",
+        "title": "Match Report Content"
+      },
+      {
+        "name": "author",
+        "type": "string"
+      }
+    ],
+    "name": "matchResult",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "SA Footballer",
+              "value": "SA Footballer"
+            },
+            {
+              "title": "Ammo Division 1",
+              "value": "Ammo Division 1"
+            },
+            {
+              "title": "Ammo Division 2",
+              "value": "Ammo Division 2"
+            },
+            {
+              "title": "Ammo Division 3",
+              "value": "Ammo Division 3"
+            },
+            {
+              "title": "Ammo Division 4",
+              "value": "Ammo Division 4"
+            },
+            {
+              "title": "Ammo Division 5",
+              "value": "Ammo Division 5"
+            },
+            {
+              "title": "Ammo Division 6",
+              "value": "Ammo Division 6"
+            },
+            {
+              "title": "Ammo Division 7",
+              "value": "Ammo Division 7"
+            },
+            {
+              "title": "Women's Footy Budget",
+              "value": "Women's Footy Budget"
+            },
+            {
+              "title": "Country Footy Budget",
+              "value": "Country Footy Budget"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "SA Footballer",
+                  "Ammo Division 1",
+                  "Ammo Division 2",
+                  "Ammo Division 3",
+                  "Ammo Division 4",
+                  "Ammo Division 5",
+                  "Ammo Division 6",
+                  "Ammo Division 7",
+                  "Women's Footy Budget",
+                  "Country Footy Budget"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "magazineType",
+        "type": "string"
+      },
+      {
+        "hidden": true,
+        "name": "competition",
+        "type": "string",
+        "title": "Competition (Deprecated - use Magazine Type)"
+      },
+      {
+        "hidden": true,
+        "name": "weekEnding",
+        "type": "date",
+        "title": "Week Ending (Deprecated)"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "coverImage",
+        "type": "image"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Link to the PDF file",
+        "name": "pdfUrl",
+        "type": "url",
+        "title": "PDF URL"
+      },
+      {
+        "description": "E.g., \"Issue 245\" or \"Round 10\"",
+        "name": "issueNumber",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "publishedAt",
+        "type": "datetime"
+      },
+      {
+        "rows": 3,
+        "description": "Short description of this issue",
+        "name": "excerpt",
+        "type": "text"
+      },
+      {
+        "initialValue": false,
+        "description": "Show on homepage?",
+        "name": "featured",
+        "type": "boolean"
+      }
+    ],
+    "name": "magazine",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "youtubeUrl",
+        "type": "url",
+        "title": "YouTube URL"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Live Stream",
+              "value": "live-stream"
+            },
+            {
+              "title": "Filming",
+              "value": "filming"
+            },
+            {
+              "title": "Panel Shows",
+              "value": "panel-shows"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "live-stream",
+                  "filming",
+                  "panel-shows"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "category",
+        "type": "string",
+        "title": "Video Category"
+      },
+      {
+        "name": "publishedAt",
+        "type": "datetime"
+      }
+    ],
+    "name": "video",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "description": "Optional title for the photo",
+        "name": "title",
+        "type": "string",
+        "title": "Title (Optional)"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "image",
+        "type": "image",
+        "title": "Photo"
+      },
+      {
+        "rows": 2,
+        "description": "Optional caption or description",
+        "name": "caption",
+        "type": "text",
+        "title": "Caption (Optional)"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Homepage",
+              "value": "homepage"
+            },
+            {
+              "title": "News Articles Page",
+              "value": "articles"
+            },
+            {
+              "title": "Videos Page",
+              "value": "videos"
+            },
+            {
+              "title": "Magazines Page",
+              "value": "magazines"
+            },
+            {
+              "title": "Match Reports Page",
+              "value": "match-reports"
+            },
+            {
+              "title": "All Pages",
+              "value": "all"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "homepage",
+                  "articles",
+                  "videos",
+                  "magazines",
+                  "match-reports",
+                  "all"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Select which pages should display this photo",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "displayPages",
+        "type": "array",
+        "title": "Display on Pages"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background Image (Full Width)",
+              "value": "background"
+            },
+            {
+              "title": "Photo Gallery Grid",
+              "value": "gallery"
+            },
+            {
+              "title": "Article/Card Images",
+              "value": "cards"
+            },
+            {
+              "title": "Header Background",
+              "value": "header"
+            },
+            {
+              "title": "Blank Area / Custom Position",
+              "value": "blank"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "background",
+                  "gallery",
+                  "cards",
+                  "header",
+                  "blank"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Where should this photo appear on the page?",
+        "name": "placement",
+        "type": "string",
+        "title": "Photo Placement"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Top of Page",
+              "value": "top"
+            },
+            {
+              "title": "After Hero Section",
+              "value": "after-hero"
+            },
+            {
+              "title": "Middle of Page",
+              "value": "middle"
+            },
+            {
+              "title": "Before Footer",
+              "value": "before-footer"
+            },
+            {
+              "title": "Bottom of Page",
+              "value": "bottom"
+            },
+            {
+              "title": "Sidebar (if available)",
+              "value": "sidebar"
+            },
+            {
+              "title": "Between Sections",
+              "value": "between-sections"
+            }
+          ]
+        },
+        "description": "Only used if placement is \"Blank Area / Custom Position\"",
+        "hidden": "conditional",
+        "name": "blankAreaPosition",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Full Width",
+              "value": "full-width"
+            },
+            {
+              "title": "Centered",
+              "value": "centered"
+            },
+            {
+              "title": "Left Aligned",
+              "value": "left"
+            },
+            {
+              "title": "Right Aligned",
+              "value": "right"
+            },
+            {
+              "title": "Floating Left",
+              "value": "float-left"
+            },
+            {
+              "title": "Floating Right",
+              "value": "float-right"
+            }
+          ]
+        },
+        "initialValue": "centered",
+        "description": "How should the photo be displayed?",
+        "name": "displayStyle",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Small (300px)",
+              "value": "small"
+            },
+            {
+              "title": "Medium (600px)",
+              "value": "medium"
+            },
+            {
+              "title": "Large (900px)",
+              "value": "large"
+            },
+            {
+              "title": "Extra Large (1200px)",
+              "value": "xlarge"
+            },
+            {
+              "title": "Full Width",
+              "value": "full"
+            }
+          ]
+        },
+        "initialValue": "medium",
+        "description": "What size should the photo be?",
+        "name": "photoSize",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "SANFL",
+              "value": "sanfl"
+            },
+            {
+              "title": "AFL",
+              "value": "afl"
+            },
+            {
+              "title": "Amateur",
+              "value": "amateur"
+            },
+            {
+              "title": "Women's",
+              "value": "womens"
+            },
+            {
+              "title": "Country",
+              "value": "country"
+            },
+            {
+              "title": "General",
+              "value": "general"
+            }
+          ]
+        },
+        "name": "competition",
+        "type": "string",
+        "title": "Competition (Optional)"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "min",
+                "constraint": 0
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Lower numbers appear first (1, 2, 3...). Leave blank for random order.",
+        "name": "sortOrder",
+        "type": "number"
+      },
+      {
+        "name": "uploadedAt",
+        "type": "datetime",
+        "title": "Upload Date"
+      },
+      {
+        "initialValue": true,
+        "description": "Turn off to hide this photo without deleting it",
+        "name": "active",
+        "type": "boolean"
+      }
+    ],
+    "name": "photo",
+    "type": "document",
+    "title": "Photo Gallery"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Name this batch of photos (e.g., \"March 2026 Match Photos\")",
+        "name": "uploadName",
+        "type": "string",
+        "title": "Upload Batch Name"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Upload multiple photos at once - drag and drop or click to select multiple files",
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "type": "image"
+          }
+        ],
+        "name": "photos",
+        "type": "array",
+        "title": "Upload Multiple Photos"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Homepage",
+              "value": "homepage"
+            },
+            {
+              "title": "News Articles Page",
+              "value": "articles"
+            },
+            {
+              "title": "Videos Page",
+              "value": "videos"
+            },
+            {
+              "title": "Magazines Page",
+              "value": "magazines"
+            },
+            {
+              "title": "Match Reports Page",
+              "value": "match-reports"
+            },
+            {
+              "title": "All Pages",
+              "value": "all"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "homepage",
+                  "articles",
+                  "videos",
+                  "magazines",
+                  "match-reports",
+                  "all"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "These pages will be applied to all photos in this batch",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "defaultPages",
+        "type": "array",
+        "title": "Apply to Pages (Default for all photos)"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Background Image",
+              "value": "background"
+            },
+            {
+              "title": "Photo Gallery Grid",
+              "value": "gallery"
+            },
+            {
+              "title": "Article/Card Images",
+              "value": "cards"
+            },
+            {
+              "title": "Header Background",
+              "value": "header"
+            },
+            {
+              "title": "Blank Area / Custom Position",
+              "value": "blank"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "background",
+                  "gallery",
+                  "cards",
+                  "header",
+                  "blank"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Default placement for all photos in this batch",
+        "name": "defaultPlacement",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Top of Page",
+              "value": "top"
+            },
+            {
+              "title": "After Hero Section",
+              "value": "after-hero"
+            },
+            {
+              "title": "Middle of Page",
+              "value": "middle"
+            },
+            {
+              "title": "Before Footer",
+              "value": "before-footer"
+            },
+            {
+              "title": "Bottom of Page",
+              "value": "bottom"
+            }
+          ]
+        },
+        "description": "Only applies if placement is \"Blank Area\"",
+        "name": "defaultBlankAreaPosition",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Full Width",
+              "value": "full-width"
+            },
+            {
+              "title": "Centered",
+              "value": "centered"
+            },
+            {
+              "title": "Left Aligned",
+              "value": "left"
+            },
+            {
+              "title": "Right Aligned",
+              "value": "right"
+            }
+          ]
+        },
+        "initialValue": "centered",
+        "name": "defaultDisplayStyle",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Small (300px)",
+              "value": "small"
+            },
+            {
+              "title": "Medium (600px)",
+              "value": "medium"
+            },
+            {
+              "title": "Large (900px)",
+              "value": "large"
+            },
+            {
+              "title": "Full Width",
+              "value": "full"
+            }
+          ]
+        },
+        "initialValue": "medium",
+        "name": "defaultPhotoSize",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "SANFL",
+              "value": "sanfl"
+            },
+            {
+              "title": "AFL",
+              "value": "afl"
+            },
+            {
+              "title": "Amateur",
+              "value": "amateur"
+            },
+            {
+              "title": "Women's",
+              "value": "womens"
+            },
+            {
+              "title": "Country",
+              "value": "country"
+            },
+            {
+              "title": "General",
+              "value": "general"
+            }
+          ]
+        },
+        "description": "Default competition for all photos in this batch",
+        "name": "defaultCompetition",
+        "type": "string"
+      },
+      {
+        "name": "uploadedAt",
+        "type": "datetime",
+        "title": "Upload Date"
+      },
+      {
+        "initialValue": true,
+        "description": "Automatically create individual gallery items when you publish this bulk upload",
+        "name": "autoProcess",
+        "type": "boolean",
+        "title": "Auto-Process Photos"
+      },
+      {
+        "initialValue": false,
+        "description": "Photos have been converted to individual gallery items",
+        "readOnly": true,
+        "name": "processed",
+        "type": "boolean"
+      },
+      {
+        "description": "Number of photos successfully processed",
+        "readOnly": true,
+        "name": "processedCount",
+        "type": "number",
+        "title": "Photos Processed"
+      }
+    ],
+    "name": "photoBulkUpload",
+    "type": "document",
+    "title": "Bulk Photo Upload"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "list": [
+            {
+              "title": "AFL",
+              "value": "AFL"
+            },
+            {
+              "title": "AFLW",
+              "value": "AFLW"
+            },
+            {
+              "title": "SANFL",
+              "value": "SANFL"
+            },
+            {
+              "title": "SANFLW",
+              "value": "SANFLW"
+            },
+            {
+              "title": "Amateurs",
+              "value": "Amateur"
+            },
+            {
+              "title": "SAWFL Women's",
+              "value": "SAWFL Women's"
+            },
+            {
+              "title": "Country Football",
+              "value": "Country Football"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "AFL",
+                  "AFLW",
+                  "SANFL",
+                  "SANFLW",
+                  "Amateur",
+                  "SAWFL Women's",
+                  "Country Football"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "competition",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Division 1",
+              "value": "division-1"
+            },
+            {
+              "title": "Division 2",
+              "value": "division-2"
+            },
+            {
+              "title": "Division 3",
+              "value": "division-3"
+            },
+            {
+              "title": "Division 4",
+              "value": "division-4"
+            },
+            {
+              "title": "Division 5",
+              "value": "division-5"
+            },
+            {
+              "title": "Division 6",
+              "value": "division-6"
+            },
+            {
+              "title": "Division 7",
+              "value": "division-7"
+            },
+            {
+              "title": "Division 1 Reserves",
+              "value": "division-1-reserves"
+            },
+            {
+              "title": "Division 2 Reserves",
+              "value": "division-2-reserves"
+            },
+            {
+              "title": "Division 3 Reserves",
+              "value": "division-3-reserves"
+            },
+            {
+              "title": "Division 4 Reserves",
+              "value": "division-4-reserves"
+            },
+            {
+              "title": "Division 5 Reserves",
+              "value": "division-5-reserves"
+            },
+            {
+              "title": "Division 6 Reserves",
+              "value": "division-6-reserves"
+            },
+            {
+              "title": "Division 7 Reserves",
+              "value": "division-7-reserves"
+            },
+            {
+              "title": "Division C1",
+              "value": "division-c1"
+            },
+            {
+              "title": "Division C2",
+              "value": "division-c2"
+            },
+            {
+              "title": "Division C3",
+              "value": "division-c3"
+            },
+            {
+              "title": "Division C4",
+              "value": "division-c4"
+            },
+            {
+              "title": "Division C5",
+              "value": "division-c5"
+            },
+            {
+              "title": "Division C6",
+              "value": "division-c6"
+            },
+            {
+              "title": "Division C7",
+              "value": "division-c7"
+            },
+            {
+              "title": "Division C8",
+              "value": "division-c8"
+            }
+          ]
+        },
+        "description": "Select grade for Amateurs or SAWFL Women's",
+        "hidden": "conditional",
+        "name": "amateurGrade",
+        "type": "string",
+        "title": "Amateur / SAWFL Grade"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "League",
+              "value": "league"
+            },
+            {
+              "title": "Reserves",
+              "value": "reserves"
+            },
+            {
+              "title": "Under 18",
+              "value": "under-18"
+            },
+            {
+              "title": "Under 16",
+              "value": "under-16"
+            }
+          ]
+        },
+        "hidden": "conditional",
+        "name": "sanflGrade",
+        "type": "string",
+        "title": "SANFL Grade"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Adelaide Plains",
+              "value": "adelaide-plains"
+            },
+            {
+              "title": "Barossa Light & Gawler",
+              "value": "barossa"
+            },
+            {
+              "title": "Eastern Eyre",
+              "value": "eastern-eyre"
+            },
+            {
+              "title": "Far North",
+              "value": "far-north"
+            },
+            {
+              "title": "Great Flinders",
+              "value": "great-flinders"
+            },
+            {
+              "title": "Great Southern",
+              "value": "great-southern"
+            },
+            {
+              "title": "Hills Division 1",
+              "value": "hills-div1"
+            },
+            {
+              "title": "Hills Country Division",
+              "value": "hills-country"
+            },
+            {
+              "title": "Kangaroo Island",
+              "value": "kangaroo-island"
+            },
+            {
+              "title": "Kowree Naracoorte Tatiara",
+              "value": "knt"
+            },
+            {
+              "title": "Limestone Coast",
+              "value": "limestone-coast"
+            },
+            {
+              "title": "Murray Valley",
+              "value": "murray-valley"
+            },
+            {
+              "title": "Mid South Eastern",
+              "value": "mid-south-eastern"
+            },
+            {
+              "title": "North Eastern",
+              "value": "north-eastern"
+            },
+            {
+              "title": "Northern Areas",
+              "value": "northern-areas"
+            },
+            {
+              "title": "Port Lincoln",
+              "value": "port-lincoln"
+            },
+            {
+              "title": "River Murray",
+              "value": "river-murray"
+            },
+            {
+              "title": "Riverland",
+              "value": "riverland"
+            },
+            {
+              "title": "Southern",
+              "value": "southern"
+            },
+            {
+              "title": "Spencer Gulf",
+              "value": "spencer-gulf"
+            },
+            {
+              "title": "Western Eyre",
+              "value": "western-eyre"
+            },
+            {
+              "title": "Whyalla",
+              "value": "whyalla"
+            },
+            {
+              "title": "Yorke Peninsula",
+              "value": "yorke-peninsula"
+            }
+          ]
+        },
+        "hidden": "conditional",
+        "name": "countryLeague",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "e.g. Round 5",
+        "name": "round",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Date and time that applies to ALL matches in this paste (can be overridden per line)",
+        "name": "matchDate",
+        "type": "datetime",
+        "title": "Match Date & Time"
+      },
+      {
+        "rows": 15,
+        "placeholder": "St Peters OC v Sacred Heart OC @ St Peters College\nRostrevor OC v Golden Grove @ Campbelltown Memorial Oval",
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Paste one match per line in format: Home Team v Away Team @ Venue",
+        "name": "matches",
+        "type": "text"
+      }
+    ],
+    "name": "upcomingMatchesBulk",
+    "type": "document",
+    "title": "Upcoming Matches (Bulk)"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Page Title"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "This will be the page URL (e.g., /about-us)",
+        "name": "slug",
+        "type": "slug",
+        "title": "URL Slug"
+      },
+      {
+        "initialValue": true,
+        "name": "showInMenu",
+        "type": "boolean",
+        "title": "Show in Menu?"
+      },
+      {
+        "description": "Optional - leave blank to use Page Title",
+        "name": "menuTitle",
+        "type": "string",
+        "title": "Menu Title (if different from page title)"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "headerImage",
+        "type": "image",
+        "title": "Header Banner Image"
+      },
+      {
+        "placeholder": "#2ca3ee",
+        "description": "Hex color code (e.g., #2ca3ee). Used if no header image.",
+        "name": "headerColor",
+        "type": "string",
+        "title": "Header Background Color"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          },
+          {
+            "options": {
+              "hotspot": true
+            },
+            "fields": [
+              {
+                "name": "caption",
+                "type": "string"
+              }
+            ],
+            "type": "image"
+          }
+        ],
+        "name": "content",
+        "type": "array",
+        "title": "Page Content"
+      },
+      {
+        "fields": [
+          {
+            "name": "metaTitle",
+            "type": "string"
+          },
+          {
+            "rows": 3,
+            "name": "metaDescription",
+            "type": "text"
+          }
+        ],
+        "name": "seo",
+        "type": "object",
+        "title": "SEO Settings"
+      },
+      {
+        "name": "publishedAt",
+        "type": "datetime"
+      }
+    ],
+    "name": "customPage",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "description": "Name of the website",
+        "name": "siteName",
+        "type": "string"
+      },
+      {
+        "description": "Enter colors as hex codes (e.g., #2ca3ee)",
+        "fields": [
+          {
+            "placeholder": "#2ca3ee",
+            "description": "Main brand color (currently #2ca3ee)",
+            "name": "primary",
+            "type": "string",
+            "title": "Primary Blue"
+          },
+          {
+            "placeholder": "#00b8f1",
+            "description": "Secondary brand color (currently #00b8f1)",
+            "name": "secondary",
+            "type": "string",
+            "title": "Secondary Blue"
+          },
+          {
+            "placeholder": "#e6fe00",
+            "description": "Yellow color for country football (currently #e6fe00)",
+            "name": "yellow",
+            "type": "string",
+            "title": "Yellow/Highlight Color"
+          },
+          {
+            "placeholder": "#000000",
+            "description": "Main text color (default: #000000)",
+            "name": "textDark",
+            "type": "string",
+            "title": "Dark Text Color"
+          },
+          {
+            "placeholder": "#ffffff",
+            "description": "Light text color (default: #ffffff)",
+            "name": "textLight",
+            "type": "string",
+            "title": "Light Text Color"
+          }
+        ],
+        "name": "colors",
+        "type": "object",
+        "title": "Brand Colors"
+      },
+      {
+        "fields": [
+          {
+            "description": "Main SA Footballer logo (optional)",
+            "name": "mainLogo",
+            "type": "image"
+          },
+          {
+            "name": "partnerLogo1",
+            "type": "image",
+            "title": "Partner Logo 1 (Left)"
+          },
+          {
+            "name": "partnerLogo2",
+            "type": "image",
+            "title": "Partner Logo 2 (Center)"
+          },
+          {
+            "name": "partnerLogo3",
+            "type": "image",
+            "title": "Partner Logo 3 (Right)"
+          },
+          {
+            "description": "Small icon that appears in browser tabs",
+            "name": "favicon",
+            "type": "image"
+          }
+        ],
+        "name": "logos",
+        "type": "object",
+        "title": "Logos & Images"
+      },
+      {
+        "fields": [
+          {
+            "placeholder": "https://www.facebook.com/yourpage",
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "facebook",
+            "type": "url",
+            "title": "Facebook URL"
+          },
+          {
+            "placeholder": "https://www.instagram.com/yourpage",
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "instagram",
+            "type": "url",
+            "title": "Instagram URL"
+          },
+          {
+            "placeholder": "https://www.youtube.com/@yourpage",
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "youtube",
+            "type": "url",
+            "title": "YouTube URL"
+          },
+          {
+            "placeholder": "https://www.linkedin.com/in/yourpage",
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "linkedin",
+            "type": "url",
+            "title": "LinkedIn URL"
+          },
+          {
+            "placeholder": "https://twitter.com/yourpage",
+            "validation": [
+              {
+                "rules": [
+                  {
+                    "flag": "uri",
+                    "constraint": {
+                      "options": {
+                        "scheme": [
+                          "/^http$/",
+                          "/^https$/"
+                        ],
+                        "allowRelative": false,
+                        "relativeOnly": false,
+                        "allowCredentials": false
+                      }
+                    }
+                  }
+                ],
+                "level": "error"
+              }
+            ],
+            "name": "twitter",
+            "type": "url",
+            "title": "Twitter/X URL"
+          }
+        ],
+        "name": "socialMedia",
+        "type": "object",
+        "title": "Social Media Links"
+      },
+      {
+        "fields": [
+          {
+            "placeholder": "contact@example.com",
+            "name": "email",
+            "type": "string",
+            "title": "Contact Email"
+          },
+          {
+            "placeholder": "0404 846 412",
+            "name": "phone",
+            "type": "string",
+            "title": "Contact Phone"
+          },
+          {
+            "rows": 3,
+            "name": "address",
+            "type": "text",
+            "title": "Office Address"
+          }
+        ],
+        "name": "contactInfo",
+        "type": "object",
+        "title": "Contact Information"
+      },
+      {
+        "description": "Customize the main navigation menu items",
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "title",
+                "type": "string",
+                "title": "Menu Item Title"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "description": "e.g., /about or https://external-site.com",
+                "name": "link",
+                "type": "string"
+              },
+              {
+                "initialValue": false,
+                "name": "hasDropdown",
+                "type": "boolean",
+                "title": "Has Dropdown?"
+              },
+              {
+                "of": [
+                  {
+                    "fields": [
+                      {
+                        "name": "title",
+                        "type": "string"
+                      },
+                      {
+                        "name": "link",
+                        "type": "string"
+                      }
+                    ],
+                    "type": "object"
+                  }
+                ],
+                "hidden": "conditional",
+                "name": "dropdownItems",
+                "type": "array"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "headerMenu",
+        "type": "array",
+        "title": "Header Navigation Menu"
+      },
+      {
+        "rows": 2,
+        "placeholder": "© 2026 The South Australian Footballer. All rights reserved.",
+        "name": "footerText",
+        "type": "text",
+        "title": "Footer Copyright Text"
+      },
+      {
+        "description": "Images for the homepage slider (recommended: 5-10 images)",
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "type": "image"
+          }
+        ],
+        "name": "sliderImages",
+        "type": "array",
+        "title": "Homepage Slider Images"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "uri",
+                        "constraint": {
+                          "options": {
+                            "scheme": [
+                              "/^http$/",
+                              "/^https$/"
+                            ],
+                            "allowRelative": false,
+                            "relativeOnly": false,
+                            "allowCredentials": false
+                          }
+                        }
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "description": "Optional - click to visit partner website",
+                "name": "link",
+                "type": "url",
+                "title": "Partner Website Link"
+              },
+              {
+                "description": "Partner name for accessibility",
+                "name": "altText",
+                "type": "string"
+              }
+            ],
+            "type": "image"
+          }
+        ],
+        "name": "partnerLogos",
+        "type": "array",
+        "title": "Partner Logos (Carousel)"
+      },
+      {
+        "fields": [
+          {
+            "placeholder": "The South Australian Footballer",
+            "name": "metaTitle",
+            "type": "string",
+            "title": "Default Meta Title"
+          },
+          {
+            "rows": 3,
+            "placeholder": "South Australia's largest independent football and sports media company",
+            "name": "metaDescription",
+            "type": "text",
+            "title": "Default Meta Description"
+          },
+          {
+            "placeholder": "SA Football, SANFL, AFL, South Australian Football",
+            "name": "keywords",
+            "type": "string"
+          }
+        ],
+        "name": "seo",
+        "type": "object",
+        "title": "SEO Settings"
+      }
+    ],
+    "name": "siteSettings",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "firstName",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "lastName",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "email",
+        "type": "string",
+        "title": "Email Address"
+      },
+      {
+        "name": "subscribedAt",
+        "type": "datetime"
+      },
+      {
+        "initialValue": "magazines-page",
+        "description": "Where the subscriber signed up from",
+        "name": "source",
+        "type": "string"
+      },
+      {
+        "initialValue": true,
+        "description": "Uncheck to unsubscribe this person",
+        "name": "active",
+        "type": "boolean"
+      }
+    ],
+    "name": "subscriber",
+    "type": "document",
+    "title": "Subscribers"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 200
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "AFL",
+              "value": "AFL"
+            },
+            {
+              "title": "SANFL",
+              "value": "SANFL"
+            },
+            {
+              "title": "SANFLW",
+              "value": "SANFLW"
+            },
+            {
+              "title": "Adelaide Footy League (Men's)",
+              "value": "Amateur"
+            },
+            {
+              "title": "SAWFL Women's",
+              "value": "SAWFL Women's"
+            },
+            {
+              "title": "Country Football",
+              "value": "Country Football"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "AFL",
+                  "SANFL",
+                  "SANFLW",
+                  "Amateur",
+                  "SAWFL Women's",
+                  "Country Football"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "competition",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Adelaide Plains",
+              "value": "adelaide-plains"
+            },
+            {
+              "title": "Barossa Light & Gawler",
+              "value": "barossa"
+            },
+            {
+              "title": "Eastern Eyre",
+              "value": "eastern-eyre"
+            },
+            {
+              "title": "Far North",
+              "value": "far-north"
+            },
+            {
+              "title": "Great Flinders",
+              "value": "great-flinders"
+            },
+            {
+              "title": "Great Southern",
+              "value": "great-southern"
+            },
+            {
+              "title": "Hills Division 1",
+              "value": "hills-div1"
+            },
+            {
+              "title": "Hills Country Division",
+              "value": "hills-country"
+            },
+            {
+              "title": "Kangaroo Island",
+              "value": "kangaroo-island"
+            },
+            {
+              "title": "Kowree Naracoorte Tatiara",
+              "value": "knt"
+            },
+            {
+              "title": "Limestone Coast",
+              "value": "limestone-coast"
+            },
+            {
+              "title": "Murray Valley",
+              "value": "murray-valley"
+            },
+            {
+              "title": "Mid South Eastern",
+              "value": "mid-south-eastern"
+            },
+            {
+              "title": "North Eastern",
+              "value": "north-eastern"
+            },
+            {
+              "title": "Northern Areas",
+              "value": "northern-areas"
+            },
+            {
+              "title": "Port Lincoln",
+              "value": "port-lincoln"
+            },
+            {
+              "title": "River Murray",
+              "value": "river-murray"
+            },
+            {
+              "title": "Riverland",
+              "value": "riverland"
+            },
+            {
+              "title": "Southern",
+              "value": "southern"
+            },
+            {
+              "title": "Spencer Gulf",
+              "value": "spencer-gulf"
+            },
+            {
+              "title": "Western Eyre",
+              "value": "western-eyre"
+            },
+            {
+              "title": "Whyalla",
+              "value": "whyalla"
+            },
+            {
+              "title": "Yorke Peninsula",
+              "value": "yorke-peninsula"
+            }
+          ]
+        },
+        "hidden": "conditional",
+        "name": "countryLeague",
+        "type": "string",
+        "title": "Country League (only for Country Football)"
+      },
+      {
+        "description": "e.g. Division 1, A-Grade, Reserves",
+        "name": "gradeName",
+        "type": "string"
+      },
+      {
+        "name": "season",
+        "type": "string"
+      },
+      {
+        "name": "syncedAt",
+        "type": "datetime",
+        "title": "Last Synced"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "rank",
+                "type": "number"
+              },
+              {
+                "name": "teamName",
+                "type": "string"
+              },
+              {
+                "name": "played",
+                "type": "number"
+              },
+              {
+                "name": "wins",
+                "type": "number"
+              },
+              {
+                "name": "losses",
+                "type": "number"
+              },
+              {
+                "name": "draws",
+                "type": "number"
+              },
+              {
+                "name": "byes",
+                "type": "number"
+              },
+              {
+                "name": "points",
+                "type": "number"
+              },
+              {
+                "name": "percentage",
+                "type": "number"
+              },
+              {
+                "name": "pointsFor",
+                "type": "number"
+              },
+              {
+                "name": "pointsAgainst",
+                "type": "number"
+              },
+              {
+                "name": "forfeits",
+                "type": "number"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "teams",
+        "type": "array"
+      }
+    ],
+    "name": "ladder",
+    "type": "document",
+    "title": "League Ladder"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 200
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "AFL",
+              "value": "AFL"
+            },
+            {
+              "title": "SANFL",
+              "value": "SANFL"
+            },
+            {
+              "title": "SANFLW",
+              "value": "SANFLW"
+            },
+            {
+              "title": "Adelaide Footy League (Men's)",
+              "value": "Amateur"
+            },
+            {
+              "title": "SAWFL Women's",
+              "value": "SAWFL Women's"
+            },
+            {
+              "title": "Country Football",
+              "value": "Country Football"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "AFL",
+                  "SANFL",
+                  "SANFLW",
+                  "Amateur",
+                  "SAWFL Women's",
+                  "Country Football"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "competition",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Adelaide Plains",
+              "value": "adelaide-plains"
+            },
+            {
+              "title": "Barossa Light & Gawler",
+              "value": "barossa"
+            },
+            {
+              "title": "Eastern Eyre",
+              "value": "eastern-eyre"
+            },
+            {
+              "title": "Far North",
+              "value": "far-north"
+            },
+            {
+              "title": "Great Flinders",
+              "value": "great-flinders"
+            },
+            {
+              "title": "Great Southern",
+              "value": "great-southern"
+            },
+            {
+              "title": "Hills Division 1",
+              "value": "hills-div1"
+            },
+            {
+              "title": "Hills Country Division",
+              "value": "hills-country"
+            },
+            {
+              "title": "Kangaroo Island",
+              "value": "kangaroo-island"
+            },
+            {
+              "title": "Kowree Naracoorte Tatiara",
+              "value": "knt"
+            },
+            {
+              "title": "Limestone Coast",
+              "value": "limestone-coast"
+            },
+            {
+              "title": "Murray Valley",
+              "value": "murray-valley"
+            },
+            {
+              "title": "Mid South Eastern",
+              "value": "mid-south-eastern"
+            },
+            {
+              "title": "North Eastern",
+              "value": "north-eastern"
+            },
+            {
+              "title": "Northern Areas",
+              "value": "northern-areas"
+            },
+            {
+              "title": "Port Lincoln",
+              "value": "port-lincoln"
+            },
+            {
+              "title": "River Murray",
+              "value": "river-murray"
+            },
+            {
+              "title": "Riverland",
+              "value": "riverland"
+            },
+            {
+              "title": "Southern",
+              "value": "southern"
+            },
+            {
+              "title": "Spencer Gulf",
+              "value": "spencer-gulf"
+            },
+            {
+              "title": "Western Eyre",
+              "value": "western-eyre"
+            },
+            {
+              "title": "Whyalla",
+              "value": "whyalla"
+            },
+            {
+              "title": "Yorke Peninsula",
+              "value": "yorke-peninsula"
+            }
+          ]
+        },
+        "hidden": "conditional",
+        "name": "countryLeague",
+        "type": "string",
+        "title": "Country League (only for Country Football)"
+      },
+      {
+        "description": "e.g. Division 1, A-Grade, Reserves",
+        "name": "gradeName",
+        "type": "string"
+      },
+      {
+        "name": "season",
+        "type": "string"
+      },
+      {
+        "name": "syncedAt",
+        "type": "datetime",
+        "title": "Last Synced"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "ranking",
+                "type": "number"
+              },
+              {
+                "name": "playerName",
+                "type": "string"
+              },
+              {
+                "name": "teamName",
+                "type": "string"
+              },
+              {
+                "name": "games",
+                "type": "number",
+                "title": "Games Played"
+              },
+              {
+                "name": "goals",
+                "type": "number"
+              },
+              {
+                "name": "bp",
+                "type": "number",
+                "title": "Best Player Awards"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "players",
+        "type": "array"
+      }
+    ],
+    "name": "goalKickers",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "homeTeam",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "awayTeam",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "matchDate",
+        "type": "datetime",
+        "title": "Match Date & Time"
+      },
+      {
+        "name": "venue",
+        "type": "string"
+      },
+      {
+        "name": "round",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "AFL",
+              "value": "AFL"
+            },
+            {
+              "title": "AFLW",
+              "value": "AFLW"
+            },
+            {
+              "title": "SANFL",
+              "value": "SANFL"
+            },
+            {
+              "title": "SANFLW",
+              "value": "SANFLW"
+            },
+            {
+              "title": "Amateurs",
+              "value": "Amateur"
+            },
+            {
+              "title": "SAWFL Women's",
+              "value": "SAWFL Women's"
+            },
+            {
+              "title": "Country Football",
+              "value": "Country Football"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "AFL",
+                  "AFLW",
+                  "SANFL",
+                  "SANFLW",
+                  "Amateur",
+                  "SAWFL Women's",
+                  "Country Football"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "competition",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Adelaide Plains",
+              "value": "adelaide-plains"
+            },
+            {
+              "title": "Barossa Light & Gawler",
+              "value": "barossa"
+            },
+            {
+              "title": "Eastern Eyre",
+              "value": "eastern-eyre"
+            },
+            {
+              "title": "Far North",
+              "value": "far-north"
+            },
+            {
+              "title": "Great Flinders",
+              "value": "great-flinders"
+            },
+            {
+              "title": "Great Southern",
+              "value": "great-southern"
+            },
+            {
+              "title": "Hills Division 1",
+              "value": "hills-div1"
+            },
+            {
+              "title": "Hills Country Division",
+              "value": "hills-country"
+            },
+            {
+              "title": "Kangaroo Island",
+              "value": "kangaroo-island"
+            },
+            {
+              "title": "Kowree Naracoorte Tatiara",
+              "value": "knt"
+            },
+            {
+              "title": "Limestone Coast",
+              "value": "limestone-coast"
+            },
+            {
+              "title": "Murray Valley",
+              "value": "murray-valley"
+            },
+            {
+              "title": "Mid South Eastern",
+              "value": "mid-south-eastern"
+            },
+            {
+              "title": "North Eastern",
+              "value": "north-eastern"
+            },
+            {
+              "title": "Northern Areas",
+              "value": "northern-areas"
+            },
+            {
+              "title": "Port Lincoln",
+              "value": "port-lincoln"
+            },
+            {
+              "title": "River Murray",
+              "value": "river-murray"
+            },
+            {
+              "title": "Riverland",
+              "value": "riverland"
+            },
+            {
+              "title": "Southern",
+              "value": "southern"
+            },
+            {
+              "title": "Spencer Gulf",
+              "value": "spencer-gulf"
+            },
+            {
+              "title": "Western Eyre",
+              "value": "western-eyre"
+            },
+            {
+              "title": "Whyalla",
+              "value": "whyalla"
+            },
+            {
+              "title": "Yorke Peninsula",
+              "value": "yorke-peninsula"
+            }
+          ]
+        },
+        "hidden": "conditional",
+        "name": "countryLeague",
+        "type": "string",
+        "title": "Country League (only for Country Football)"
+      },
+      {
+        "description": "e.g. Finals match, Grand Final, Derby",
+        "name": "notes",
+        "type": "string",
+        "title": "Notes (optional)"
+      }
+    ],
+    "name": "upcomingMatch",
+    "type": "document"
+  }
+]
