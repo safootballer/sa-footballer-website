@@ -31,6 +31,7 @@ function cleanTeamName(name) {
     .replace(/\s*\bLeague\b\s*$/i, '')
     .replace(/\s*\bReserves\b\s*$/i, '')
     .replace(/\s*\bUnder\s*\d+\b\s*$/i, '')
+    .replace(/\s*[-–]\s*[A-Z]\s*$/i, '')  // removes - A, - B, - C ... - Z
     .replace(/\s*\bU\d+\b\s*$/i, '')
     .trim()
 }

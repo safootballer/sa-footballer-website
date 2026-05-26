@@ -20,6 +20,7 @@ function cleanTeamName(name) {
     .replace(/\s*\bMen'?s?\b\s*$/i, '')
     .replace(/\s*\bWomen'?s?\b\s*$/i, '')
     .replace(/\s*[-–]\s*Seniors?\s*$/i, '')
+    .replace(/\s*[-–]\s*[A-Z]\s*$/i, '')  // removes - A, - B, - C ... - Z
     .replace(/\s*[-–]\s*Juniors?\s*$/i, '')
     .replace(/\s*\bSeniors?\b\s*$/i, '')
     .replace(/\s*\bJuniors?\b\s*$/i, '')
