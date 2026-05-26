@@ -10,6 +10,8 @@ import subscriber from './subscriber'
 import ladder from './ladder'
 import goalKickers from './goalKickers'
 import upcomingMatch from './upcomingMatch'
+import upcomingMatchesBulk from './upcomingMatchesBulk'
+
 
 export const schemaTypes = [
   editorial,
@@ -18,6 +20,7 @@ export const schemaTypes = [
   video,
   photo,
   photoBulkUpload,
+  upcomingMatchesBulk,
   customPage,
   siteSettings,
   subscriber,
