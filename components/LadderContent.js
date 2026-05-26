@@ -31,29 +31,22 @@ function cleanTeamName(name) {
     .replace(/\s+FC\s*$/i, '')
     .replace(/\s*\bLeague\b\s*$/i, '')
     .replace(/\s*\bReserves\b\s*$/i, '')
+    .replace(/\s*\bU[\d.]+\s*Mixed\b\s*$/i, '')
+    .replace(/\s*\bUnder\s*[\d.]+\s*Mixed\b\s*$/i, '')
     .replace(/\s*\bBoys\s+Under\s*[\d.]+\b\s*$/i, '')
     .replace(/\s*\bGirls\s+Under\s*[\d.]+\b\s*$/i, '')
     .replace(/\s*\bUnder\s*[\d.]+\s*Boys\b\s*$/i, '')
     .replace(/\s*\bUnder\s*[\d.]+\s*Girls\b\s*$/i, '')
-    .replace(/\s*\bUnder\s*[\d.]+\b\s*$/i, '')
     .replace(/\s*\bU[\d.]+\s*Boys\b\s*$/i, '')
     .replace(/\s*\bU[\d.]+\s*Girls\b\s*$/i, '')
     .replace(/\s*\bU[\d.]+s?\b\s*$/i, '')
+    .replace(/\s*\bUnder\s*[\d.]+\b\s*$/i, '')
     .replace(/\s*\bSnr\s+Colts\b\s*$/i, '')
     .replace(/\s*\bSenior\s+Colts\b\s*$/i, '')
-    .replace(/\s*\bMixed\b\s*$/i, '')
-    .replace(/\s*\bMixed\b\s*$/i, '')
-    .replace(/\s*\bUnder\s*[\d.]+\s*Mixed\b\s*$/i, '')
-    .replace(/\s*\bU[\d.]+\s*Mixed\b\s*$/i, '')
     .replace(/\s*\bColts\b\s*$/i, '')
-    .replace(/\s*\bU[\d.]+\s*Mixed\b\s*$/i, '')      // U14 Mixed
-    .replace(/\s*\bUnder\s*[\d.]+\s*Mixed\b\s*$/i, '') // Under 14 Mixed
-    .replace(/\s*\bMixed\b\s*$/i, '')                  // Mixed (leftover)
-    .replace(/\s*\bU[\d.]+s?\b\s*$/i, '')              // U14, U18s
-    .replace(/\s*\bUnder\s*[\d.]+\b\s*$/i, '')         // Under 14
+    .replace(/\s*\bMixed\b\s*$/i, '')
     .trim()
 }
-
 
 function getGradeId(doc) {
   return doc._id?.replace(/^ladder-/, '') || ''
@@ -64,11 +57,17 @@ export default function LadderContent() {
   const initialCompetition = searchParams.get('competition') ?? 'SANFL'
 
   const [allDocs, setAllDocs]   = useState([])
+  const [aflData, setAflData]   = useState(null)
   const [loading, setLoading]   = useState(true)
-  const [level1, setLevel1]     = useState(LEVEL1_ORDER.includes(initialCompetition) ? initialCompetition : initialCompetition === 'Amateur' ? "Amateurs (Men's)" : 'SANFL')
+  const [level1, setLevel1]     = useState(
+    LEVEL1_ORDER.includes(initialCompetition)
+      ? initialCompetition
+      : initialCompetition === 'Amateur' ? "Amateurs (Men's)" : 'SANFL'
+  )
   const [level2, setLevel2]     = useState(null)
   const [activeId, setActiveId] = useState(null)
 
+  // Fetch all non-AFL ladder docs once
   useEffect(() => {
     fetch('/api/ladder')
       .then(r => r.json())
@@ -77,7 +76,19 @@ export default function LadderContent() {
       .finally(() => setLoading(false))
   }, [])
 
+  // Fetch AFL ladder when AFL is selected
   useEffect(() => {
+    if (level1 !== 'AFL') return
+    setLoading(true)
+    fetch('/api/afl-ladder')
+      .then(r => r.json())
+      .then(d => setAflData(d))
+      .catch(() => setAflData(null))
+      .finally(() => setLoading(false))
+  }, [level1])
+
+  useEffect(() => {
+    if (level1 === 'AFL') return
     const opts = getLevel2Options(level1)
     setLevel2(opts[0] ?? null)
     setActiveId(null)
@@ -114,7 +125,7 @@ export default function LadderContent() {
       })
   }
 
-  const level2Options = getLevel2Options(level1)
+  const level2Options = level1 === 'AFL' ? [] : getLevel2Options(level1)
   const gradeOptions  = level2 ? getGrades(level1, level2) : []
   const activeDoc     = gradeOptions.find(d => getGradeId(d) === activeId)
 
@@ -136,6 +147,7 @@ export default function LadderContent() {
         </div>
       </section>
 
+      {/* Level 1 tabs */}
       <section className="bg-white border-b shadow-md sticky top-0 z-40">
         <div className="container mx-auto px-4 py-3">
           <div className="flex flex-wrap gap-2 justify-center">
@@ -146,7 +158,8 @@ export default function LadderContent() {
         </div>
       </section>
 
-      {level2Options.length > 0 && (
+      {/* Level 2 tabs — non-AFL only */}
+      {level1 !== 'AFL' && level2Options.length > 0 && (
         <section className="bg-gray-50 border-b">
           <div className="container mx-auto px-4 py-2">
             <div className="flex flex-wrap gap-2 justify-center">
@@ -158,7 +171,8 @@ export default function LadderContent() {
         </section>
       )}
 
-      {gradeOptions.length > 0 && (
+      {/* Level 3 tabs — non-AFL only */}
+      {level1 !== 'AFL' && gradeOptions.length > 0 && (
         <section className="bg-gray-100 border-b">
           <div className="container mx-auto px-4 py-2">
             <div className="flex flex-wrap gap-2 justify-center">
@@ -182,13 +196,80 @@ export default function LadderContent() {
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#2ca3ee] border-t-transparent"></div>
             <p className="mt-4 text-gray-600">Loading ladders...</p>
           </div>
+
+        ) : level1 === 'AFL' ? (
+          // ── AFL ladder from Sanity text paste ───────────────────────
+          !aflData?.teams?.length ? (
+            <div className="text-center py-12">
+              <div className="text-6xl mb-4">🏆</div>
+              <h3 className="text-2xl font-bold text-gray-700 mb-2">No AFL Ladder Available</h3>
+              <p className="text-gray-600">Check back soon</p>
+            </div>
+          ) : (
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden max-w-5xl mx-auto">
+              <div className="bg-[#2ca3ee] text-white px-6 py-4 flex justify-between items-center">
+                <div>
+                  <h2 className="text-xl font-bold">AFL</h2>
+                  <p className="text-sm opacity-80">{aflData.round} · {aflData.season}</p>
+                </div>
+                {aflData.syncedAt && (
+                  <p className="text-xs opacity-70">Updated {new Date(aflData.syncedAt).toLocaleDateString('en-AU')}</p>
+                )}
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider">
+                      <th className="px-4 py-3 text-left">#</th>
+                      <th className="px-4 py-3 text-left">Team</th>
+                      <th className="px-3 py-3 text-center">P</th>
+                      <th className="px-3 py-3 text-center font-bold text-[#2ca3ee]">PTS</th>
+                      <th className="px-3 py-3 text-center">%</th>
+                      <th className="px-3 py-3 text-center">W</th>
+                      <th className="px-3 py-3 text-center">L</th>
+                      <th className="px-3 py-3 text-center">D</th>
+                      <th className="px-3 py-3 text-center">PF</th>
+                      <th className="px-3 py-3 text-center">PA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {aflData.teams.map((team, i) => (
+                      <tr key={i} className={`border-t ${i < 8 ? 'bg-blue-50' : ''} hover:bg-gray-50`}>
+                        <td className="px-4 py-3">
+                          <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${i === 0 ? 'bg-yellow-400 text-white' : i < 8 ? 'bg-[#2ca3ee] text-white' : 'bg-gray-200 text-gray-600'}`}>
+                            {team.rank}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-gray-600 font-semibold">{team.teamName}</td>
+                        <td className="px-3 py-3 text-gray-400 text-center">{team.played}</td>
+                        <td className="px-3 py-3 text-center font-bold text-[#2ca3ee]">{team.points}</td>
+                        <td className="px-3 py-3 text-gray-400 text-center">{Number(team.percentage).toFixed(2)}</td>
+                        <td className="px-3 py-3 text-center text-green-600 font-semibold">{team.wins}</td>
+                        <td className="px-3 py-3 text-center text-red-500">{team.losses}</td>
+                        <td className="px-3 py-3 text-gray-400 text-center">{team.draws}</td>
+                        <td className="px-3 py-3 text-gray-400 text-center">{team.pointsFor}</td>
+                        <td className="px-3 py-3 text-center text-gray-400">{team.pointsAgainst}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="px-6 py-3 bg-gray-50 text-xs text-gray-400">
+                P = Played · PTS = Points · % = Percentage · W = Wins · L = Losses · D = Draws · PF = Points For · PA = Points Against
+              </div>
+            </div>
+          )
+
         ) : !activeDoc ? (
+          // ── No data for non-AFL ──────────────────────────────────────
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🏆</div>
             <h3 className="text-2xl font-bold text-gray-700 mb-2">No Ladder Available</h3>
             <p className="text-gray-600">Select a grade above or check back soon</p>
           </div>
+
         ) : (
+          // ── Non-AFL ladder ───────────────────────────────────────────
           <div className="bg-white rounded-xl shadow-lg overflow-hidden max-w-5xl mx-auto">
             <div className="bg-[#2ca3ee] text-white px-6 py-4 flex justify-between items-center">
               <div>
