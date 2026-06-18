@@ -56,11 +56,10 @@ export default function Header() {
             <div className="relative group">
               <button className="font-bold hover:text-gray-200 pb-4 pt-4">MAGAZINES ▼</button>
               <div className="absolute left-0 top-full w-64 bg-white text-black shadow-lg rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                <a href="/magazines?type=sa-footballer" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SA FOOTBALLER</a>
-                <a href="/magazines/ammo" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">AMMO FOOTY BUDGET</a>
-                <a href="/magazines?type=womens" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"WOMEN'S FOOTY BUDGET"}</a>
-                <a href="/magazines?type=country" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">COUNTRY FOOTY BUDGET</a>
-                <a href="/magazines#subscribe" className="block px-4 py-3 hover:bg-gray-100">SUBSCRIBE FOR FREE</a>
+                <a href="/magazines/sa-footballer" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SA FOOTBALLER</a>
+                <a href="/magazines/ammo" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">SA AMMO FOOTBALLER</a>
+                <a href="/magazines/womens" className="block px-4 py-3 hover:bg-gray-100 border-b border-gray-100">{"SA WOMEN'S FOOTBALLER"}</a>
+                <a href="/magazines/country" className="block px-4 py-3 hover:bg-gray-100">SA COUNTRY FOOTBALLER</a>
               </div>
             </div>
 
@@ -153,11 +152,10 @@ export default function Header() {
 
             <div className="py-2">
               <p className="font-bold text-[#2ca3ee]">MAGAZINES</p>
-              <a href="/magazines" className="block py-1 pl-4 text-gray-600">SA FOOTBALLER</a>
-              <a href="/magazines" className="block py-1 pl-4 text-gray-600">AMMO FOOTY BUDGET</a>
-              <a href="/magazines" className="block py-1 pl-4 text-gray-600">{"WOMEN'S FOOTY BUDGET"}</a>
-              <a href="/magazines" className="block py-1 pl-4 text-gray-600">COUNTRY FOOTY BUDGET</a>
-              <a href="/magazines" className="block py-1 pl-4 text-gray-600">SUBSCRIBE FOR FREE</a>
+              <a href="/magazines/sa-footballer" className="block py-1 pl-4 text-gray-600">SA FOOTBALLER</a>
+              <a href="/magazines/ammo" className="block py-1 pl-4 text-gray-600">SA AMMO FOOTBALLER</a>
+              <a href="/magazines/womens" className="block py-1 pl-4 text-gray-600">{"SA WOMEN'S FOOTBALLER"}</a>
+              <a href="/magazines/country" className="block py-1 pl-4 text-gray-600">SA COUNTRY FOOTBALLER</a>
             </div>
 
             <div className="py-2">

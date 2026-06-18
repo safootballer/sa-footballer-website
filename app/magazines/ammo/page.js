@@ -1,153 +1,80 @@
 import Header from '../../../components/Header'
+import { MagazineSection } from '../../../components/MagazineGrid'
+import SubscribeForm from '../../../components/SubscribeForm'
 import { client } from '../../../lib/sanity'
 
 export const revalidate = 60
 
-async function getAmmoMagazines() {
-  const query = `{
-    "division1": *[_type == "magazine" && magazineType == "Ammo Division 1"] | order(publishedAt desc)[0...6] {
-      _id,
-      title,
-      coverImage,
-      pdfUrl,
-      publishedAt,
-      issueNumber
-    },
-    "division2": *[_type == "magazine" && magazineType == "Ammo Division 2"] | order(publishedAt desc)[0...6] {
-      _id,
-      title,
-      coverImage,
-      pdfUrl,
-      publishedAt,
-      issueNumber
-    },
-    "division3": *[_type == "magazine" && magazineType == "Ammo Division 3"] | order(publishedAt desc)[0...6] {
-      _id,
-      title,
-      coverImage,
-      pdfUrl,
-      publishedAt,
-      issueNumber
-    },
-    "division4": *[_type == "magazine" && magazineType == "Ammo Division 4"] | order(publishedAt desc)[0...6] {
-      _id,
-      title,
-      coverImage,
-      pdfUrl,
-      publishedAt,
-      issueNumber
-    },
-    "division5": *[_type == "magazine" && magazineType == "Ammo Division 5"] | order(publishedAt desc)[0...6] {
-      _id,
-      title,
-      coverImage,
-      pdfUrl,
-      publishedAt,
-      issueNumber
-    },
-    "division6": *[_type == "magazine" && magazineType == "Ammo Division 6"] | order(publishedAt desc)[0...6] {
-      _id,
-      title,
-      coverImage,
-      pdfUrl,
-      publishedAt,
-      issueNumber
-    },
-    "division7": *[_type == "magazine" && magazineType == "Ammo Division 7"] | order(publishedAt desc)[0...6] {
-      _id,
-      title,
-      coverImage,
-      pdfUrl,
-      publishedAt,
-      issueNumber
-    }
-  }`
-  
-  return await client.fetch(query)
+export const metadata = {
+  title: 'Ammo Footy Budget - The South Australian Footballer',
+  description: 'All editions of the Ammo Footy Budget magazine — full edition and all divisions',
 }
 
-export default async function AmmoFootyBudgetPage() {
-  const magazines = await getAmmoMagazines()
+async function getMagazines() {
+  return client.fetch(`*[_type == "magazine" && magazineType in [
+    "Ammo Footy Budget",
+    "Ammo Division 1","Ammo Division 2","Ammo Division 3","Ammo Division 4",
+    "Ammo Division 5","Ammo Division 6","Ammo Division 7"
+  ]] | order(publishedAt desc) {
+    _id, title, coverImage, pdfUrl, publishedAt, issueNumber, excerpt, magazineType
+  }`)
+}
 
-  const divisions = [
-    { key: 'division1', name: 'Division 1', data: magazines.division1 },
-    { key: 'division2', name: 'Division 2', data: magazines.division2 },
-    { key: 'division3', name: 'Division 3', data: magazines.division3 },
-    { key: 'division4', name: 'Division 4', data: magazines.division4 },
-    { key: 'division5', name: 'Division 5', data: magazines.division5 },
-    { key: 'division6', name: 'Division 6', data: magazines.division6 },
-    { key: 'division7', name: 'Division 7', data: magazines.division7 },
-  ]
+export default async function AmmoPage() {
+  const all = await getMagazines()
+
+  const full = all.filter(m => m.magazineType === 'Ammo Footy Budget')
+  const div1 = all.filter(m => m.magazineType === 'Ammo Division 1')
+  const div2 = all.filter(m => m.magazineType === 'Ammo Division 2')
+  const div3 = all.filter(m => m.magazineType === 'Ammo Division 3')
+  const div4 = all.filter(m => m.magazineType === 'Ammo Division 4')
+  const div5 = all.filter(m => m.magazineType === 'Ammo Division 5')
+  const div6 = all.filter(m => m.magazineType === 'Ammo Division 6')
+  const div7 = all.filter(m => m.magazineType === 'Ammo Division 7')
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-
-      <section className="bg-gradient-to-r from-[#2ca3ee] to-[#00b8f1] text-white py-16">
+      <section className="bg-gradient-to-r from-red-600 to-red-800 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">AMMO FOOTY BUDGET</h1>
-          <p className="text-xl">Latest Issues - All Divisions</p>
+          <p className="text-xl">Full Edition + All Division Editions — 2026</p>
         </div>
       </section>
 
+      {/* Jump links */}
+      <div className="bg-white border-b sticky top-0 z-40 shadow-sm">
+        <div className="container mx-auto px-4 py-2 flex flex-wrap gap-2 justify-center">
+          {[
+            ['Full Edition', '#full'],
+            ['Division 1', '#div1'], ['Division 2', '#div2'], ['Division 3', '#div3'],
+            ['Division 4', '#div4'], ['Division 5', '#div5'], ['Division 6', '#div6'],
+            ['Division 7', '#div7'],
+          ].map(([label, href]) => (
+            <a key={href} href={href} className="px-4 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-semibold hover:bg-red-600 hover:text-white transition">
+              {label}
+            </a>
+          ))}
+        </div>
+      </div>
+
       <section className="container mx-auto px-4 py-12">
-        {divisions.map((division) => (
-          <div key={division.key} className="mb-16">
-            <h2 className="text-3xl font-bold mb-6 text-[#2ca3ee] border-b-2 border-[#2ca3ee] pb-2">
-              {division.name}
-            </h2>
-
-            {division.data && division.data.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                {division.data.map((mag) => {
-                  const imageUrl = mag.coverImage?.asset?._ref
-                    ? `https://cdn.sanity.io/images/2y2dueu9/production/${mag.coverImage.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png')}`
-                    : null
-
-                  return (
-                    <div key={mag._id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
-                      {imageUrl ? (
-                        <img 
-                          src={imageUrl}
-                          alt={mag.title}
-                          className="w-full h-64 object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-64 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
-                          <span className="text-white text-5xl">📖</span>
-                        </div>
-                      )}
-                      <div className="p-4">
-                        <p className="font-bold text-sm mb-2 line-clamp-2">{mag.title}</p>
-                        {mag.issueNumber && (
-                          <p className="text-xs text-gray-600 mb-2">{mag.issueNumber}</p>
-                        )}
-                        <p className="text-xs text-gray-500 mb-3">
-                          {new Date(mag.publishedAt).toLocaleDateString('en-AU')}
-                        </p>
-                        {mag.pdfUrl && (
-                          <a 
-                            href={mag.pdfUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full bg-[#2ca3ee] text-white text-center py-2 rounded text-sm font-semibold hover:bg-[#00b8f1] transition"
-                          >
-                            Download PDF
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            ) : (
-              <div className="bg-white rounded-lg p-8 text-center">
-                <p className="text-gray-500">No magazines available yet for {division.name}</p>
-              </div>
-            )}
+        <MagazineSection id="full"  title="Full Ammo Edition"   magazines={full}  accent="#dc2626" />
+        <MagazineSection id="div1"  title="Ammo Division 1"     magazines={div1}  accent="#dc2626" />
+        <MagazineSection id="div2"  title="Ammo Division 2"     magazines={div2}  accent="#dc2626" />
+        <MagazineSection id="div3"  title="Ammo Division 3"     magazines={div3}  accent="#dc2626" />
+        <MagazineSection id="div4"  title="Ammo Division 4"     magazines={div4}  accent="#dc2626" />
+        <MagazineSection id="div5"  title="Ammo Division 5"     magazines={div5}  accent="#dc2626" />
+        <MagazineSection id="div6"  title="Ammo Division 6"     magazines={div6}  accent="#dc2626" />
+        <MagazineSection id="div7"  title="Ammo Division 7"     magazines={div7}  accent="#dc2626" />
+        {!all.length && (
+          <div className="text-center py-20 text-gray-500">
+            <div className="text-6xl mb-4">📖</div>
+            <p className="text-xl font-bold">No editions yet — check back soon</p>
           </div>
-        ))}
+        )}
       </section>
+      <SubscribeForm />
     </div>
   )
 }
