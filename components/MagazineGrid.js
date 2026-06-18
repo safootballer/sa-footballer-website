@@ -1,5 +1,4 @@
 // Shared component — reused by all 4 magazine pages
-import { client } from '../../lib/sanity'
 
 function coverUrl(ref) {
   if (!ref) return null
