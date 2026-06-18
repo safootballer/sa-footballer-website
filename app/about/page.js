@@ -132,7 +132,7 @@ export default function AboutPage() {
             <p className="mb-6 font-bold text-[#0000FF]">Most notable in our myriad of media work is our publications. They include:</p>
             <div className="grid md:grid-cols-2 gap-4">
               {[
-                { title: 'South Australian Footballer Magazine', icon: '🏈' },
+                { title: 'South Australian Footballer Magazine', icon: '🏉' },
                 { title: 'South Australian Adelaide Footballer Magazine', icon: '🏟️' },
                 { title: 'South Australian Country Footballer Magazine', icon: '🌾' },
                 { title: "South Australian Women's Footballer Magazine", icon: '⭐', note: "The only women's football magazine in Australia" },
