@@ -11,17 +11,32 @@ async function getHomeContent() {
     "magazines": *[_type == "magazine"] | order(publishedAt desc)[0...4] {
       _id, title, coverImage, pdfUrl, magazineType, issueNumber, publishedAt
     },
-    "videos": *[_type == "video"] | order(publishedAt desc)[0...4] {
+    "videos": *[_type == "video" && category in ["filming", "live-stream"]] | order(publishedAt desc)[0...4] {
       _id, title, youtubeUrl, publishedAt, category
     },
     "matchReports": *[_type == "matchResult" && competition != "Country Football"] | order(matchDate desc)[0...50] {
       _id, title, slug, competition, homeTeam, awayTeam, homeScore, awayScore, matchDate
     },
-    "upcoming": *[_type == "upcomingMatch" && matchDate > "${now}" && competition != "Country Football"] | order(matchDate asc)[0...20] {
-      _id, homeTeam, awayTeam, matchDate, venue, round, competition, notes
+    "upcomingBulk": *[_type == "upcomingMatchesBulk" && matchDate > "${now}"] | order(matchDate asc)[0...50] {
+      _id, competition, amateurGrade, sanflGrade, countryLeague, round, matchDate, matches
     }
   }`
   return await client.fetch(query)
+}
+
+// Parse bulk upcoming text to get first match
+function parseFirstMatch(doc) {
+  if (!doc?.matches) return null
+  const lines = doc.matches.split('\n').map(l => l.trim()).filter(l => l.includes(' v '))
+  if (!lines.length) return null
+  const line = lines[0]
+  const atIdx = line.lastIndexOf(' @ ')
+  const venue = atIdx !== -1 ? line.slice(atIdx + 3).trim() : ''
+  const matchPart = atIdx !== -1 ? line.slice(0, atIdx).trim() : line
+  const vIdx = matchPart.indexOf(' v ')
+  const homeTeam = vIdx !== -1 ? matchPart.slice(0, vIdx).trim() : matchPart
+  const awayTeam = vIdx !== -1 ? matchPart.slice(vIdx + 3).trim() : ''
+  return { homeTeam, awayTeam, venue, matchDate: doc.matchDate, round: doc.round }
 }
 
 function getRandomLeagues() {
@@ -70,7 +85,12 @@ export default async function HomePage() {
   const randomLeagues = getRandomLeagues()
 
   const getLatestMatch = (comp) => content.matchReports.find(m => m.competition === comp)
-  const getNextUpcoming = (comp) => content.upcoming.find(u => u.competition === comp)
+
+  const getNextUpcoming = (comp) => {
+    const doc = content.upcomingBulk.find(u => u.competition === comp)
+    if (!doc) return null
+    return parseFirstMatch(doc)
+  }
 
   const CompetitionSection = ({ title, comp, matchCat, bg = 'bg-gray-50' }) => {
     const match    = getLatestMatch(comp)
@@ -84,7 +104,7 @@ export default async function HomePage() {
 
             {/* Latest Match Result */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-              <div className="bg-[#2ca3ee] text-white px-5 py-3 font-bold text-sm tracking-wide">🏈 LATEST MATCH RESULT</div>
+              <div className="bg-[#2ca3ee] text-white px-5 py-3 font-bold text-sm tracking-wide">🏉 LATEST MATCH RESULT</div>
               {match ? (
                 <div className="p-5">
                   <p className="text-gray-400 text-xs mb-3">
@@ -126,7 +146,6 @@ export default async function HomePage() {
                     <span className="text-xs font-bold text-gray-400">AWAY</span>
                   </div>
                   {upcoming.venue && <p className="text-gray-500 text-sm mb-1">📍 {upcoming.venue}</p>}
-                  {upcoming.notes && <p className="text-[#2ca3ee] text-sm font-semibold">⭐ {upcoming.notes}</p>}
                 </div>
               ) : (
                 <div className="p-5 text-gray-400 text-sm">No upcoming matches scheduled</div>
@@ -165,9 +184,10 @@ export default async function HomePage() {
         />
       </section>
 
-      <CompetitionSection title="AFL"           comp="AFL"           matchCat="afl"   bg="bg-gray-50" />
-      <CompetitionSection title="SANFL"         comp="SANFL"         matchCat="sanfl" bg="bg-white" />
-      <CompetitionSection title="SAWFL WOMEN'S" comp="SAWFL Women's" matchCat="sawfl" bg="bg-gray-50" />
+      <CompetitionSection title="AFL"              comp="AFL"           matchCat="afl"      bg="bg-gray-50" />
+      <CompetitionSection title="SANFL"            comp="SANFL"         matchCat="sanfl"    bg="bg-white"   />
+      <CompetitionSection title="AMATEURS (MEN'S)" comp="Amateur"       matchCat="amateurs" bg="bg-gray-50" />
+      <CompetitionSection title="SAWFL WOMEN'S"    comp="SAWFL Women's" matchCat="sawfl"    bg="bg-white"   />
 
       {/* Country Football */}
       <section className="bg-gray-50 py-12">
