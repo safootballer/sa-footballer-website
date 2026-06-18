@@ -309,7 +309,7 @@ export default function SubscribePopup() {
                     Subscribing…
                   </>
                 ) : (
-                  'SUBSCRIBE FOR FREE 🏈'
+                  'SUBSCRIBE FOR FREE 🏉'
                 )}
               </button>
 

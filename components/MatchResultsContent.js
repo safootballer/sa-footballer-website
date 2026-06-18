@@ -297,7 +297,7 @@ export default function MatchResultsContent() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">🏈</div>
+            <div className="text-6xl mb-4">🏉</div>
             <h3 className="text-2xl font-bold text-gray-700 mb-2">No Match Results Yet</h3>
             <p className="text-gray-600">Check back soon for the latest match results</p>
           </div>

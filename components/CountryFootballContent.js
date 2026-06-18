@@ -143,7 +143,7 @@ export default function CountryFootballContent() {
           </div>
         ) : (
           <div className="text-center py-12 bg-white rounded-lg">
-            <div className="text-6xl mb-4">🏈</div>
+            <div className="text-6xl mb-4">🏉</div>
             <h3 className="text-2xl font-bold text-gray-700 mb-2">No Match Results Yet</h3>
             <p className="text-gray-500">
               {selectedLeague === 'all' ? 'Check back soon for the latest country football results' : `No results available yet for ${currentLeague?.name}`}

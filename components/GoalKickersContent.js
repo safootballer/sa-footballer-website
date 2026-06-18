@@ -186,7 +186,7 @@ export default function GoalKickersContent() {
           </div>
         ) : !activeDoc ? (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">🏈</div>
+            <div className="text-6xl mb-4">🏉</div>
             <h3 className="text-2xl font-bold text-gray-700 mb-2">No Goal Kickers Data</h3>
             <p className="text-gray-600">Select a grade above or check back soon</p>
           </div>
