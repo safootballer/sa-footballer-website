@@ -91,7 +91,7 @@ export default function LadderContent() {
   // Fetch pasted ladder for non-AFL when level2 (grade) is selected
   useEffect(() => {
     if (level1 === 'AFL' || !level2) { setPastedData(null); return }
-    fetch(`/api/pasted-ladder?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}`)
+    fetch(`/api/pasted-ladder?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}&t=${Date.now()}`, { cache: 'no-store' })
       .then(r => r.json())
       .then(d => setPastedData(d?.teams?.length ? d : null))
       .catch(() => setPastedData(null))
