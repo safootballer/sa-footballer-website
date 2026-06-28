@@ -41,18 +41,33 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const competition = searchParams.get('competition')
   const grade       = searchParams.get('grade')
+  const subGrade    = searchParams.get('subGrade') || ''
 
   if (!competition || !grade) {
     return NextResponse.json({ error: 'competition and grade required' }, { status: 400 })
   }
 
   try {
-    const doc = await client.fetch(
-      `*[_type == "pastedLadder" && competition == $competition && grade == $grade] | order(_updatedAt desc) [0] {
-        _id, competition, grade, season, round, teams, stats, _updatedAt
-      }`,
-      { competition, grade }
-    )
+    // Try exact match with subGrade first, then fall back to grade only
+    let doc = null
+
+    if (subGrade) {
+      doc = await client.fetch(
+        `*[_type == "pastedLadder" && competition == $competition && grade == $grade && subGrade == $subGrade] | order(_updatedAt desc) [0] {
+          _id, competition, grade, subGrade, season, round, teams, stats, _updatedAt
+        }`,
+        { competition, grade, subGrade }
+      )
+    }
+
+    if (!doc) {
+      doc = await client.fetch(
+        `*[_type == "pastedLadder" && competition == $competition && grade == $grade && (!defined(subGrade) || subGrade == "")] | order(_updatedAt desc) [0] {
+          _id, competition, grade, subGrade, season, round, teams, stats, _updatedAt
+        }`,
+        { competition, grade }
+      )
+    }
 
     if (!doc) return NextResponse.json(null)
 
@@ -60,6 +75,7 @@ export async function GET(request) {
     return NextResponse.json({
       competition: doc.competition,
       grade:       doc.grade,
+      subGrade:    doc.subGrade,
       season:      doc.season,
       round:       doc.round,
       syncedAt:    doc._updatedAt,

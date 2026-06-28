@@ -22,10 +22,16 @@ export default {
     },
     {
       name: 'grade',
-      title: 'Grade',
+      title: 'Grade (Level 2)',
       type: 'string',
-      description: 'e.g. League, Reserves, Under 18, Division 1, Division 1 Reserves, Hills Division 1 A-Grade',
+      description: 'e.g. League, Reserves, Youth, C-Grade',
       validation: Rule => Rule.required()
+    },
+    {
+      name: 'subGrade',
+      title: 'Sub Grade (Level 3 — optional)',
+      type: 'string',
+      description: 'e.g. Under 18, Under 16, Division 1, Division 2, Division C1, A-Grade. Leave blank if no sub grade.',
     },
     {
       name: 'season',
