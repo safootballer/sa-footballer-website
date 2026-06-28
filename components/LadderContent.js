@@ -56,9 +56,10 @@ export default function LadderContent() {
   const searchParams = useSearchParams()
   const initialCompetition = searchParams.get('competition') ?? 'SANFL'
 
-  const [allDocs, setAllDocs]   = useState([])
-  const [aflData, setAflData]   = useState(null)
-  const [loading, setLoading]   = useState(true)
+  const [allDocs, setAllDocs]       = useState([])
+  const [aflData, setAflData]       = useState(null)
+  const [pastedData, setPastedData] = useState(null)
+  const [loading, setLoading]       = useState(true)
   const [level1, setLevel1]     = useState(
     LEVEL1_ORDER.includes(initialCompetition)
       ? initialCompetition
@@ -86,6 +87,15 @@ export default function LadderContent() {
       .catch(() => setAflData(null))
       .finally(() => setLoading(false))
   }, [level1])
+
+  // Fetch pasted ladder for non-AFL when level2 (grade) is selected
+  useEffect(() => {
+    if (level1 === 'AFL' || !level2) { setPastedData(null); return }
+    fetch(`/api/pasted-ladder?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}`)
+      .then(r => r.json())
+      .then(d => setPastedData(d?.teams?.length ? d : null))
+      .catch(() => setPastedData(null))
+  }, [level1, level2])
 
   useEffect(() => {
     if (level1 === 'AFL') return
@@ -259,6 +269,65 @@ export default function LadderContent() {
               </div>
             </div>
           )
+
+        ) : pastedData?.teams?.length ? (
+          // ── Pasted ladder (overrides PlayHQ for this grade) ─────────
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden max-w-5xl mx-auto">
+            <div className="bg-[#2ca3ee] text-white px-6 py-4 flex justify-between items-center">
+              <div>
+                <h2 className="text-xl font-bold">{pastedData.competition}</h2>
+                <p className="text-sm opacity-80">{pastedData.grade} · {pastedData.season} · {pastedData.round}</p>
+              </div>
+              {pastedData.syncedAt && (
+                <p className="text-xs opacity-70">Updated {new Date(pastedData.syncedAt).toLocaleDateString('en-AU')}</p>
+              )}
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider">
+                    <th className="px-4 py-3 text-left">#</th>
+                    <th className="px-4 py-3 text-left">Team</th>
+                    <th className="px-3 py-3 text-center">P</th>
+                    <th className="px-3 py-3 text-center font-bold text-[#2ca3ee]">PTS</th>
+                    <th className="px-3 py-3 text-center">%</th>
+                    <th className="px-3 py-3 text-center">W</th>
+                    <th className="px-3 py-3 text-center">L</th>
+                    <th className="px-3 py-3 text-center">D</th>
+                    <th className="px-3 py-3 text-center">BYE</th>
+                    <th className="px-3 py-3 text-center">F</th>
+                    <th className="px-3 py-3 text-center">A</th>
+                    <th className="px-3 py-3 text-center">FORF</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pastedData.teams.map((team, i) => (
+                    <tr key={i} className={`border-t ${i < 8 ? 'bg-blue-50' : ''} hover:bg-gray-50`}>
+                      <td className="px-4 py-3">
+                        <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${i === 0 ? 'bg-yellow-400 text-white' : i < 8 ? 'bg-[#2ca3ee] text-white' : 'bg-gray-200 text-gray-600'}`}>
+                          {team.rank}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-gray-600 font-semibold">{cleanTeamName(team.teamName)}</td>
+                      <td className="px-3 py-3 text-gray-400 text-center">{team.played}</td>
+                      <td className="px-3 py-3 text-center font-bold text-[#2ca3ee]">{team.points}</td>
+                      <td className="px-3 py-3 text-gray-400 text-center">{Number(team.percentage).toFixed(2)}</td>
+                      <td className="px-3 py-3 text-center text-green-600 font-semibold">{team.wins}</td>
+                      <td className="px-3 py-3 text-center text-red-500">{team.losses}</td>
+                      <td className="px-3 py-3 text-gray-400 text-center">{team.draws}</td>
+                      <td className="px-3 py-3 text-center text-gray-400">{team.byes}</td>
+                      <td className="px-3 py-3 text-gray-400 text-center">{team.pointsFor}</td>
+                      <td className="px-3 py-3 text-center text-gray-400">{team.pointsAgainst}</td>
+                      <td className="px-3 py-3 text-center text-red-400">{team.forfeits > 0 ? team.forfeits : '-'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="px-6 py-3 bg-gray-50 text-xs text-gray-400">
+              P = Played · PTS = Points · % = Percentage · W = Wins · L = Losses · D = Draws · F = Points For · A = Points Against · FORF = Forfeits
+            </div>
+          </div>
 
         ) : !activeDoc ? (
           // ── No data for non-AFL ──────────────────────────────────────
