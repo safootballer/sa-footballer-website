@@ -36,6 +36,12 @@ export const structure = (S) =>
         .title('📤 Photo Bulk Upload')
         .child(S.documentTypeList('photoBulkUpload').title('Photo Bulk Upload')),
 
+      S.listItem()
+        .title('📱 Web App Page')
+        .child(
+          S.documentTypeList('webApp').title('Web App Page')
+        ),
+
       S.divider(),
 
       S.listItem()
