@@ -25,6 +25,7 @@ export default function Header() {
               <a href="/partners" className="hover:text-blue-500">OUR MAJOR PARTNERS</a>
               <a href="/advertising" className="hover:text-blue-500">ADVERTISING WITH US</a>
               <a href="/filming-live-stream" className="hover:text-blue-500">FILMING & LIVE STREAM</a>
+              <a href="/webapp" className="hover:text-blue-500">📱 WEB APP</a>
               <a href="/contact" className="hover:text-blue-500">CONTACT US</a>
             </div>
           </div>
@@ -194,6 +195,7 @@ export default function Header() {
               <a href="/about" className="block py-2 text-gray-600">ABOUT US</a>
               <a href="/partners" className="block py-2 text-gray-600">OUR PARTNERS</a>
               <a href="/advertising" className="block py-2 text-gray-600">ADVERTISING WITH US</a>
+              <a href="/webapp" className="block py-2 text-gray-600">📱 WEB APP</a>
               <a href="/contact" className="block py-2 text-gray-600">CONTACT US</a>
             </div>
           </div>
