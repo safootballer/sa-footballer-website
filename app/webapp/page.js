@@ -66,7 +66,7 @@ export default async function WebAppPage() {
 
   const heroTitle    = cms?.title       || 'SA Footballer Is Now a Web App'
   const heroSub      = cms?.subtitle    || 'Install it on your phone in seconds, no App Store required'
-  const heroDesc     = cms?.heroDescription || 'Get instant access to match results, live ladders, goal kickers, upcoming fixtures and magazines — all from your home screen.'
+  const heroDesc     = cms?.heroDescription || 'Get instant access to match results, live ladders, goal kickers, upcoming fixtures and magazines, all from your home screen.'
   const appShotUrl   = sanityImg(cms?.appScreenshot?.asset?._ref)
   const iphoneShotUrl = sanityImg(cms?.iphoneScreenshot?.asset?._ref)
   const androidShotUrl = sanityImg(cms?.androidScreenshot?.asset?._ref)
