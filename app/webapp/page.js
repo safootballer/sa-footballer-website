@@ -64,10 +64,10 @@ export default async function WebAppPage() {
     }`
   ).catch(() => null)
 
-  const heroTitle    = cms?.title       || 'SA Footballer Is Now a Web App'
-  const heroSub      = cms?.subtitle    || 'Install it on your phone in seconds, no App Store required'
-  const heroDesc     = cms?.heroDescription || 'Get instant access to match results, live ladders, goal kickers, upcoming fixtures and magazines, all from your home screen.'
-  const appShotUrl   = sanityImg(cms?.appScreenshot?.asset?._ref)
+  const heroTitle     = cms?.title            || 'SA Footballer Is Now a Web App'
+  const heroSub       = cms?.subtitle         || 'Install it on your phone in seconds, no App Store required'
+  const heroDesc      = cms?.heroDescription  || 'Get instant access to match results, live ladders, goal kickers, upcoming fixtures and magazines, all from your home screen.'
+  const appShotUrl    = sanityImg(cms?.appScreenshot?.asset?._ref)
   const iphoneShotUrl = sanityImg(cms?.iphoneScreenshot?.asset?._ref)
   const androidShotUrl = sanityImg(cms?.androidScreenshot?.asset?._ref)
 
@@ -91,30 +91,47 @@ export default async function WebAppPage() {
           <h2 className="text-3xl font-bold text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2 mb-8">
             What Is the SA Footballer Web App?
           </h2>
-          <div className="grid md:grid-cols-2 gap-10 items-center">
-            <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
-              <p>
-                The SA Footballer website has been built as a <strong>Progressive Web App (PWA), </strong>modern technology that combines the best of a website with the convenience of a mobile app.
-              </p>
-              <p>
-                Once installed on your phone, it works just like an app. You get a dedicated icon on your home screen, a faster loading experience, and everything you need to follow South Australian football in one place.
-              </p>
-              <p>
-                Best of all, it's completely <strong>free</strong> and takes less than 30 seconds to install. No App Store. No Google Play. No downloads.
-              </p>
-            </div>
-            {appShotUrl ? (
-              <img src={appShotUrl} alt="SA Footballer App" className="rounded-2xl shadow-lg w-full object-cover" />
-            ) : (
-              <div className="bg-gray-100 rounded-2xl h-72 flex items-center justify-center border-2 border-dashed border-gray-300">
-                <div className="text-center text-gray-400">
-                  <div className="text-5xl mb-3">📸</div>
-                  <p className="font-semibold">App Screenshot</p>
-                  <p className="text-sm">Upload via Sanity Studio</p>
-                </div>
-              </div>
-            )}
+          <div className="space-y-4 text-gray-700 text-lg leading-relaxed mb-8">
+            <p>
+              The SA Footballer website has been built as a <strong>Progressive Web App (PWA), </strong>modern technology that combines the best of a website with the convenience of a mobile app.
+            </p>
+            <p>
+              Once installed on your phone, it works just like an app. You get a dedicated icon on your home screen, a faster loading experience, and everything you need to follow South Australian football in one place.
+            </p>
+            <p>
+              Best of all, it's completely <strong>free</strong> and takes less than 30 seconds to install. No App Store. No Google Play. No downloads.
+            </p>
           </div>
+          {appShotUrl ? (
+            <img src={appShotUrl} alt="SA Footballer App" className="rounded-2xl shadow-lg w-full" />
+          ) : (
+            <div className="bg-gray-100 rounded-2xl h-48 flex items-center justify-center border-2 border-dashed border-gray-300">
+              <div className="text-center text-gray-400">
+                <div className="text-5xl mb-3">📸</div>
+                <p className="font-semibold">App Screenshot</p>
+                <p className="text-sm">Upload via Sanity Studio</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* QR Code */}
+      <section className="bg-white py-16">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+          <h2 className="text-3xl font-bold text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2 mb-8">
+            Scan to Open on Your Phone
+          </h2>
+          <p className="text-gray-600 text-lg mb-8">
+            Point your phone camera at this QR code. It will open the SA Footballer website instantly, ready to install.
+          </p>
+          <div className="inline-block bg-white p-6 rounded-2xl shadow-xl border-2 border-[#2ca3ee]">
+            <img src="/qr/sa-footballer-qr.png" alt="Scan to open SA Footballer" className="w-48 h-48 mx-auto" />
+            <p className="text-sm text-gray-500 mt-3 font-semibold">safootballer.com.au</p>
+          </div>
+          <p className="text-gray-400 text-sm mt-6">
+            Once open in your browser, tap <strong>Share then Add to Home Screen</strong> (iPhone) or <strong>Menu then Add to Home Screen</strong> (Android)
+          </p>
         </div>
       </section>
 
@@ -162,8 +179,8 @@ export default async function WebAppPage() {
                   'Open Safari on your iPhone',
                   'Go to safootballer.com.au',
                   'Tap the Share button at the bottom of the screen',
-                  'Scroll down and tap "Add to Home Screen"',
-                  'Tap "Add" in the top right corner',
+                  'Scroll down and tap Add to Home Screen',
+                  'Tap Add in the top right corner',
                   'The SA Footballer icon will appear on your home screen',
                 ].map((step, i) => (
                   <li key={i} className="flex gap-4 items-start">
@@ -187,8 +204,8 @@ export default async function WebAppPage() {
                   'Open Chrome on your Android phone',
                   'Go to safootballer.com.au',
                   'Tap the three-dot menu in the top right corner',
-                  'Tap "Add to Home Screen"',
-                  'Tap "Add" to confirm',
+                  'Tap Add to Home Screen',
+                  'Tap Add to confirm',
                   'The SA Footballer icon will appear on your home screen',
                 ].map((step, i) => (
                   <li key={i} className="flex gap-4 items-start">
@@ -221,7 +238,7 @@ export default async function WebAppPage() {
           <div className="grid md:grid-cols-3 gap-8 text-center">
             {[
               ['⚡', 'Lightning Fast', 'Loads instantly every time, even on slower connections'],
-              ['📵', 'No App Store Needed', 'Install directly from your browser — no downloads, no updates'],
+              ['📵', 'No App Store Needed', 'Install directly from your browser. No downloads, no updates'],
               ['🔒', 'Always Up to Date', 'Results, ladders and fixtures update automatically in real time'],
             ].map(([icon, title, desc]) => (
               <div key={title} className="bg-white bg-opacity-10 rounded-xl p-6">
@@ -232,7 +249,7 @@ export default async function WebAppPage() {
             ))}
           </div>
           <p className="text-center text-gray-400 mt-10 text-sm">
-            More than 80% of SA Footballer visitors access the site from a mobile device — so we built the fastest, most convenient mobile experience possible.
+            More than 80% of SA Footballer visitors access the site from a mobile device, so we built the fastest, most convenient mobile experience possible.
           </p>
         </div>
       </section>
@@ -245,7 +262,7 @@ export default async function WebAppPage() {
           <a href="https://www.safootballer.com.au" className="inline-block bg-[#e6fe00] text-black px-10 py-4 rounded-full font-bold text-lg hover:bg-yellow-300 transition">
             Visit safootballer.com.au
           </a>
-          <p className="mt-6 opacity-75 text-sm">Then tap Share → Add to Home Screen (iPhone) or Menu → Add to Home Screen (Android)</p>
+          <p className="mt-6 opacity-75 text-sm">Tap Share then Add to Home Screen (iPhone) or Menu then Add to Home Screen (Android)</p>
         </div>
       </section>
     </div>
