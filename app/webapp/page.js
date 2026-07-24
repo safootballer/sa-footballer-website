@@ -65,7 +65,7 @@ export default async function WebAppPage() {
   ).catch(() => null)
 
   const heroTitle    = cms?.title       || 'SA Footballer Is Now a Web App'
-  const heroSub      = cms?.subtitle    || 'Install it on your phone in seconds — no App Store required'
+  const heroSub      = cms?.subtitle    || 'Install it on your phone in seconds, no App Store required'
   const heroDesc     = cms?.heroDescription || 'Get instant access to match results, live ladders, goal kickers, upcoming fixtures and magazines — all from your home screen.'
   const appShotUrl   = sanityImg(cms?.appScreenshot?.asset?._ref)
   const iphoneShotUrl = sanityImg(cms?.iphoneScreenshot?.asset?._ref)
@@ -94,13 +94,13 @@ export default async function WebAppPage() {
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
               <p>
-                The SA Footballer website has been built as a <strong>Progressive Web App (PWA)</strong> — modern technology that combines the best of a website with the convenience of a mobile app.
+                The SA Footballer website has been built as a <strong>Progressive Web App (PWA), </strong>modern technology that combines the best of a website with the convenience of a mobile app.
               </p>
               <p>
                 Once installed on your phone, it works just like an app. You get a dedicated icon on your home screen, a faster loading experience, and everything you need to follow South Australian football in one place.
               </p>
               <p>
-                Best of all — it's completely <strong>free</strong> and takes less than 30 seconds to install. No App Store. No Google Play. No downloads.
+                Best of all, it's completely <strong>free</strong> and takes less than 30 seconds to install. No App Store. No Google Play. No downloads.
               </p>
             </div>
             {appShotUrl ? (
@@ -147,7 +147,7 @@ export default async function WebAppPage() {
       <section className="bg-white py-16">
         <div className="container mx-auto px-4 max-w-4xl">
           <h2 className="text-3xl font-bold text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2 mb-10">
-            How to Install — It Only Takes 30 Seconds
+            How to Install, It Only Takes 30 Seconds
           </h2>
           <div className="grid md:grid-cols-2 gap-12">
 
