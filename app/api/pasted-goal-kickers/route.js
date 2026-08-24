@@ -11,74 +11,63 @@ const client = createClient({
   useCdn: false,
 })
 
-// Clean team name — strip grade suffixes like "- M7", "- W1R"
+// Strip everything after the dash — "Plympton - M3R" → "Plympton"
 function cleanTeam(name) {
   if (!name) return ''
-  return name
-    .replace(/\s*[-–]\s*M\d+R?\s*$/i, '')
-    .replace(/\s*[-–]\s*W\d+R?\s*$/i, '')
-    .replace(/\s*[-–]\s*C\d+\s*$/i, '')
-    .replace(/\s*[-–]\s*[A-H]\s*Grade\s*$/i, '')
-    .trim()
+  return name.replace(/\s*[-–].*$/, '').trim()
 }
 
 function parseGoalKickers(text) {
   if (!text) return []
   const rawLines = text.split('\n').map(l => l.trim()).filter(Boolean)
+  const players = []
+  let i = 0
 
-  // ── Try tab-separated first ──────────────────────────────────────
-  // Format per line: Rank<tab>Player<tab>Team<tab>GP<tab>Goals  (BP optional)
-  const tabRows = rawLines.filter(l => l.includes('\t'))
-  if (tabRows.length >= 2) {
-    const players = []
-    for (const line of tabRows) {
-      const p = line.split('\t').map(s => s.trim()).filter(Boolean)
-      // Skip header row
-      if (/player/i.test(p[1]) || /^#$/.test(p[0])) continue
-      // Expect: [rank, player, team, gp, goals, (bp)]
-      if (p.length >= 5) {
+  // Skip header tokens
+  while (i < rawLines.length && /^(player|team|gp|g|bp|#|goals|games)$/i.test(rawLines[i])) i++
+
+  while (i < rawLines.length) {
+    const line = rawLines[i]
+    const rank = parseInt(line, 10)
+
+    // ── Case A: rank alone on its line, next line has tab-separated data ──
+    // Next line: Player <tab> Team <tab> GP <tab> G <tab> BP
+    if (!isNaN(rank) && String(rank) === line) {
+      const dataLine = rawLines[i + 1] || ''
+      if (dataLine.includes('\t')) {
+        const p = dataLine.split('\t').map(s => s.trim())
+        players.push({
+          rank,
+          player: p[0] || '',
+          team:   cleanTeam(p[1] || ''),
+          games:  parseInt(p[2]) || 0,
+          goals:  parseInt(p[3]) || 0,
+        })
+        i += 2
+        continue
+      }
+      i++
+      continue
+    }
+
+    // ── Case B: full row on one line ──
+    // rank <tab> player <tab> team <tab> GP <tab> G <tab> BP
+    if (line.includes('\t')) {
+      const p = line.split('\t').map(s => s.trim())
+      if (!/player/i.test(p[1] || '')) {
         players.push({
           rank:   parseInt(p[0]) || players.length + 1,
-          player: p[1],
-          team:   cleanTeam(p[2]),
+          player: p[1] || '',
+          team:   cleanTeam(p[2] || ''),
           games:  parseInt(p[3]) || 0,
           goals:  parseInt(p[4]) || 0,
         })
       }
-    }
-    if (players.length) return players
-  }
-
-  // ── PlayHQ multi-line format ─────────────────────────────────────
-  // Pattern repeats: rank / player / team / GP / G / BP
-  const players = []
-  let i = 0
-  // Skip any header tokens
-  while (i < rawLines.length && /^(player|team|gp|g|bp|#|goals|games)$/i.test(rawLines[i])) i++
-
-  while (i < rawLines.length) {
-    const rankLine = rawLines[i]
-    const rank = parseInt(rankLine, 10)
-    if (isNaN(rank) || String(rank) !== rankLine) { i++; continue }
-
-    const player = rawLines[i + 1] || ''
-    const team   = rawLines[i + 2] || ''
-    const gp     = parseInt(rawLines[i + 3], 10)
-    const g      = parseInt(rawLines[i + 4], 10)
-    // rawLines[i + 5] is BP — skipped
-
-    if (player && team && !isNaN(gp) && !isNaN(g)) {
-      players.push({
-        rank,
-        player,
-        team:  cleanTeam(team),
-        games: gp,
-        goals: g,
-      })
-      i += 6  // move past rank, player, team, gp, g, bp
-    } else {
       i++
+      continue
     }
+
+    i++
   }
 
   return players
