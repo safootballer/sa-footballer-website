@@ -15,6 +15,7 @@ import aflLadder from './aflLadder'
 import aflGoalKickers from './aflGoalKickers'
 import pastedLadder from './pastedLadder'
 import pastedGoalKickers from './pastedGoalKickers'
+import pastedStats from './pastedStats'
 import webApp from './webApp'
 
 export const schemaTypes = [
@@ -35,5 +36,6 @@ export const schemaTypes = [
   aflGoalKickers,
   pastedLadder,
   pastedGoalKickers,
+  pastedStats,
   webApp,
 ]

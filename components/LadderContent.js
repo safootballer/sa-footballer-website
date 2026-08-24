@@ -92,7 +92,7 @@ export default function LadderContent() {
   useEffect(() => {
     if (level1 === 'AFL' || !level2) { setPastedData(null); return }
     const subGrade = activeId ? getLeagueCategory(activeId).level3 : ''
-    const url = `/api/pasted-ladder?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
+    const url = `/api/combined-ladder?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
     fetch(url, { cache: 'no-store' })
       .then(r => r.json())
       .then(d => setPastedData(d?.teams?.length ? d : null))

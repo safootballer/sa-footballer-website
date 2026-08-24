@@ -83,7 +83,7 @@ export default function GoalKickersContent() {
     // Clear immediately so stale data from the previous grade never shows
     setPastedData(null)
     const subGrade = activeId ? getLeagueCategory(activeId).level3 : ''
-    const url = `/api/pasted-goal-kickers?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
+    const url = `/api/combined-goal-kickers?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
     let cancelled = false
     fetch(url, { cache: 'no-store' })
       .then(r => r.json())
