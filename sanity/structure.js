@@ -54,6 +54,9 @@ export const structure = (S) =>
         .title('📋 Pasted Ladders (All Competitions)')
         .child(S.documentTypeList('pastedLadder').title('Pasted Ladders')),
       S.listItem()
+        .title('🥅 Pasted Goal Kickers (All Competitions)')
+        .child(S.documentTypeList('pastedGoalKickers').title('Pasted Goal Kickers')),
+      S.listItem()
         .title('🏆 League Ladders')
         .child(S.documentTypeList('ladder').title('League Ladders')),
       S.listItem()

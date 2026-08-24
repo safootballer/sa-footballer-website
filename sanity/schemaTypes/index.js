@@ -14,6 +14,7 @@ import upcomingMatchesBulk from './upcomingMatchesBulk'
 import aflLadder from './aflLadder'
 import aflGoalKickers from './aflGoalKickers'
 import pastedLadder from './pastedLadder'
+import pastedGoalKickers from './pastedGoalKickers'
 import webApp from './webApp'
 
 export const schemaTypes = [
@@ -33,5 +34,6 @@ export const schemaTypes = [
   aflLadder,
   aflGoalKickers,
   pastedLadder,
+  pastedGoalKickers,
   webApp,
 ]

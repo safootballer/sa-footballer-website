@@ -63,6 +63,7 @@ export default function GoalKickersContent() {
   const initialCompetition = searchParams.get('competition') ?? 'SANFL'
 
   const [allDocs, setAllDocs]   = useState([])
+  const [pastedData, setPastedData] = useState(null)
   const [loading, setLoading]   = useState(true)
   const [level1, setLevel1]     = useState(LEVEL1_ORDER.includes(initialCompetition) ? initialCompetition : initialCompetition === 'Amateur' ? "Amateurs (Men's)" : 'SANFL')
   const [level2, setLevel2]     = useState(null)
@@ -75,6 +76,17 @@ export default function GoalKickersContent() {
       .catch(() => setAllDocs([]))
       .finally(() => setLoading(false))
   }, [])
+
+  // Fetch pasted goal kickers when a grade is selected
+  useEffect(() => {
+    if (!level2) { setPastedData(null); return }
+    const subGrade = activeId ? getLeagueCategory(activeId).level3 : ''
+    const url = `/api/pasted-goal-kickers?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
+    fetch(url, { cache: 'no-store' })
+      .then(r => r.json())
+      .then(d => setPastedData(d?.players?.length ? d : null))
+      .catch(() => setPastedData(null))
+  }, [level1, level2, activeId])
 
   useEffect(() => {
     const opts = getLevel2Options(level1)
@@ -116,9 +128,15 @@ export default function GoalKickersContent() {
   const level2Options = getLevel2Options(level1)
   const gradeOptions  = level2 ? getGrades(level1, level2) : []
   const activeDoc     = gradeOptions.find(d => getGradeId(d) === activeId)
-  const sortedPlayers = activeDoc
-    ? [...(activeDoc.players || [])].sort((a, b) => b.goals - a.goals).slice(0, 20)
-    : []
+  // Pasted data (mapped to same shape) takes priority over PlayHQ synced data
+  const pastedPlayers = pastedData?.players?.length
+    ? pastedData.players.map(p => ({ playerName: p.player, teamName: p.team, games: p.games, goals: p.goals }))
+    : null
+  const sortedPlayers = pastedPlayers
+    ? [...pastedPlayers].sort((a, b) => b.goals - a.goals).slice(0, 20)
+    : activeDoc
+      ? [...(activeDoc.players || [])].sort((a, b) => b.goals - a.goals).slice(0, 20)
+      : []
 
   const tabBtn = (active, color) => ({
     padding: '0.4rem 1rem', borderRadius: 20, fontSize: '0.82rem',
@@ -184,7 +202,7 @@ export default function GoalKickersContent() {
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#2ca3ee] border-t-transparent"></div>
             <p className="mt-4 text-gray-600">Loading goal kickers...</p>
           </div>
-        ) : !activeDoc ? (
+        ) : !activeDoc && !pastedPlayers ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🏉</div>
             <h3 className="text-2xl font-bold text-gray-700 mb-2">No Goal Kickers Data</h3>
@@ -194,11 +212,11 @@ export default function GoalKickersContent() {
           <div className="bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl mx-auto">
             <div className="bg-[#2ca3ee] text-white px-6 py-4 flex justify-between items-center">
               <div>
-                <h2 className="text-xl font-bold">{activeDoc.gradeName || getLeagueCategory(getGradeId(activeDoc)).level3}</h2>
-                <p className="text-sm opacity-80">{level1} · {level2} · {activeDoc.season}</p>
+                <h2 className="text-xl font-bold">{pastedData ? pastedData.grade : (activeDoc?.gradeName || getLeagueCategory(getGradeId(activeDoc)).level3)}</h2>
+                <p className="text-sm opacity-80">{level1} · {level2}{pastedData?.subGrade ? ' · ' + pastedData.subGrade : ''} · {pastedData ? pastedData.season : activeDoc?.season}</p>
               </div>
-              {activeDoc.syncedAt && (
-                <p className="text-xs opacity-70">Updated {new Date(activeDoc.syncedAt).toLocaleDateString('en-AU')}</p>
+              {(pastedData?.syncedAt || activeDoc?.syncedAt) && (
+                <p className="text-xs opacity-70">Updated {new Date(pastedData?.syncedAt || activeDoc.syncedAt).toLocaleDateString('en-AU')}</p>
               )}
             </div>
             <div className="overflow-x-auto">
