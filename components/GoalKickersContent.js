@@ -83,7 +83,15 @@ export default function GoalKickersContent() {
     // Clear immediately so stale data from the previous grade never shows
     setPastedData(null)
     const subGrade = activeId ? getLeagueCategory(activeId).level3 : ''
-    const url = `/api/combined-goal-kickers?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
+
+    let url
+    if (level1 === 'Country Football') {
+      // level2 = league, level3 = grade (A-Grade / Reserves / Senior Colts / Junior Colts)
+      url = `/api/country-goal-kickers?league=${encodeURIComponent(level2)}&grade=${encodeURIComponent(subGrade)}&t=${Date.now()}`
+    } else {
+      url = `/api/combined-goal-kickers?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
+    }
+
     let cancelled = false
     fetch(url, { cache: 'no-store' })
       .then(r => r.json())
@@ -128,6 +136,13 @@ export default function GoalKickersContent() {
         return sa - sb
       })
   }
+
+  // For Country Football, build grade tabs from the league map (not from synced docs)
+  const countryGrades = level1 === 'Country Football' && level2
+    ? Object.entries({
+        'A-Grade': 1, 'Reserves': 2, 'Senior Colts': 3, 'Junior Colts': 4,
+      }).map(([level3]) => level3)
+    : []
 
   const level2Options = getLevel2Options(level1)
   const gradeOptions  = level2 ? getGrades(level1, level2) : []
@@ -216,7 +231,7 @@ export default function GoalKickersContent() {
           <div className="bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl mx-auto">
             <div className="bg-[#2ca3ee] text-white px-6 py-4 flex justify-between items-center">
               <div>
-                <h2 className="text-xl font-bold">{pastedData ? pastedData.grade : (activeDoc?.gradeName || getLeagueCategory(getGradeId(activeDoc)).level3)}</h2>
+                <h2 className="text-xl font-bold">{pastedData ? (pastedData.grade || pastedData.league) : (activeDoc?.gradeName || getLeagueCategory(getGradeId(activeDoc)).level3)}</h2>
                 <p className="text-sm opacity-80">{level1} · {level2}{pastedData?.subGrade ? ' · ' + pastedData.subGrade : ''} · {pastedData ? pastedData.season : activeDoc?.season}</p>
               </div>
               {(pastedData?.syncedAt || activeDoc?.syncedAt) && (

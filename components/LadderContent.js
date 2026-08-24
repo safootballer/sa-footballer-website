@@ -88,15 +88,27 @@ export default function LadderContent() {
       .finally(() => setLoading(false))
   }, [level1])
 
-  // Fetch pasted ladder for non-AFL when level2 (grade) is selected
+  // Fetch pasted ladder when level2 (grade) is selected.
+  // Country Football uses its own dedicated endpoint (league + grade).
   useEffect(() => {
     if (level1 === 'AFL' || !level2) { setPastedData(null); return }
+    setPastedData(null)
     const subGrade = activeId ? getLeagueCategory(activeId).level3 : ''
-    const url = `/api/combined-ladder?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
+
+    let url
+    if (level1 === 'Country Football') {
+      // level2 = league, level3 = grade (A-Grade / Reserves / Senior Colts / Junior Colts)
+      url = `/api/country-ladder?league=${encodeURIComponent(level2)}&grade=${encodeURIComponent(subGrade)}&t=${Date.now()}`
+    } else {
+      url = `/api/combined-ladder?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
+    }
+
+    let cancelled = false
     fetch(url, { cache: 'no-store' })
       .then(r => r.json())
-      .then(d => setPastedData(d?.teams?.length ? d : null))
-      .catch(() => setPastedData(null))
+      .then(d => { if (!cancelled) setPastedData(d?.teams?.length ? d : null) })
+      .catch(() => { if (!cancelled) setPastedData(null) })
+    return () => { cancelled = true }
   }, [level1, level2, activeId])
 
   useEffect(() => {
@@ -277,7 +289,7 @@ export default function LadderContent() {
           <div className="bg-white rounded-xl shadow-lg overflow-hidden max-w-5xl mx-auto">
             <div className="bg-[#2ca3ee] text-white px-6 py-4 flex justify-between items-center">
               <div>
-                <h2 className="text-xl font-bold">{pastedData.competition}</h2>
+                <h2 className="text-xl font-bold">{pastedData.competition || pastedData.league}</h2>
                 <p className="text-sm opacity-80">{pastedData.grade} · {pastedData.season} · {pastedData.round}</p>
               </div>
               {pastedData.syncedAt && (
