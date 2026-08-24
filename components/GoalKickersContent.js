@@ -80,12 +80,16 @@ export default function GoalKickersContent() {
   // Fetch pasted goal kickers when a grade is selected
   useEffect(() => {
     if (!level2) { setPastedData(null); return }
+    // Clear immediately so stale data from the previous grade never shows
+    setPastedData(null)
     const subGrade = activeId ? getLeagueCategory(activeId).level3 : ''
     const url = `/api/pasted-goal-kickers?competition=${encodeURIComponent(level1)}&grade=${encodeURIComponent(level2)}${subGrade ? `&subGrade=${encodeURIComponent(subGrade)}` : ''}&t=${Date.now()}`
+    let cancelled = false
     fetch(url, { cache: 'no-store' })
       .then(r => r.json())
-      .then(d => setPastedData(d?.players?.length ? d : null))
-      .catch(() => setPastedData(null))
+      .then(d => { if (!cancelled) setPastedData(d?.players?.length ? d : null) })
+      .catch(() => { if (!cancelled) setPastedData(null) })
+    return () => { cancelled = true }
   }, [level1, level2, activeId])
 
   useEffect(() => {
