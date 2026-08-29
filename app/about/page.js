@@ -1,5 +1,5 @@
 import Header from '../../components/Header'
-
+import FacebookFollowers from '../../components/FacebookFollowers'
 export const metadata = {
   title: 'About Us - The South Australian Footballer',
   description: "South Australia's largest Independent Australian football and sports media company",
@@ -27,7 +27,9 @@ export default function AboutPage() {
               <div className="text-sm text-gray-400 mt-1">Weekly Subscribers</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-black text-[#e6fe00]">74K+</div>
+              <div className="text-3xl md:text-4xl font-black text-[#e6fe00]">
+                <FacebookFollowers label="" fallback="74K+" />
+              </div>
               <div className="text-sm text-gray-400 mt-1">Facebook Fans</div>
             </div>
             <div>
