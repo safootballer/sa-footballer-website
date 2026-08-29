@@ -58,7 +58,7 @@ export default function ContactPage() {
                   <p className="text-gray-600">Chief of Staff & Accounts</p>
                 </div>
                 <div>
-                  <p className="text-gray-600 text-sm font-semibold mb-1">AU Mobile</p>
+                  <p className="text-gray-600 text-sm font-semibold mb-1">Phone</p>
                   <a href="tel:0480041170" className="text-[#2ca3ee] font-bold hover:underline">
                     0480 041 170
                   </a>
@@ -107,7 +107,7 @@ export default function ContactPage() {
                   </svg>
                   <div>
                     <p className="font-bold">Facebook</p>
-                    <p className="text-sm opacity-90">65k followers</p>
+                    <p className="text-sm opacity-90">74k followers</p>
                   </div>
                 </a>
 

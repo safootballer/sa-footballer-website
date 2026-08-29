@@ -27,7 +27,7 @@ export default function AboutPage() {
               <div className="text-sm text-gray-400 mt-1">Weekly Subscribers</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-black text-[#e6fe00]">67K+</div>
+              <div className="text-3xl md:text-4xl font-black text-[#e6fe00]">74K+</div>
               <div className="text-sm text-gray-400 mt-1">Facebook Fans</div>
             </div>
             <div>
