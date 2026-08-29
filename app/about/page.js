@@ -60,18 +60,31 @@ export default function AboutPage() {
           <div>
             <h2 className="text-2xl font-bold text-[#ff0000] mb-6">Our vast numbers tell the story why your business is best seen when advertising with the SA Footballer</h2>
             <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { icon: '📰', stat: '107,000+', label: 'Subscribers to our magazines each week of the season', note: 'As of 30/3/2026' },
-                { icon: '👍', stat: '67,000+', label: 'Fans on Facebook and 4,000 fans on Instagram', note: 'As of 30/3/2026' },
-                { icon: '👁️', stat: '10,000,000+', label: 'Average readership of our Facebook page per month', note: 'As of 30/3/2026' },
-              ].map((item) => (
-                <div key={item.stat} className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-[#ff0000] text-center">
-                  <div className="text-4xl mb-3">{item.icon}</div>
-                  <div className="text-2xl font-bold text-[#0000FF] mb-2">{item.stat}</div>
-                  <p className="text-gray-700 text-sm mb-2">{item.label}</p>
-                  <p className="text-gray-400 text-xs">({item.note})</p>
+              {/* Subscribers */}
+              <div className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-[#ff0000] text-center">
+                <div className="text-4xl mb-3">📰</div>
+                <div className="text-2xl font-bold text-[#0000FF] mb-2">107,000+</div>
+                <p className="text-gray-700 text-sm mb-2">Subscribers to our magazines each week of the season</p>
+                <p className="text-gray-400 text-xs">(As of 30/3/2026)</p>
+              </div>
+
+              {/* Facebook — live count */}
+              <div className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-[#ff0000] text-center">
+                <div className="text-4xl mb-3">👍</div>
+                <div className="text-2xl font-bold text-[#0000FF] mb-2">
+                  <FacebookFollowers label="" fallback="67,000+" />
                 </div>
-              ))}
+                <p className="text-gray-700 text-sm mb-2">Fans on Facebook and 4,000 fans on Instagram</p>
+                <p className="text-gray-400 text-xs">(Live count)</p>
+              </div>
+
+              {/* Readership */}
+              <div className="bg-white rounded-lg shadow-lg p-6 border-t-4 border-[#ff0000] text-center">
+                <div className="text-4xl mb-3">👁️</div>
+                <div className="text-2xl font-bold text-[#0000FF] mb-2">10,000,000+</div>
+                <p className="text-gray-700 text-sm mb-2">Average readership of our Facebook page per month</p>
+                <p className="text-gray-400 text-xs">(As of 30/3/2026)</p>
+              </div>
             </div>
             <div className="bg-white border-l-4 border-[#0000FF] p-6 mt-6 rounded-lg shadow">
               <p className="font-bold text-[#0000FF]">
