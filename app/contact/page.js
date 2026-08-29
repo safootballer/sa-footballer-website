@@ -1,5 +1,5 @@
 import Header from '../../components/Header'
-
+import FacebookFollowers from '../../components/FacebookFollowers'
 export const metadata = {
   title: 'Contact Us - The South Australian Footballer',
   description: 'Get in touch with The South Australian Footballer team',
@@ -97,7 +97,7 @@ export default function ContactPage() {
             <div>
               <h3 className="text-gray-600 font-bold text-lg mb-4">Follow Us on Social Media</h3>
               <div className="grid sm:grid-cols-2 gap-4">
-                <a 
+                 <a 
                   href="https://www.facebook.com/southaustralianfootballerandsports" 
                   target="_blank"
                   className="flex items-center gap-3 p-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -107,7 +107,9 @@ export default function ContactPage() {
                   </svg>
                   <div>
                     <p className="font-bold">Facebook</p>
-                    <p className="text-sm opacity-90">74k followers</p>
+                    <p className="text-sm opacity-90">
+                      <FacebookFollowers label="followers" fallback="74k followers" />
+                    </p>
                   </div>
                 </a>
 
