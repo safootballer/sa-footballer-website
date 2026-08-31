@@ -61,7 +61,7 @@ export default function PartnerCarousel() {
   return (
     <div className="bg-white py-8 border-t border-b">
       <div className="container mx-auto px-4">
-        <h3 className="text-center text-xl font-bold mb-6 text-gray-800">OUR PARTNERS</h3>
+
 
         {/* 4 partners at a time */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-center min-h-[6rem] transition-opacity duration-500">
