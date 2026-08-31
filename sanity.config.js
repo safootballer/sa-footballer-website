@@ -9,6 +9,7 @@ import {schemaTypes} from './sanity/schemaTypes'
 import {structure} from './sanity/structure'
 import {sendMagazinePlugin} from './sanity/plugins/sendMagazine'
 import {deleteMatchesPlugin} from './sanity/plugins/deleteMatches'
+import {exportSubscribersPlugin} from './sanity/plugins/exportSubscribers'
 
 export default defineConfig({
   basePath: '/studio',
@@ -22,5 +23,6 @@ export default defineConfig({
     visionTool({defaultApiVersion: '2026-03-11'}),
     sendMagazinePlugin(),
     deleteMatchesPlugin(),
+    exportSubscribersPlugin(),
   ],
 })
