@@ -2,15 +2,24 @@
 import { useEffect, useState } from 'react'
 
 export default function FilmingLiveStreamContent() {
-  const [videos, setVideos] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [sanityVideos, setSanityVideos]   = useState([])
+  const [youtubeVideos, setYoutubeVideos] = useState([])
+  const [loading, setLoading]             = useState(true)
 
   useEffect(() => {
-    fetch('/api/filming-live-stream?category=filming-and-live-stream', { cache: 'no-store' })
+    // Sanity (curated) videos
+    const sanity = fetch('/api/filming-live-stream?category=filming-and-live-stream', { cache: 'no-store' })
       .then(r => r.json())
-      .then(data => setVideos(Array.isArray(data) ? data : []))
-      .catch(() => setVideos([]))
-      .finally(() => setLoading(false))
+      .then(data => setSanityVideos(Array.isArray(data) ? data : []))
+      .catch(() => setSanityVideos([]))
+
+    // YouTube channel videos (auto)
+    const youtube = fetch('/api/youtube-videos')
+      .then(r => r.json())
+      .then(data => setYoutubeVideos(Array.isArray(data.videos) ? data.videos : []))
+      .catch(() => setYoutubeVideos([]))
+
+    Promise.all([sanity, youtube]).finally(() => setLoading(false))
   }, [])
 
   function getYouTubeId(url) {
@@ -19,6 +28,14 @@ export default function FilmingLiveStreamContent() {
     const match = url.match(regExp)
     return (match && match[2].length === 11) ? match[2] : null
   }
+
+  // Sanity video IDs already shown — so we don't duplicate them from YouTube
+  const sanityYtIds = new Set(
+    sanityVideos.map(v => getYouTubeId(v.youtubeUrl)).filter(Boolean)
+  )
+  const dedupedYoutube = youtubeVideos.filter(v => !sanityYtIds.has(v.videoId))
+
+  const hasAny = sanityVideos.length > 0 || dedupedYoutube.length > 0
 
   return (
     <>
@@ -69,45 +86,83 @@ export default function FilmingLiveStreamContent() {
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent"></div>
             <p className="mt-4 text-gray-600">Loading videos...</p>
           </div>
-        ) : videos.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {videos.map((video) => {
-              const videoId = getYouTubeId(video.youtubeUrl)
-              return (
-                <div key={video._id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
-                  {videoId ? (
-                    <div className="relative pb-[56.25%]">
-                      <iframe
-                        className="absolute top-0 left-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${videoId}`}
-                        title={video.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
+        ) : hasAny ? (
+          <>
+            {/* Sanity (curated) videos first */}
+            {sanityVideos.length > 0 && (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                {sanityVideos.map((video) => {
+                  const videoId = getYouTubeId(video.youtubeUrl)
+                  return (
+                    <div key={video._id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                      {videoId ? (
+                        <div className="relative pb-[56.25%]">
+                          <iframe
+                            className="absolute top-0 left-0 w-full h-full"
+                            src={`https://www.youtube.com/embed/${videoId}`}
+                            title={video.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                      ) : (
+                        <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+                          <span className="text-gray-500">Video unavailable</span>
+                        </div>
+                      )}
+                      <div className="p-4">
+                        <h3 className="font-bold mb-2 line-clamp-2 text-gray-800">{video.title}</h3>
+                        {video.category && (
+                          <p className="text-sm font-semibold text-red-600 mb-2">
+                            {video.category === 'live-stream' ? 'Live Stream' : 'Filming'}
+                          </p>
+                        )}
+                        <p className="text-sm text-gray-700">
+                          {new Date(video.publishedAt).toLocaleDateString('en-AU', {
+                            year: 'numeric', month: 'long', day: 'numeric'
+                          })}
+                        </p>
+                      </div>
                     </div>
-                  ) : (
-                    <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                      <span className="text-gray-500">Video unavailable</span>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* YouTube channel videos (auto) */}
+            {dedupedYoutube.length > 0 && (
+              <>
+                {sanityVideos.length > 0 && (
+                  <h2 className="text-2xl font-bold text-gray-800 mb-6 mt-4">More From Our YouTube Channel</h2>
+                )}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {dedupedYoutube.map((video) => (
+                    <div key={video.videoId} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+                      <div className="relative pb-[56.25%]">
+                        <iframe
+                          className="absolute top-0 left-0 w-full h-full"
+                          src={`https://www.youtube.com/embed/${video.videoId}`}
+                          title={video.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-bold mb-2 line-clamp-2 text-gray-800">{video.title}</h3>
+                        <p className="text-sm text-gray-700">
+                          {new Date(video.publishedAt).toLocaleDateString('en-AU', {
+                            year: 'numeric', month: 'long', day: 'numeric'
+                          })}
+                        </p>
+                      </div>
                     </div>
-                  )}
-                  <div className="p-4">
-                    <h3 className="font-bold mb-2 line-clamp-2 text-gray-800">{video.title}</h3>
-                    {video.category && (
-                      <p className="text-sm font-semibold text-red-600 mb-2">
-                        {video.category === 'live-stream' ? 'Live Stream' : 'Filming'}
-                      </p>
-                    )}
-                    <p className="text-sm text-gray-700">
-                      {new Date(video.publishedAt).toLocaleDateString('en-AU', {
-                        year: 'numeric', month: 'long', day: 'numeric'
-                      })}
-                    </p>
-                  </div>
+                  ))}
                 </div>
-              )
-            })}
-          </div>
+              </>
+            )}
+          </>
         ) : (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🎥</div>
