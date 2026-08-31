@@ -19,9 +19,20 @@ async function getHomeContent() {
     },
     "upcomingBulk": *[_type == "upcomingMatchesBulk" && matchDate > "${now}"] | order(matchDate asc)[0...50] {
       _id, competition, amateurGrade, sanflGrade, countryLeague, round, matchDate, matches
+    },
+    "homeSlider": *[_type == "homeSlider"][0] {
+      images[] { asset, alt }
     }
   }`
   return await client.fetch(query)
+}
+
+// Build a Sanity image URL from an asset ref
+function sanityImageUrl(ref) {
+  if (!ref) return null
+  return `https://cdn.sanity.io/images/2y2dueu9/production/${ref
+    .replace('image-', '')
+    .replace(/-(jpg|jpeg|png|webp)$/, '.$1')}`
 }
 
 // Parse bulk upcoming text to get first match
@@ -83,6 +94,23 @@ export const metadata = {
 export default async function HomePage() {
   const content = await getHomeContent()
   const randomLeagues = getRandomLeagues()
+
+  // Hardcoded fallback slider images
+  const fallbackSlider = [
+    '/slider/resized/1.png','/slider/resized/2.png','/slider/resized/3.png',
+    '/slider/resized/4.png','/slider/resized/5.png','/slider/resized/6.png',
+    '/slider/resized/7.png','/slider/resized/8.png','/slider/resized/9.png',
+    '/slider/resized/10.png','/slider/resized/11.png','/slider/resized/12.png',
+    '/slider/resized/13.png','/slider/resized/14.png','/slider/resized/15.png',
+    '/slider/resized/16.png','/slider/resized/17.png','/slider/resized/18.png',
+    '/slider/resized/19.png','/slider/resized/20.png','/slider/resized/21.png',
+    '/slider/resized/22.png'
+  ]
+
+  // Use Sanity images if an admin has uploaded any, otherwise fall back to hardcoded
+  const sliderImages = content.homeSlider?.images?.length
+    ? content.homeSlider.images.map(img => sanityImageUrl(img?.asset?._ref)).filter(Boolean)
+    : fallbackSlider
 
   const getLatestMatch = (comp) => content.matchReports.find(m => m.competition === comp)
 
@@ -170,16 +198,7 @@ export default async function HomePage() {
       {/* Photo Slider */}
       <section className="relative h-96 md:h-[500px] bg-black">
         <PhotoSlider
-          images={[
-            '/slider/resized/1.png','/slider/resized/2.png','/slider/resized/3.png',
-            '/slider/resized/4.png','/slider/resized/5.png','/slider/resized/6.png',
-            '/slider/resized/7.png','/slider/resized/8.png','/slider/resized/9.png',
-            '/slider/resized/10.png','/slider/resized/11.png','/slider/resized/12.png',
-            '/slider/resized/13.png','/slider/resized/14.png','/slider/resized/15.png',
-            '/slider/resized/16.png','/slider/resized/17.png','/slider/resized/18.png',
-            '/slider/resized/19.png','/slider/resized/20.png','/slider/resized/21.png',
-            '/slider/resized/22.png'
-          ]}
+          images={sliderImages}
           autoplayInterval={5000}
         />
       </section>

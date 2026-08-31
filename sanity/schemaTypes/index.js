@@ -18,6 +18,7 @@ import pastedGoalKickers from './pastedGoalKickers'
 import pastedStats from './pastedStats'
 import countryStats from './countryStats'
 import webApp from './webApp'
+import homeSlider from './homeSlider'
 
 export const schemaTypes = [
   editorial,
@@ -40,4 +41,5 @@ export const schemaTypes = [
   pastedStats,
   countryStats,
   webApp,
+  homeSlider,
 ]

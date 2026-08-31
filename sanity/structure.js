@@ -6,6 +6,10 @@ export const structure = (S) =>
         .title('⚙️ Site Settings')
         .child(S.document().schemaType('siteSettings').documentId('siteSettings')),
 
+      S.listItem()
+        .title('🖼️ Home Page Slider')
+        .child(S.document().schemaType('homeSlider').documentId('homeSlider')),
+
       S.divider(),
 
       S.listItem()
