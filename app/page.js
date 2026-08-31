@@ -27,6 +27,34 @@ async function getHomeContent() {
   return await client.fetch(query)
 }
 
+// Fetch latest videos from the YouTube channel uploads playlist
+async function getYoutubeVideos() {
+  const apiKey = process.env.YOUTUBE_API_KEY
+  if (!apiKey) return []
+  const UPLOADS_PLAYLIST = 'UUohBOBxeJt9AruGWffeW-OQ'
+  try {
+    const res = await fetch(
+      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=10&playlistId=${UPLOADS_PLAYLIST}&key=${apiKey}`,
+      { next: { revalidate: 1800 } }
+    )
+    const data = await res.json()
+    if (data.error) return []
+    return (data.items ?? []).map(item => {
+      const sn = item.snippet
+      const videoId = item.contentDetails?.videoId
+      return {
+        _id: `yt-${videoId}`,
+        title: sn.title,
+        youtubeUrl: `https://www.youtube.com/watch?v=${videoId}`,
+        publishedAt: sn.contentDetails?.videoPublishedAt ?? sn.publishedAt,
+        source: 'youtube',
+      }
+    }).filter(v => v.youtubeUrl)
+  } catch {
+    return []
+  }
+}
+
 // Build a Sanity image URL from an asset ref
 function sanityImageUrl(ref) {
   if (!ref) return null
@@ -92,8 +120,26 @@ export const metadata = {
 }
 
 export default async function HomePage() {
-  const content = await getHomeContent()
+  const [content, youtubeVideos] = await Promise.all([
+    getHomeContent(),
+    getYoutubeVideos(),
+  ])
   const randomLeagues = getRandomLeagues()
+
+  // Merge Sanity + YouTube videos, de-dupe by YouTube ID, sort by date, take latest 4
+  const ytId = (url) => {
+    if (!url) return null
+    const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/live\/)([a-zA-Z0-9_-]{11})/)
+    return m ? m[1] : null
+  }
+  const sanityVideos = content.videos ?? []
+  const sanityIds = new Set(sanityVideos.map(v => ytId(v.youtubeUrl)).filter(Boolean))
+  const mergedVideos = [
+    ...sanityVideos,
+    ...youtubeVideos.filter(v => !sanityIds.has(ytId(v.youtubeUrl))),
+  ]
+    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+    .slice(0, 4)
 
   // Hardcoded fallback slider images
   const fallbackSlider = [
@@ -275,7 +321,7 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-6 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">LATEST VIDEOS</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.videos.length > 0 ? content.videos.map((video) => {
+            {mergedVideos.length > 0 ? mergedVideos.map((video) => {
               const videoId = getYouTubeId(video.youtubeUrl)
               return (
                 <div key={video._id} className="bg-gray-100 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition">
