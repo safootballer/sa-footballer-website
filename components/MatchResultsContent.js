@@ -48,6 +48,18 @@ const SANFL_GRADES = [
 ]
 const SANFL_GROUPS = ['League', 'Reserves', 'Youth']
 
+// Clean PlayHQ grade names: "Men's Division 4 Reserves - Adelaide Footy League" -> "Division 4 Reserves"
+// Strips leading "Men's/Women's", trailing " - Sponsor/League", and sponsor suffixes.
+function cleanGradeName(name) {
+  if (!name) return ''
+  let s = name
+  // Remove everything after " - " (sponsor / competition name)
+  s = s.replace(/\s*-\s*.*$/, '')
+  // Remove leading Men's / Women's
+  s = s.replace(/^\s*(Men'?s|Women'?s)\s+/i, '')
+  return s.trim()
+}
+
 export default function MatchResultsContent() {
   const searchParams = useSearchParams()
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('cat') || 'all')
@@ -349,72 +361,22 @@ export default function MatchResultsContent() {
         )}
       </section>
 
-      {/* Upcoming Matches */}
-      <section className="container mx-auto px-4 pb-16">
-        <div className="flex items-center gap-4 mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">UPCOMING MATCHES</h2>
-          <div className="flex-1 h-1 bg-gradient-to-r from-[#2ca3ee] to-transparent rounded"></div>
-        </div>
-
-        {loadingUpcoming ? (
-          <div className="text-center py-8">
-            <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-[#2ca3ee] border-t-transparent"></div>
-            <p className="mt-3 text-gray-600">Loading upcoming matches...</p>
-          </div>
-        ) : upcomingMatches.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {upcomingMatches.map((match) => (
-              <div key={match._id} className="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-[#e6fe00]">
-                <div className="bg-gray-800 text-white px-4 py-2 font-bold text-sm flex justify-between items-center">
-                  <span>{match.competition}</span>
-                  {match.round && <span className="opacity-75 text-xs">{match.round}</span>}
-                </div>
-                <div className="p-6">
-                  <p className="text-[#2ca3ee] font-bold text-sm mb-4">
-                    {'📅 '}
-                    {new Date(match.matchDate).toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                    {' · '}
-                    {new Date(match.matchDate).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}
-                  </p>
-                  <div className="flex justify-between items-center mb-2 pb-2 border-b">
-                    <span className="font-bold text-gray-400 text-lg">{match.homeTeam}</span>
-                    <span className="text-gray-400 font-bold text-sm">HOME</span>
-                  </div>
-                  <div className="flex justify-between items-center mb-4 pb-2 border-b">
-                    <span className="font-bold text-gray-400 text-lg">{match.awayTeam}</span>
-                    <span className="text-gray-400 font-bold text-sm">AWAY</span>
-                  </div>
-                  {match.venue && <p className="text-gray-600 text-sm mb-2">📍 {match.venue}</p>}
-                  {match.notes && <p className="text-sm font-semibold text-[#2ca3ee] mt-2">{'⭐ '}{match.notes}</p>}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-8">
-            <div className="text-5xl mb-3">📅</div>
-            <h3 className="text-xl font-bold text-gray-700 mb-2">No Upcoming Matches</h3>
-            <p className="text-gray-600">Check back soon for fixture announcements</p>
-          </div>
-        )}
-      </section>
-
       {/* PlayHQ Fixtures (auto-synced) */}
       {playhqFixtures.length > 0 && (
         <section className="container mx-auto px-4 pb-16">
           <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-3xl font-bold text-gray-800">FIXTURES FROM PLAYHQ</h2>
-            <div className="flex-1 h-1 bg-gradient-to-r from-[#16a34a] to-transparent rounded"></div>
+            <h2 className="text-3xl font-bold text-gray-800">UPCOMING MATCHES</h2>
+            <div className="flex-1 h-1 bg-gradient-to-r from-[#2ca3ee] to-transparent rounded"></div>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {playhqFixtures.map((fx) => (
-              <div key={fx.match_id} className="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-[#16a34a]">
-                <div className="bg-[#16a34a] text-white px-4 py-2 font-bold text-sm flex justify-between items-center">
-                  <span>{fx.grade_name || fx.competition}</span>
+              <div key={fx.match_id} className="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-[#e6fe00]">
+                <div className="bg-gray-800 text-white px-4 py-2 font-bold text-sm flex justify-between items-center">
+                  <span>{cleanGradeName(fx.grade_name) || fx.competition}</span>
                   {fx.round && <span className="opacity-75 text-xs">{fx.round}</span>}
                 </div>
                 <div className="p-6">
-                  <p className="text-[#16a34a] font-bold text-sm mb-4">
+                  <p className="text-[#2ca3ee] font-bold text-sm mb-4">
                     {'📅 '}
                     {new Date(fx.match_date).toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                     {' · '}
