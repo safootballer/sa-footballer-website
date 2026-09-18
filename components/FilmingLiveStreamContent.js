@@ -66,6 +66,17 @@ export default function FilmingLiveStreamContent() {
   const [sanityVideos, setSanityVideos]   = useState([])
   const [youtubeVideos, setYoutubeVideos] = useState([])
   const [loading, setLoading]             = useState(true)
+  const [activeTab, setActiveTab]         = useState('ALL')
+
+  const CATEGORY_TABS = [
+    'ALL',
+    'Hills Football League - Country',
+    'Hills Football League - Division 1',
+    'Adelaide Plains',
+    'Greenacres',
+    'AFL MASTERS SA',
+    'Southern Football League',
+  ]
 
   useEffect(() => {
     const sanity = fetch('/api/filming-live-stream?category=filming-and-live-stream', { cache: 'no-store' })
@@ -134,9 +145,34 @@ export default function FilmingLiveStreamContent() {
         </div>
       </section>
 
+      {/* Category tabs */}
+      <section className="bg-white border-b shadow-sm sticky top-0 z-40">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex flex-wrap gap-2 justify-center">
+            {CATEGORY_TABS.map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition ${
+                  activeTab === tab ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Videos grid */}
       <section className="container mx-auto px-4 py-12">
-        {loading ? (
+        {activeTab !== 'ALL' ? (
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">🎥</div>
+            <h3 className="text-2xl font-bold text-gray-700 mb-2">{activeTab}</h3>
+            <p className="text-gray-600">Videos for this category coming soon</p>
+          </div>
+        ) : loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent"></div>
             <p className="mt-4 text-gray-600">Loading videos...</p>
