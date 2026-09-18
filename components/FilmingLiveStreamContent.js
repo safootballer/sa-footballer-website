@@ -1,14 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-function VideoCard({ videoId, title, category, date }) {
+function VideoCard({ videoId, title, date, featured = false }) {
   const [playing, setPlaying] = useState(false)
-  const thumb = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+  const thumb = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition">
+    <div className={`group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-black ${featured ? 'md:row-span-2' : ''}`}>
       {videoId ? (
-        <div className="relative pb-[56.25%] bg-black">
+        <div className={`relative ${featured ? 'pb-[75%] md:pb-[120%]' : 'pb-[65%]'} bg-black`}>
           {playing ? (
             <iframe
               className="absolute top-0 left-0 w-full h-full"
@@ -21,43 +21,42 @@ function VideoCard({ videoId, title, category, date }) {
           ) : (
             <button
               onClick={() => setPlaying(true)}
-              className="absolute top-0 left-0 w-full h-full group"
+              className="absolute top-0 left-0 w-full h-full"
               aria-label={`Play ${title}`}
             >
-              <img
-                src={thumb}
-                alt={title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
+              <img src={thumb} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/20"></div>
+              {/* Play button */}
               <span className="absolute inset-0 flex items-center justify-center">
-                <span className="w-16 h-16 bg-red-600 bg-opacity-90 rounded-full flex items-center justify-center group-hover:bg-opacity-100 transition">
-                  <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <span className="w-16 h-16 bg-red-600 bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-opacity-100 transition">
+                  <svg className="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
                 </span>
               </span>
+              {/* Live badge */}
+              <span className="absolute top-4 left-4 flex items-center gap-1.5 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                SA FOOTBALLER
+              </span>
+              {/* Title overlay at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 p-5 text-left">
+                <h3 className={`font-bold text-white leading-tight line-clamp-2 ${featured ? 'text-xl md:text-2xl' : 'text-base'}`}>{title}</h3>
+                {date && (
+                  <p className="text-gray-300 text-xs mt-1">
+                    {new Date(date).toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </p>
+                )}
+              </div>
             </button>
           )}
         </div>
       ) : (
-        <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+        <div className="w-full h-48 bg-gray-800 flex items-center justify-center">
           <span className="text-gray-500">Video unavailable</span>
         </div>
       )}
-      <div className="p-4">
-        <h3 className="font-bold mb-2 line-clamp-2 text-gray-800">{title}</h3>
-        {category && (
-          <p className="text-sm font-semibold text-red-600 mb-2">
-            {category === 'live-stream' ? 'Live Stream' : 'Filming'}
-          </p>
-        )}
-        {date && (
-          <p className="text-sm text-gray-700">
-            {new Date(date).toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </p>
-        )}
-      </div>
     </div>
   )
 }
@@ -101,7 +100,14 @@ export default function FilmingLiveStreamContent() {
 
   const sanityYtIds = new Set(sanityVideos.map(v => getYouTubeId(v.youtubeUrl)).filter(Boolean))
   const dedupedYoutube = youtubeVideos.filter(v => !sanityYtIds.has(v.videoId))
-  const hasAny = sanityVideos.length > 0 || dedupedYoutube.length > 0
+
+  // Build a single merged list of videos with a common shape
+  const allVideos = [
+    ...sanityVideos.map(v => ({ id: v._id, videoId: getYouTubeId(v.youtubeUrl), title: v.title, date: v.publishedAt })),
+    ...dedupedYoutube.map(v => ({ id: v.videoId, videoId: v.videoId, title: v.title, date: v.publishedAt })),
+  ].filter(v => v.videoId)
+
+  const hasAny = allVideos.length > 0
 
   return (
     <>
@@ -147,14 +153,14 @@ export default function FilmingLiveStreamContent() {
 
       {/* Category tabs */}
       <section className="bg-white border-b shadow-sm sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-3">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex flex-wrap gap-2 justify-center">
             {CATEGORY_TABS.map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition ${
-                  activeTab === tab ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                className={`px-5 py-2 rounded-full font-semibold text-sm whitespace-nowrap transition ${
+                  activeTab === tab ? 'bg-red-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 {tab}
@@ -164,60 +170,61 @@ export default function FilmingLiveStreamContent() {
         </div>
       </section>
 
-      {/* Videos grid */}
-      <section className="container mx-auto px-4 py-12">
-        {activeTab !== 'ALL' ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🎥</div>
-            <h3 className="text-2xl font-bold text-gray-700 mb-2">{activeTab}</h3>
-            <p className="text-gray-600">Videos for this category coming soon</p>
-          </div>
-        ) : loading ? (
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent"></div>
-            <p className="mt-4 text-gray-600">Loading videos...</p>
-          </div>
-        ) : hasAny ? (
-          <>
-            {sanityVideos.length > 0 && (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                {sanityVideos.map((video) => (
-                  <VideoCard
-                    key={video._id}
-                    videoId={getYouTubeId(video.youtubeUrl)}
-                    title={video.title}
-                    category={video.category}
-                    date={video.publishedAt}
-                  />
+      {/* Videos */}
+      <section className="bg-gray-50 py-14">
+        <div className="container mx-auto px-4">
+          {activeTab !== 'ALL' ? (
+            <div className="text-center py-16">
+              <div className="text-6xl mb-4">🎥</div>
+              <h3 className="text-2xl font-bold text-gray-700 mb-2">{activeTab}</h3>
+              <p className="text-gray-600">Videos for this category coming soon</p>
+            </div>
+          ) : loading ? (
+            <div className="text-center py-16">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent"></div>
+              <p className="mt-4 text-gray-600">Loading videos...</p>
+            </div>
+          ) : hasAny ? (
+            <>
+              {/* Section header */}
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <div className="flex items-center gap-2 text-red-600 font-bold text-sm mb-1">
+                    <span className="w-2.5 h-2.5 bg-red-600 rounded-full animate-pulse"></span>
+                    LATEST VIDEOS
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900">Match Highlights & Live Streams</h2>
+                </div>
+                <span className="hidden md:block text-gray-500 text-sm">{allVideos.length} videos</span>
+              </div>
+
+              {/* Featured layout — first video large, rest in grid */}
+              <div className="grid md:grid-cols-3 gap-6 auto-rows-min">
+                {allVideos.slice(0, 1).map(v => (
+                  <VideoCard key={v.id} videoId={v.videoId} title={v.title} date={v.date} featured />
+                ))}
+                {allVideos.slice(1, 5).map(v => (
+                  <VideoCard key={v.id} videoId={v.videoId} title={v.title} date={v.date} />
                 ))}
               </div>
-            )}
 
-            {dedupedYoutube.length > 0 && (
-              <>
-                {sanityVideos.length > 0 && (
-                  <h2 className="text-2xl font-bold text-gray-800 mb-6 mt-4">More From Our YouTube Channel</h2>
-                )}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {dedupedYoutube.map((video) => (
-                    <VideoCard
-                      key={video.videoId}
-                      videoId={video.videoId}
-                      title={video.title}
-                      date={video.publishedAt}
-                    />
+              {/* Remaining videos in standard grid */}
+              {allVideos.length > 5 && (
+                <div className="grid md:grid-cols-3 gap-6 mt-6">
+                  {allVideos.slice(5).map(v => (
+                    <VideoCard key={v.id} videoId={v.videoId} title={v.title} date={v.date} />
                   ))}
                 </div>
-              </>
-            )}
-          </>
-        ) : (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🎥</div>
-            <h3 className="text-2xl font-bold text-gray-700 mb-2">No Videos Yet</h3>
-            <p className="text-gray-600">Check back soon for the latest videos</p>
-          </div>
-        )}
+              )}
+            </>
+          ) : (
+            <div className="text-center py-16">
+              <div className="text-6xl mb-4">🎥</div>
+              <h3 className="text-2xl font-bold text-gray-700 mb-2">No Videos Yet</h3>
+              <p className="text-gray-600">Check back soon for the latest videos</p>
+            </div>
+          )}
+        </div>
       </section>
     </>
   )
