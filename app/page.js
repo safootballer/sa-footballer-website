@@ -64,6 +64,20 @@ function sanityImageUrl(ref) {
 }
 
 // Parse bulk upcoming text to get first match
+// Fetch upcoming PlayHQ fixtures (from nextjs_safie API)
+async function getPlayhqFixtures() {
+  try {
+    const res = await fetch('https://nextjs-safie.onrender.com/api/upcoming-playhq?category=all', {
+      next: { revalidate: 300 },
+    })
+    if (!res.ok) return []
+    const data = await res.json()
+    return Array.isArray(data) ? data : []
+  } catch {
+    return []
+  }
+}
+
 function parseFirstMatch(doc) {
   if (!doc?.matches) return null
   const lines = doc.matches.split('\n').map(l => l.trim()).filter(l => l.includes(' v '))
@@ -120,9 +134,10 @@ export const metadata = {
 }
 
 export default async function HomePage() {
-  const [content, youtubeVideos] = await Promise.all([
+  const [content, youtubeVideos, playhqFixtures] = await Promise.all([
     getHomeContent(),
     getYoutubeVideos(),
+    getPlayhqFixtures(),
   ])
   const randomLeagues = getRandomLeagues()
 
@@ -160,7 +175,27 @@ export default async function HomePage() {
 
   const getLatestMatch = (comp) => content.matchReports.find(m => m.competition === comp)
 
+  const COMP_PATTERNS = {
+    'AFL': ['AFL'],
+    'SANFL': ['SANFL', 'South Australia National Football League'],
+    "SAWFL Women's": ['Women', 'SAWFL'],
+    'Amateur': ['Adelaide Footy League', 'Adelaide Football League'],
+  }
+
   const getNextUpcoming = (comp) => {
+    const patterns = COMP_PATTERNS[comp] ?? [comp]
+    const fx = playhqFixtures
+      .filter(f => patterns.some(p => (f.competition || '').toLowerCase().includes(p.toLowerCase())))
+      .sort((a, b) => new Date(a.match_date) - new Date(b.match_date))[0]
+    if (fx) {
+      return {
+        homeTeam: fx.home_team,
+        awayTeam: fx.away_team,
+        venue:    fx.venue,
+        matchDate: fx.match_date,
+        round:    fx.round,
+      }
+    }
     const doc = content.upcomingBulk.find(u => u.competition === comp)
     if (!doc) return null
     return parseFirstMatch(doc)
