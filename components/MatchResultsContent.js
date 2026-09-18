@@ -66,6 +66,7 @@ export default function MatchResultsContent() {
 
   const [matchResults, setMatchResults]       = useState([])
   const [upcomingMatches, setUpcomingMatches] = useState([])
+  const [playhqFixtures, setPlayhqFixtures]   = useState([])
   const [loading, setLoading]                 = useState(true)
   const [loadingUpcoming, setLoadingUpcoming] = useState(true)
 
@@ -130,16 +131,60 @@ export default function MatchResultsContent() {
   async function fetchUpcomingMatches() {
     setLoadingUpcoming(true)
     try {
-      const response = await fetch('/api/upcoming-matches?category=' + selectedCategory)
+      let url = '/api/upcoming-matches?category=' + selectedCategory
+      if (selectedCategory === 'amateurs' && amateurGrade) url += '&amateurGrade=' + amateurGrade
+      if (selectedCategory === 'sawfl'    && sawflGrade)   url += '&amateurGrade=' + sawflGrade
+      if (selectedCategory === 'sanfl'    && sanflGrade)   url += '&sanflGrade=' + sanflGrade
+      const response = await fetch(url)
       const data = await response.json()
       setUpcomingMatches(Array.isArray(data) ? data : [])
     } catch { setUpcomingMatches([]) }
     setLoadingUpcoming(false)
   }
 
+  async function fetchPlayhqFixtures() {
+    try {
+      // Map the selected category + grade to a PlayHQ grade ID for precise filtering
+      const GRADE_SLUG_TO_ID = {
+        'sanfl|league': 'e85894b8', 'sanfl|reserves': 'e765432b',
+        'sanfl|under-18': '19b30dd1', 'sanfl|under-16': '46b49907',
+        'sanflw|league': '63232818',
+        "amateurs|division-1": '8eecd4b0', "amateurs|division-2": '85247b82',
+        "amateurs|division-3": '372b55e9', "amateurs|division-4": '22794d03',
+        "amateurs|division-5": '372d8776', "amateurs|division-6": '961ce426',
+        "amateurs|division-7": '43b5cc78',
+        "amateurs|division-1-reserves": '1f82c881', "amateurs|division-2-reserves": '8ebba3c8',
+        "amateurs|division-3-reserves": 'b9156c34', "amateurs|division-4-reserves": '692c9b17',
+        "amateurs|division-5-reserves": 'cedbc98d', "amateurs|division-6-reserves": '3beb6a9e',
+        "amateurs|division-7-reserves": '1991ba25',
+        "amateurs|division-c1": 'd7fe9dd5', "amateurs|division-c2": 'aea638ff',
+        "amateurs|division-c3": '256a623b', "amateurs|division-c4": '1bd8ff22',
+        "amateurs|division-c5": '792996a6', "amateurs|division-c6": 'a645b2ca',
+        "amateurs|division-c7": '69f075a6', "amateurs|division-c8": 'a374a910',
+        "sawfl|division-1": '012b743d', "sawfl|division-2": 'c54fb997',
+        "sawfl|division-3": '68158f54', "sawfl|division-4": 'c7355be5',
+        "sawfl|division-5": '387394cc', "sawfl|division-6": '629dbe72',
+        "sawfl|division-1-reserves": '56ad9865', "sawfl|division-2-reserves": '0d9cc3ac',
+      }
+
+      let gradeId = ''
+      if (selectedCategory === 'sanfl' && sanflGrade) gradeId = GRADE_SLUG_TO_ID[`sanfl|${sanflGrade}`] ?? ''
+      if (selectedCategory === 'amateurs' && amateurGrade) gradeId = GRADE_SLUG_TO_ID[`amateurs|${amateurGrade}`] ?? ''
+      if (selectedCategory === 'sawfl' && sawflGrade) gradeId = GRADE_SLUG_TO_ID[`sawfl|${sawflGrade}`] ?? ''
+
+      let url = '/api/upcoming-playhq?category=' + selectedCategory
+      if (gradeId) url += '&gradeId=' + gradeId
+
+      const response = await fetch(url, { cache: 'no-store' })
+      const data = await response.json()
+      setPlayhqFixtures(Array.isArray(data) ? data : [])
+    } catch { setPlayhqFixtures([]) }
+  }
+
   useEffect(() => {
     fetchMatchResults()
     fetchUpcomingMatches()
+    fetchPlayhqFixtures()
   }, [selectedCategory, amateurGrade, sawflGrade, sanflGrade])
 
   // Auto-select first grade when switching categories
@@ -353,6 +398,43 @@ export default function MatchResultsContent() {
           </div>
         )}
       </section>
+
+      {/* PlayHQ Fixtures (auto-synced) */}
+      {playhqFixtures.length > 0 && (
+        <section className="container mx-auto px-4 pb-16">
+          <div className="flex items-center gap-4 mb-8">
+            <h2 className="text-3xl font-bold text-gray-800">FIXTURES FROM PLAYHQ</h2>
+            <div className="flex-1 h-1 bg-gradient-to-r from-[#16a34a] to-transparent rounded"></div>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {playhqFixtures.map((fx) => (
+              <div key={fx.match_id} className="bg-white rounded-lg shadow-lg overflow-hidden border-t-4 border-[#16a34a]">
+                <div className="bg-[#16a34a] text-white px-4 py-2 font-bold text-sm flex justify-between items-center">
+                  <span>{fx.grade_name || fx.competition}</span>
+                  {fx.round && <span className="opacity-75 text-xs">{fx.round}</span>}
+                </div>
+                <div className="p-6">
+                  <p className="text-[#16a34a] font-bold text-sm mb-4">
+                    {'📅 '}
+                    {new Date(fx.match_date).toLocaleDateString('en-AU', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    {' · '}
+                    {new Date(fx.match_date).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                  <div className="flex justify-between items-center mb-2 pb-2 border-b">
+                    <span className="font-bold text-gray-600 text-lg">{fx.home_team}</span>
+                    <span className="text-gray-400 font-bold text-sm">HOME</span>
+                  </div>
+                  <div className="flex justify-between items-center mb-4 pb-2 border-b">
+                    <span className="font-bold text-gray-600 text-lg">{fx.away_team}</span>
+                    <span className="text-gray-400 font-bold text-sm">AWAY</span>
+                  </div>
+                  {fx.venue && <p className="text-gray-600 text-sm mb-2">📍 {fx.venue}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </>
   )
 }
