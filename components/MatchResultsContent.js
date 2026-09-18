@@ -172,7 +172,7 @@ export default function MatchResultsContent() {
       if (selectedCategory === 'amateurs' && amateurGrade) gradeId = GRADE_SLUG_TO_ID[`amateurs|${amateurGrade}`] ?? ''
       if (selectedCategory === 'sawfl' && sawflGrade) gradeId = GRADE_SLUG_TO_ID[`sawfl|${sawflGrade}`] ?? ''
 
-      let url = '/api/upcoming-playhq?category=' + selectedCategory
+      let url = 'https://nextjs-safie.onrender.com/api/upcoming-playhq?category=' + selectedCategory
       if (gradeId) url += '&gradeId=' + gradeId
 
       const response = await fetch(url, { cache: 'no-store' })
