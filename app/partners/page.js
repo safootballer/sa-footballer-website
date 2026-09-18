@@ -56,17 +56,33 @@ export default function PartnersPage() {
       </section>
 
       {/* ── Radial orbit layout (desktop) ───────────────────────────── */}
-      <section className="hidden lg:block relative bg-white overflow-hidden" style={{ minHeight: 780 }}>
+      <section className="hidden lg:block relative bg-white overflow-hidden" style={{ minHeight: 960 }}>
         <div className="container mx-auto px-4 pt-14 text-center relative">
           <p className="text-[#2ca3ee] font-bold text-sm uppercase tracking-widest mb-3">Our Valued Partners</p>
           <h2 className="text-4xl font-black text-gray-900 mb-4">Partnering With the Best</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-4">
+          <p className="text-gray-600 max-w-2xl mx-auto mb-6">
             Our success is built in partnership with businesses who support South Australian football at every level.
           </p>
+
+          {/* Tier legend */}
+          <div className="flex justify-center gap-6 flex-wrap mb-2">
+            <span className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+              <span className="w-4 h-4 rounded-full" style={{ background: 'rgba(44,163,238,0.55)' }}></span>
+              Principal Partner
+            </span>
+            <span className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+              <span className="w-4 h-4 rounded-full" style={{ background: 'rgba(44,163,238,0.30)' }}></span>
+              Platinum Partners
+            </span>
+            <span className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+              <span className="w-4 h-4 rounded-full" style={{ background: 'rgba(44,163,238,0.12)' }}></span>
+              Major Partners
+            </span>
+          </div>
         </div>
 
         {/* Concentric rings */}
-        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 240, width: 1200, height: 620 }}>
+        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: 270, width: 1200, height: 660 }}>
           {/* Ring backgrounds (semi-circles) */}
           {[
             { d: 1160, tint: 'rgba(44,163,238,0.04)' },
@@ -75,11 +91,16 @@ export default function PartnersPage() {
             { d: 400,  tint: 'rgba(44,163,238,0.16)' },
           ].map((r, i) => (
             <div key={i} className="absolute left-1/2 -translate-x-1/2 rounded-full border border-[#2ca3ee]/25"
-              style={{ width: r.d, height: r.d, bottom: 0, background: r.tint }} />
+              style={{ width: r.d, height: r.d, bottom: 60, background: r.tint }} />
           ))}
 
+          {/* Ring labels on the arcs */}
+          <div className="absolute left-1/2 -translate-x-1/2 text-[0.7rem] font-bold uppercase tracking-widest text-[#2ca3ee]/70" style={{ bottom: 175 }}>Principal</div>
+          <div className="absolute left-1/2 -translate-x-1/2 text-[0.7rem] font-bold uppercase tracking-widest text-[#2ca3ee]/60" style={{ bottom: 375 }}>Platinum</div>
+          <div className="absolute left-1/2 -translate-x-1/2 text-[0.7rem] font-bold uppercase tracking-widest text-[#2ca3ee]/50" style={{ bottom: 630 }}>Major Partners</div>
+
           {/* Center — Principal partner */}
-          <div className="absolute left-1/2 -translate-x-1/2" style={{ bottom: -45 }}>
+          <div className="absolute left-1/2 -translate-x-1/2" style={{ bottom: 5 }}>
             {principalPartners.map((p, i) => <LogoCircle key={i} partner={p} size={130} />)}
           </div>
 
@@ -89,7 +110,7 @@ export default function PartnersPage() {
             const rad = (angle * Math.PI) / 180
             const R = 330
             const x = 600 + R * Math.cos(rad)
-            const y = 620 - R * Math.sin(rad)
+            const y = 660 - R * Math.sin(rad)
             return (
               <div key={i} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
                 <LogoCircle partner={p} size={100} />
@@ -107,7 +128,7 @@ export default function PartnersPage() {
             const rad = (angle * Math.PI) / 180
             const R = ring === 0 ? 460 : 580
             const x = 600 + R * Math.cos(rad)
-            const y = 620 - R * Math.sin(rad)
+            const y = 660 - R * Math.sin(rad)
             return (
               <div key={i} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: x, top: y }}>
                 <LogoCircle partner={p} size={78} />
