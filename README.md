@@ -7,7 +7,7 @@ Official website for The South Australian Footballer - South Australia's largest
 
 ---
 
-## 🏗️ Project Overview
+## 🏗️ Project
 
 This is a Next.js 16 website integrated with Sanity CMS for content management. The site showcases SA Football coverage including magazines, match results, editorials, videos, and partner information.
 
