@@ -23,7 +23,6 @@ export default function AboutPage() {
       <section className="relative py-24 md:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0d1a2b] via-[#0a0f16] to-[#0a0f16]"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
-          <Pill>About Us</Pill>
           <h1 className="text-4xl md:text-6xl font-black leading-tight max-w-4xl mx-auto">
             We Turn <span className="text-[#2ca3ee]">Passion</span> for Footy
             <br className="hidden md:block" /> Into South Australia&apos;s Biggest
