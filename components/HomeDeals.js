@@ -90,30 +90,32 @@ export default function HomeDeals() {
           </div>
         ) : (
           <>
-            <div className="grid md:grid-cols-2 gap-x-8 gap-y-10">
+            <div className="space-y-10">
               {view.map(({ cat, items }) => (
                 <div key={cat}>
                   {/* Category heading */}
-                  <h3 className="text-lg font-bold text-gray-800 mb-3 pl-1 border-l-4 border-[#2ca3ee]">
-                    <span className="pl-2">{cat}</span>
+                  <h3 className="text-xl font-bold text-gray-800 mb-3 border-l-4 border-[#2ca3ee]">
+                    <span className="pl-3">{cat}</span>
                     <span className="text-gray-400 text-sm font-normal ml-2">({items.length})</span>
                   </h3>
 
-                  {/* Horizontal, manually-scrollable coupon row */}
-                  <div className="flex gap-4 overflow-x-auto pb-3 snap-x deals-scroll">
+                  {/* Full-width, manually-scrollable row of wide voucher cards */}
+                  <div className="flex gap-5 overflow-x-auto pb-3 snap-x deals-scroll">
                     {items.map((c) => (
                       <div
                         key={c.id}
                         onClick={() => setLightbox(c)}
-                        className="flex-shrink-0 w-44 snap-start bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition"
+                        className="flex-shrink-0 w-[85vw] sm:w-[480px] lg:w-[560px] snap-start bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition"
                       >
                         <div className="bg-gray-900 flex items-center justify-center">
-                          <img src={c.imageUrl} alt={c.business || 'Deal'} loading="lazy" className="w-full object-contain max-h-44" />
+                          <img src={c.imageUrl} alt={c.business || 'Deal'} loading="lazy" className="w-full object-contain" />
                         </div>
-                        <div className="p-2.5">
-                          <p className="font-bold text-gray-800 text-xs truncate">{c.business || 'Local Partner'}</p>
-                          {c.title && <p className="text-[11px] text-[#2ca3ee] truncate">{c.title}</p>}
-                        </div>
+                        {(c.business || c.title) && (
+                          <div className="p-3">
+                            <p className="font-bold text-gray-800 text-sm truncate">{c.business || 'Local Partner'}</p>
+                            {c.title && <p className="text-xs text-[#2ca3ee] truncate">{c.title}</p>}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
