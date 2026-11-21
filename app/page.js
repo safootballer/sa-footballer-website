@@ -1,6 +1,7 @@
 import Header from '../components/Header'
 import PhotoSlider from '../components/PhotoSlider'
 import PartnerCarousel from '../components/PartnerCarousel'
+import HomeDeals from '../components/HomeDeals'
 import { client } from '../lib/sanity'
 
 export const revalidate = 60
@@ -63,58 +64,6 @@ function sanityImageUrl(ref) {
     .replace(/-(jpg|jpeg|png|webp)$/, '.$1')}`
 }
 
-// Parse bulk upcoming text to get first match
-// Fetch upcoming PlayHQ fixtures (from nextjs_safie API)
-async function getPlayhqFixtures() {
-  try {
-    const res = await fetch('https://nextjs-safie.onrender.com/api/upcoming-playhq?category=all', {
-      next: { revalidate: 300 },
-    })
-    if (!res.ok) return []
-    const data = await res.json()
-    return Array.isArray(data) ? data : []
-  } catch {
-    return []
-  }
-}
-
-function parseFirstMatch(doc) {
-  if (!doc?.matches) return null
-  const lines = doc.matches.split('\n').map(l => l.trim()).filter(l => l.includes(' v '))
-  if (!lines.length) return null
-  const line = lines[0]
-  const atIdx = line.lastIndexOf(' @ ')
-  const venue = atIdx !== -1 ? line.slice(atIdx + 3).trim() : ''
-  const matchPart = atIdx !== -1 ? line.slice(0, atIdx).trim() : line
-  const vIdx = matchPart.indexOf(' v ')
-  const homeTeam = vIdx !== -1 ? matchPart.slice(0, vIdx).trim() : matchPart
-  const awayTeam = vIdx !== -1 ? matchPart.slice(vIdx + 3).trim() : ''
-  return { homeTeam, awayTeam, venue, matchDate: doc.matchDate, round: doc.round }
-}
-
-function getRandomLeagues() {
-  const allLeagues = [
-    { name: 'ADELAIDE PLAINS', slug: 'adelaide-plains' },
-    { name: 'BAROSSA LIGHT & GAWLER', slug: 'barossa' },
-    { name: 'EASTERN EYRE', slug: 'eastern-eyre' },
-    { name: 'FAR NORTH', slug: 'far-north' },
-    { name: 'GREAT FLINDERS', slug: 'great-flinders' },
-    { name: 'GREAT SOUTHERN', slug: 'great-southern' },
-    { name: 'HILLS DIVISION 1', slug: 'hills-div1' },
-    { name: 'KANGAROO ISLAND', slug: 'kangaroo-island' },
-    { name: 'LIMESTONE COAST', slug: 'limestone-coast' },
-    { name: 'MURRAY VALLEY', slug: 'murray-valley' },
-    { name: 'NORTH EASTERN', slug: 'north-eastern' },
-    { name: 'NORTHERN AREAS', slug: 'northern-areas' },
-    { name: 'PORT LINCOLN', slug: 'port-lincoln' },
-    { name: 'RIVERLAND', slug: 'riverland' },
-    { name: 'SOUTHERN', slug: 'southern' },
-    { name: 'WHYALLA', slug: 'whyalla' },
-    { name: 'YORKE PENINSULA', slug: 'yorke-peninsula' }
-  ]
-  return [...allLeagues].sort(() => Math.random() - 0.5).slice(0, 2)
-}
-
 function getYouTubeId(url) {
   if (!url) return null
   const patterns = [
@@ -134,12 +83,12 @@ export const metadata = {
 }
 
 export default async function HomePage() {
-  const [content, youtubeVideos, playhqFixtures] = await Promise.all([
+  // Match-result / fixtures data is still fetched but not shown while the
+  // season is off. Video + magazine content stays live.
+  const [content, youtubeVideos] = await Promise.all([
     getHomeContent(),
     getYoutubeVideos(),
-    getPlayhqFixtures(),
   ])
-  const randomLeagues = getRandomLeagues()
 
   // Merge Sanity + YouTube videos, de-dupe by YouTube ID, sort by date, take latest 4
   const ytId = (url) => {
@@ -173,105 +122,6 @@ export default async function HomePage() {
     ? content.homeSlider.images.map(img => sanityImageUrl(img?.asset?._ref)).filter(Boolean)
     : fallbackSlider
 
-  const getLatestMatch = (comp) => content.matchReports.find(m => m.competition === comp)
-
-  const COMP_PATTERNS = {
-    'AFL': ['AFL'],
-    'SANFL': ['SANFL', 'South Australia National Football League'],
-    "SAWFL Women's": ['Women', 'SAWFL'],
-    'Amateur': ['Adelaide Footy League', 'Adelaide Football League'],
-  }
-
-  const getNextUpcoming = (comp) => {
-    const patterns = COMP_PATTERNS[comp] ?? [comp]
-    const fx = playhqFixtures
-      .filter(f => patterns.some(p => (f.competition || '').toLowerCase().includes(p.toLowerCase())))
-      .sort((a, b) => new Date(a.match_date) - new Date(b.match_date))[0]
-    if (fx) {
-      return {
-        homeTeam: fx.home_team,
-        awayTeam: fx.away_team,
-        venue:    fx.venue,
-        matchDate: fx.match_date,
-        round:    fx.round,
-      }
-    }
-    const doc = content.upcomingBulk.find(u => u.competition === comp)
-    if (!doc) return null
-    return parseFirstMatch(doc)
-  }
-
-  const CompetitionSection = ({ title, comp, matchCat, bg = 'bg-gray-50' }) => {
-    const match    = getLatestMatch(comp)
-    const upcoming = getNextUpcoming(comp)
-
-    return (
-      <section className={`${bg} py-12`}>
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-6 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">{title}</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-
-            {/* Latest Match Result */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-              <div className="bg-[#2ca3ee] text-white px-5 py-3 font-bold text-sm tracking-wide">🏉 LATEST MATCH RESULT</div>
-              {match ? (
-                <div className="p-5">
-                  <p className="text-gray-400 text-xs mb-3">
-                    {new Date(match.matchDate).toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-                    {match.round ? ` · ${match.round}` : ''}
-                  </p>
-                  <div className="flex justify-between items-center mb-2 pb-2 border-b border-gray-100">
-                    <span className="font-bold text-gray-800 text-lg">{match.homeTeam}</span>
-                    <span className="text-2xl font-bold text-[#2ca3ee]">{match.homeScore}</span>
-                  </div>
-                  <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-100">
-                    <span className="font-bold text-gray-800 text-lg">{match.awayTeam}</span>
-                    <span className="text-2xl font-bold text-[#2ca3ee]">{match.awayScore}</span>
-                  </div>
-                  <a href={`/match-results/${match.slug.current}`} className="text-[#2ca3ee] font-semibold hover:underline text-sm">Read Full Report →</a>
-                </div>
-              ) : (
-                <div className="p-5 text-gray-400 text-sm">No match results yet</div>
-              )}
-            </div>
-
-            {/* Upcoming Match */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-[#e6fe00]">
-              <div className="bg-gray-800 text-white px-5 py-3 font-bold text-sm tracking-wide">📅 UPCOMING MATCH</div>
-              {upcoming ? (
-                <div className="p-5">
-                  <p className="text-[#2ca3ee] font-bold text-xs mb-3">
-                    {new Date(upcoming.matchDate).toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-                    {' · '}
-                    {new Date(upcoming.matchDate).toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}
-                    {upcoming.round ? ` · ${upcoming.round}` : ''}
-                  </p>
-                  <div className="flex justify-between items-center mb-2 pb-2 border-b border-gray-100">
-                    <span className="font-bold text-gray-800 text-lg">{upcoming.homeTeam}</span>
-                    <span className="text-xs font-bold text-gray-400">HOME</span>
-                  </div>
-                  <div className="flex justify-between items-center mb-4 pb-2 border-b border-gray-100">
-                    <span className="font-bold text-gray-800 text-lg">{upcoming.awayTeam}</span>
-                    <span className="text-xs font-bold text-gray-400">AWAY</span>
-                  </div>
-                  {upcoming.venue && <p className="text-gray-500 text-sm mb-1">📍 {upcoming.venue}</p>}
-                </div>
-              ) : (
-                <div className="p-5 text-gray-400 text-sm">No upcoming matches scheduled</div>
-              )}
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <a href={`/match-results?cat=${matchCat}`} className="bg-[#2ca3ee] text-white px-8 py-3 rounded-full font-bold hover:bg-[#00b8f1] transition inline-block">
-              View All {title} Match Results
-            </a>
-          </div>
-        </div>
-      </section>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -284,36 +134,15 @@ export default async function HomePage() {
         />
       </section>
 
-      <CompetitionSection title="AFL"              comp="AFL"           matchCat="afl"      bg="bg-gray-50" />
-      <CompetitionSection title="SANFL"            comp="SANFL"         matchCat="sanfl"    bg="bg-white"   />
-      <CompetitionSection title="AMATEURS (MEN'S)" comp="Amateur"       matchCat="amateurs" bg="bg-gray-50" />
-      <CompetitionSection title="SAWFL WOMEN'S"    comp="SAWFL Women's" matchCat="sawfl"    bg="bg-white"   />
+      {/* SUPER SAVER DEALS carousel (replaces match results while season is off) */}
+      <HomeDeals />
 
-      {/* Country Football */}
-      <section className="bg-gray-50 py-12">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-6 text-[#2ca3ee] border-b-4 border-[#2ca3ee] pb-2">COUNTRY FOOTBALL</h2>
-          <p className="text-gray-600 mb-6">Featured leagues this week</p>
-          <div className="grid md:grid-cols-2 gap-8">
-            {randomLeagues.map((league) => (
-              <div key={league.slug} className="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div className="bg-[#e6fe00] text-black px-6 py-3 font-bold">{league.name}</div>
-                <div className="p-6">
-                  <p className="text-gray-600 mb-4">Latest match results and scores from {league.name}</p>
-                  <a href={`/country-football?league=${league.slug}`} className="text-[#2ca3ee] font-semibold hover:underline">
-                    View {league.name} Results →
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 text-center">
-            <a href="/country-football" className="bg-[#e6fe00] text-black px-8 py-3 rounded-full font-bold hover:bg-yellow-400 transition inline-block">
-              View All Country Leagues
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* ───────────────────────────────────────────────────────────────
+          MATCH RESULTS SECTIONS — TURNED OFF until the new season starts.
+          To bring them back next season, restore the CompetitionSection
+          component + the four <CompetitionSection /> calls and the Country
+          Football featured section from the previous version of this file.
+         ─────────────────────────────────────────────────────────────── */}
 
       {/* Latest Magazines */}
       <section className="bg-white py-12">
