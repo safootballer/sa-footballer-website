@@ -26,6 +26,7 @@ export default function Header() {
               <a href="/advertising" className="hover:text-blue-500">ADVERTISING WITH US</a>
               <a href="/filming-live-stream" className="hover:text-blue-500">FILMING & LIVE STREAM</a>
               <a href="/webapp" className="hover:text-blue-500">📱 WEB APP</a>
+              <a href="/super-saver-deals" className="font-bold text-red-600 hover:text-red-700">🎟️ SUPER SAVER DEALS</a>
               <a href="/contact" className="hover:text-blue-500">CONTACT US</a>
             </div>
           </div>
@@ -133,6 +134,9 @@ export default function Header() {
                 <a href="/country-football?league=yorke-peninsula" className="block px-4 py-3 hover:bg-gray-100">YORKE PENINSULA</a>
               </div>
             </div>
+
+            {/* SUPER SAVER DEALS */}
+            <a href="/super-saver-deals" className="font-bold text-[#e6fe00] hover:text-white whitespace-nowrap">🎟️ SUPER SAVER DEALS</a>
           </div>
 
           <div className="md:hidden flex items-center justify-between py-3">
@@ -150,6 +154,8 @@ export default function Header() {
         <div className="md:hidden bg-white border-t">
           <div className="container mx-auto px-4 py-4">
             <a href="/" className="block py-2 text-gray-700 font-semibold">HOME</a>
+
+            <a href="/super-saver-deals" className="block py-2 font-bold text-red-600">🎟️ SUPER SAVER DEALS</a>
 
             <div className="py-2">
               <p className="font-bold text-[#2ca3ee]">MAGAZINES</p>
